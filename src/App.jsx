@@ -7,13 +7,20 @@ import {
     RouterProvider
 } from "react-router-dom";
 
+import { useContext } from "react";
+
 // MARK: pages import
 
 import Home from "./pages/home/home.jsx";
 import Article from "./pages/article/article.jsx";
 import Login from "./pages/login/login.jsx";
 import Register from "./pages/register/register.jsx";
+import Profile from "./pages/profile/profile.jsx";
 
+// MARK: internal imports
+
+import { AuthContext, AuthProvider } from './utils/AuthContext.jsx';
+import PrivateRoute from './utils/PrivateRoute';
 
 
 const router = createBrowserRouter([
@@ -36,13 +43,20 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <Register />
+    },
+    {
+        path: "/profile",
+        element: <PrivateRoute><Profile /></PrivateRoute>
     }
 ]);
 
 function App() {
+
   return (
       <>
-          <RouterProvider router={router} />
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
       </>
   )
 }
