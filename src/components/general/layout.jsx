@@ -1,3 +1,5 @@
+import "./style/index.css";
+
 import { AuthContext } from "../../utils/AuthContext.jsx";
 import Footer from "./footer.jsx";
 import Navbar from "./navbar.jsx";
@@ -22,12 +24,12 @@ export default function Layout() {
   }, [navigate, setUser]);
 
   return (
-    <div>
+    <>
       <Navbar />
       <main>
         <Outlet />
       </main>
       <Footer />
-    </div>
+    </>
   );
 }

@@ -1,3 +1,5 @@
+import "./style/index.css";
+
 export default function Footer() {
   return (
     <>

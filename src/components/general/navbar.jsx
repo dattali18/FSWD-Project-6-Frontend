@@ -3,6 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../utils/AuthContext";
 import {pages as allPages} from "../../data/pages";
 
+import "./style/index.css";
+
 export default function Navbar() {
   const { user } = useContext(AuthContext);
 

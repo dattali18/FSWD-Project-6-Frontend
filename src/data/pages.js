@@ -8,10 +8,6 @@ const pages = [
     url: "/profile",
   },
   {
-    name: "Settings",
-    url: "/settings",
-  },
-  {
     name: "Register",
     url: "/register",
   },

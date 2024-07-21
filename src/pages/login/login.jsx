@@ -1,3 +1,5 @@
+import "../style/index.css";
+
 import { useContext } from 'react';
 import { AuthContext } from '../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -20,19 +22,33 @@ export default function Login() {
     };
 
     return (
-        <>
-            <h1>Login</h1>
-            <form onSubmit={onSubmit}>
-                <div className="input-group">
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id="email" name="email" />
-                </div>
-                <div className="input-group">
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-        </>
+      <>
+        <h1>Login</h1>
+        <form className="form" onSubmit={onSubmit}>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              className="form-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="name@example.com"
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              className="form-input"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="password"
+            />
+          </div>
+          <button className="btn btn-blue" type="submit">
+            Login
+          </button>
+        </form>
+      </>
     );
 }
