@@ -7,7 +7,6 @@ import {
     RouterProvider
 } from "react-router-dom";
 
-import { useContext } from "react";
 
 // MARK: pages import
 
@@ -19,7 +18,7 @@ import Profile from "./pages/profile/profile.jsx";
 
 // MARK: internal imports
 
-import { AuthContext, AuthProvider } from './utils/AuthContext.jsx';
+import { AuthProvider } from './utils/AuthContext.jsx';
 import PrivateRoute from './utils/PrivateRoute';
 
 
