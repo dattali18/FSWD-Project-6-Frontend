@@ -4,20 +4,20 @@ const pages = [
     url: "/",
   },
   {
-    name: "Login",
-    url: "/login",
-  },
-  {
-    name: "Register",
-    url: "/register",
-  },
-  {
     name: "Profile",
     url: "/profile",
   },
   {
     name: "Settings",
     url: "/settings",
+  },
+  {
+    name: "Register",
+    url: "/register",
+  },
+  {
+    name: "Login",
+    url: "/login",
   },
   {
     name: "Logout",

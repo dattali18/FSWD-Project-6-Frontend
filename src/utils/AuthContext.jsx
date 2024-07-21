@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import axios from "axios";
 
@@ -8,7 +8,18 @@ const AuthContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
+  });
+
+  useEffect(() => {
+    if(user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
 
   const login = async (email, password) => {
     const res = await axios.post(`${BASE_URL}/api/auth/login`, {
