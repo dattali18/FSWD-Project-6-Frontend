@@ -1,63 +1,69 @@
-import './App.css'
+import "./App.css";
 
 // MARK: react import
 
-import {
-    createBrowserRouter,
-    RouterProvider
-} from "react-router-dom";
-
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // MARK: pages import
 
-import Home from "./pages/home/home.jsx";
 import Article from "./pages/article/article.jsx";
+import Home from "./pages/home/home.jsx";
 import Login from "./pages/login/login.jsx";
-import Register from "./pages/register/register.jsx";
 import Profile from "./pages/profile/profile.jsx";
+import Register from "./pages/register/register.jsx";
+
+import Layout from "./components/general/layout.jsx";
 
 // MARK: internal imports
 
-import { AuthProvider } from './utils/AuthContext.jsx';
-import PrivateRoute from './utils/PrivateRoute';
-
+import { AuthProvider } from "./utils/AuthContext.jsx";
+import PrivateRoute from "./utils/PrivateRoute";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Home />
-    },
-    {
+  {
+    element: <Layout />,
+    path: "/",
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
         path: "/home",
-        element: <Home />
-    },
-    {
+        element: <Home />,
+      },
+      {
         path: "/articles/:id",
-        element: <Article />
-    },
-    {
+        element: <Article />,
+      },
+      {
         path: "/login",
-        element: <Login />
-    },
-    {
+        element: <Login />,
+      },
+      {
         path: "/register",
-        element: <Register />
-    },
-    {
+        element: <Register />,
+      },
+      {
         path: "/profile",
-        element: <PrivateRoute><Profile /></PrivateRoute>
-    }
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
 ]);
 
 function App() {
-
   return (
-      <>
-          <AuthProvider>
-            <RouterProvider router={router} />
-          </AuthProvider>
-      </>
-  )
+    <>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </>
+  );
 }
 
-export default App
+export default App;

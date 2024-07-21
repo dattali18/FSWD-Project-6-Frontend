@@ -1,18 +1,22 @@
 import { useContext } from 'react';
 import { AuthContext } from '../../utils/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     // get login from AuthContext
     const { login } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const onSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const email = formData.get('email');
         const password = formData.get('password');
-        console.log(email, password);
         
         login(email, password);
+
+        navigate("/profile");
     };
 
     return (

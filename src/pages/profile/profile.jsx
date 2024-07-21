@@ -1,10 +1,10 @@
+import { useContext } from "react";
+import { AuthContext } from "../../utils/AuthContext";
+
 export default function Profile() {
-    const user = {
-        username: "Admin",
-        email: "admin@example.com",
-    }
+   const { user } = useContext(AuthContext);
 
     return (<>
-        <h1>Welcome {user.username}</h1>
+        <h1>Welcome {user.user_name}</h1>
     </>);
 }
