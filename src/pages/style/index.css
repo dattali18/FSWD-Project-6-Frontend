@@ -1,3 +1,5 @@
+/* Form */
+
 .form {
   display: flex;
   flex-direction: column;
@@ -56,4 +58,6 @@
   flex-direction: column;
 
   margin: 0.5rem 0;
+
+  margin-bottom: 1rem;
 }
