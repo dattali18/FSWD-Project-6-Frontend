@@ -74,6 +74,8 @@ main {
     margin-bottom: 10rem;
 
     overflow: hidden;
+
+    min-height: 50vh;
 }
 
 /* Footer */

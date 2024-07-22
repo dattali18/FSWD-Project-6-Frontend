@@ -1,7 +1,11 @@
 import axios from "axios";
 import parse from "html-react-parser";
 import Prism from "prismjs";
+
 import "prismjs/components/prism-javascript"; // Import the JavaScript language
+import "prismjs/components/prism-python"; // Import the JSX language
+import "prismjs/components/prism-shell-session"; // Import the JSX language
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BASE_URL } from "../../data/api";
@@ -36,7 +40,6 @@ export default function Article() {
       try {
         const response = await axios.get(url);
         const modifiedContent = addClassToTags(response.data);
-        Prism.highlightAll(); // Highlight code after setting the page content
         setPage(modifiedContent);
       } catch (error) {
         console.error("Error fetching article", error);
@@ -44,6 +47,10 @@ export default function Article() {
     };
     fetchArticle();
   }, [id]);
+
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [page]);
 
   return (
     <div>
