@@ -9,6 +9,7 @@ import "prismjs/components/prism-shell-session"; // Import the JSX language
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BASE_URL } from "../../data/api";
+
 import "../style/article.css";
 import "../style/prism-onedark.css"; // Import Atom Dark theme
 

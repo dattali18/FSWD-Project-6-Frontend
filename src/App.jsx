@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // MARK: pages import
 
 import Article from "./pages/article/article.jsx";
+import MyEditor from "./pages/editor/editor.jsx";
 import Home from "./pages/home/home.jsx";
 import Login from "./pages/login/login.jsx";
 import Logout from "./pages/logout/logout.jsx";
@@ -34,8 +35,17 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/articles/:id",
-        element: <Article />,
+        path: "/articles/",
+        children: [
+          {
+            path: ":id",
+            element: <Article />,
+          },
+        ]
+      },
+      {
+        path: "/editor",
+        element: <MyEditor />,
       },
       {
         path: "/login",
