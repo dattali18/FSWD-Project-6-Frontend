@@ -54,3 +54,16 @@
 .article code {
     color: var(--blue-muted);
 }
+
+/* article.css */
+.tagged {
+  color: var(--white);
+
+  background-color: var(--red-muted);
+
+  padding: .2rem .5rem;
+
+  border-radius: 4rem;
+
+  width: fit-content;
+}

@@ -1,28 +1,43 @@
+import axios from "axios";
+import parse from "html-react-parser";
+import Prism from "prismjs";
+import "prismjs/components/prism-javascript"; // Import the JavaScript language
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { BASE_URL } from "../../data/api";
-
-import Prism from "prismjs";
-import "../style/prism-onedark.css"; // Import the Prism CSS file
-import "prismjs/components/prism-javascript"; // Import the JavaScript language
-
 import "../style/article.css";
+import "../style/prism-onedark.css"; // Import Atom Dark theme
 
 export default function Article() {
-  // get the id of the article from the url
   const { id } = useParams();
-
-  // the page is an HTML file
   const [page, setPage] = useState("");
+
+  // Function to add CSS class to specific tags
+  const addClassToTags = (htmlString) => {
+    return parse(htmlString, {
+      replace: (domNode) => {
+        if (
+          domNode.name === "p" &&
+          domNode.children &&
+          domNode.children.length > 0
+        ) {
+          const textContent = domNode.children[0].data;
+          if (textContent && textContent.startsWith("#")) {
+            return <p className="tagged">{textContent}</p>;
+          }
+        }
+      },
+    });
+  };
 
   useEffect(() => {
     const url = `${BASE_URL}/api/articles/${id}`;
     const fetchArticle = async () => {
       try {
         const response = await axios.get(url);
-        setPage(response.data);
+        const modifiedContent = addClassToTags(response.data);
         Prism.highlightAll(); // Highlight code after setting the page content
+        setPage(modifiedContent);
       } catch (error) {
         console.error("Error fetching article", error);
       }
@@ -30,14 +45,10 @@ export default function Article() {
     fetchArticle();
   }, [id]);
 
-  useEffect(() => {
-    Prism.highlightAll();
-  }, [page]);
-
   return (
     <div>
       <h1>Article</h1>
-      <div className="article" dangerouslySetInnerHTML={{ __html: page }}></div>
+      <div className="article">{page}</div>
     </div>
   );
 }
