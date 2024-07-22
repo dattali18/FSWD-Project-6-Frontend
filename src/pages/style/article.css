@@ -38,8 +38,8 @@
 /* Code syntax highlighting */
 
 .article pre {
-  background-color: var(--gray-1);
-  color: var(--white);
+  /* background-color: var(--gray-1); */
+  /* color: var(--white); */
 
   padding: 1.5rem;
 
