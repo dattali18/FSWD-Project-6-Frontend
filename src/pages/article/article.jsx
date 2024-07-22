@@ -6,6 +6,8 @@ import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../data/api";
 
+import "../style/article.css";
+
 export default function Article() {
   // get the id of the article from the url
   const { id } = useParams();
@@ -30,7 +32,7 @@ export default function Article() {
   return (
     <div>
       <h1>Article</h1>
-      <div dangerouslySetInnerHTML={{__html: page}}></div>
+      <div className="article" dangerouslySetInnerHTML={{__html: page}}></div>
     </div>
   );
 }

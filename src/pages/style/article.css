@@ -1,0 +1,56 @@
+/* this will be the style for the md file (turned into html) */
+:root {
+  --gray-1: #5c6370;
+  --gray-2: #abb2bf;
+  --red-muted: #e06c75;
+  --orange-muted: #d19a66;
+  --green-muted: #98c379;
+  --aqua-muted: #56b6c2;
+  --purple-muted: #c678dd;
+  --blue-muted: #61afef;
+  --yellow-muted: #e5c07b;
+}
+
+.article h1 {
+  color: var(--red-muted);
+}
+
+.article h2 {
+    color: var(--yellow-muted);
+}
+
+.article h3 {
+  color: var(--green-muted);
+}
+
+.article h4 {
+  color: var(--blue-muted);
+}
+
+.article h5{
+  color: var(--aqua-muted);
+}
+
+.article h6 {
+  color: var(--purple-muted);
+}
+
+/* Code syntax highlighting */
+
+.article pre {
+  background-color: var(--gray-1);
+  color: var(--white);
+
+  padding: 1.5rem;
+
+  border-radius: 0.5rem;
+  overflow: auto;
+}
+
+.article pre code {
+    color: var(--white);
+}
+
+.article code {
+    color: var(--blue-muted);
+}
