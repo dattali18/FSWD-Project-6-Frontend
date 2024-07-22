@@ -113,3 +113,20 @@ ul {
   background-color: var(--grey);
   cursor: not-allowed;
 }
+
+/* Home */
+
+.home-header {
+  font-size: 8rem;
+
+  padding: 0;
+  margin: 0;
+
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.home-subheader {
+  font-size: 2rem;
+
+  font-weight: 300;
+}
