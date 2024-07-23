@@ -1,6 +1,7 @@
 // import icon from fortawesome
 import {
   faHome,
+  faNewspaper,
   faSignInAlt,
   faSignOutAlt,
   faUser,
@@ -12,6 +13,11 @@ const pages = [
     name: "Home",
     url: "/",
     icon: faHome,
+  },
+  {
+    name: "Articles",
+    url: "/articles",
+    icon: faNewspaper,
   },
   {
     name: "Profile",

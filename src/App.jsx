@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // MARK: pages import
 
 import Article from "./pages/article/article.jsx";
+import Articles from "./pages/articles/articles.jsx";
 import MyEditor from "./pages/editor/editor.jsx";
 import Home from "./pages/home/home.jsx";
 import Login from "./pages/login/login.jsx";
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/articles/",
+        element: <Articles />,
         children: [
           {
             path: ":id",
