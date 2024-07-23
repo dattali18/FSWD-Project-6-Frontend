@@ -118,6 +118,18 @@ ul {
   background-color: var(--grey);
 }
 
+.btn-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: .5rem;
+}
+
+.btn-icon p {
+  margin: 0;
+}
+
 /* Home */
 
 .home-header {

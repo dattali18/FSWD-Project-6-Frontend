@@ -1,13 +1,16 @@
 import axios from "axios";
 import parse from "html-react-parser";
 import { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import Prism from "prismjs";
 import "prismjs/components/prism-javascript"; // Import the JavaScript language
 import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
 
-import { Link, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faMailReply } from "@fortawesome/free-solid-svg-icons";
+
 import { BASE_URL } from "../../data/api";
 import { AuthContext } from "../../utils/AuthContext";
 import { convertToDateTime } from "../../utils/DateUtils";
@@ -89,14 +92,15 @@ export default function Article() {
           {/* TODO: adding a like button + comment section */}
           <div className="like">
             <button
-              className={!user ? "btn-inactive btn-gray btn" : "btn btn-blue"}
+              className={!user ? "btn-inactive btn-gray btn btn-icon" : "btn btn-blue bnt-icon"}
               onClick={() => {
                 if (!user) {
                   alert("You must be logged in to like an article");
                 }
               }}
             >
-              Like
+              <FontAwesomeIcon icon={faHeart} />
+              <p>Like</p>
             </button>
           </div>
           <div className="comments-sec">
@@ -111,8 +115,9 @@ export default function Article() {
                   placeholder="Your comment..."
                 />
               </div>
-              <button type="submit" className="btn btn-blue btn-sm">
-                Post
+              <button type="submit" className="btn-icon btn btn-blue btn-sm">
+                <FontAwesomeIcon icon={faMailReply} />
+                <p>Post</p>
               </button>
             </form>
           </div>
