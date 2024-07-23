@@ -2,6 +2,8 @@ import "../style/index.css";
 
 import axios from "axios";
 
+import "../style/form.css";
+
 import { BASE_URL } from "../../data/api";
 
 import { useNavigate } from "react-router-dom";

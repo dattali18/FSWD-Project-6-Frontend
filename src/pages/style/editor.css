@@ -8,11 +8,6 @@
     width: 100%;
 }
 
-main {
-    padding: 0 4rem !important;
-    margin-top: 0 !important;
-}
-
 .group  {
     /* has the editor + save button below */
     display: flex;

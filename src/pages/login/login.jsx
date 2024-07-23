@@ -1,4 +1,5 @@
 import "../style/index.css";
+import "../style/form.css";
 
 import { useContext } from 'react';
 import { AuthContext } from '../../utils/AuthContext';

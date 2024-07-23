@@ -7,7 +7,7 @@ import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BASE_URL } from "../../data/api";
 
 import "../style/article.css";
@@ -16,6 +16,8 @@ import "../style/prism-onedark.css"; // Import Atom Dark theme
 export default function Article() {
   const { id } = useParams();
   const [page, setPage] = useState("");
+  const [article, setArticle] = useState({});
+  const [writer, setWriter] = useState({});
 
   // Function to add CSS class to specific tags
   const addClassToTags = (htmlString) => {
@@ -37,11 +39,22 @@ export default function Article() {
 
   useEffect(() => {
     const url = `${BASE_URL}/api/articles/${id}`;
+    const user_url = `${BASE_URL}/api/users`;
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(url);
-        const modifiedContent = addClassToTags(response.data);
+        const response = await axios.get(`${url}/article`);
+        const article_data = await axios.get(url).data;
+
+        const modifiedContent = addClassToTags(response.data).data;
         setPage(modifiedContent);
+
+        setArticle(article_data);
+
+        // get the writer's name
+        const [writer] = (
+          await axios.get(`${user_url}/${article_data.data.writer_id}`)
+        ).data.data;
+        setWriter(writer);
       } catch (error) {
         console.error("Error fetching article", error);
       }
@@ -54,9 +67,18 @@ export default function Article() {
   }, [page]);
 
   return (
-    <div>
-      <h1>Article</h1>
-      <div className="article">{page}</div>
-    </div>
+    <>
+      {!article || !writer || !page ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div>
+          <h1>{article.title}</h1>
+          <h2>
+            By <Link>{writer.user_name}</Link>
+          </h2>
+          <div className="article">{page}</div>
+        </div>
+      )}
+    </>
   );
 }
