@@ -19,6 +19,13 @@ export default function Article() {
   const [article, setArticle] = useState({});
   const [writer, setWriter] = useState({});
 
+  const convertToDateTime = (dateString) => {
+    // get only the date and not the time
+    // format like Tue, 01 Jan 2021
+    const date = new Date(dateString);
+    return date.toDateString();
+  }
+
   // Function to add CSS class to specific tags
   const addClassToTags = (htmlString) => {
     return parse(htmlString, {
@@ -40,26 +47,25 @@ export default function Article() {
   useEffect(() => {
     const url = `${BASE_URL}/api/articles/${id}`;
     const user_url = `${BASE_URL}/api/users`;
-    const fetchArticle = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`${url}/article`);
-        const article_data = await axios.get(url).data;
-
-        const modifiedContent = addClassToTags(response.data).data;
+        // Fetch article content
+        const article_content = await axios.get(`${url}/article`);
+        const modifiedContent = addClassToTags(article_content.data);
         setPage(modifiedContent);
 
-        setArticle(article_data);
+        // Fetch article data (title, writer_id)
+        const article_data = await axios.get(url);
+        setArticle(article_data.data);
 
-        // get the writer's name
-        const [writer] = (
-          await axios.get(`${user_url}/${article_data.data.writer_id}`)
-        ).data.data;
-        setWriter(writer);
+        // Fetch writer data
+        const writer_data = await axios.get(`${user_url}/${article_data.data.writer_id}`);
+        setWriter(writer_data.data.data[0]);
       } catch (error) {
         console.error("Error fetching article", error);
       }
     };
-    fetchArticle();
+    fetchData();
   }, [id]);
 
   useEffect(() => {
@@ -69,12 +75,14 @@ export default function Article() {
   return (
     <>
       {!article || !writer || !page ? (
-        <h1>Loading...</h1>
+        <>
+          <h1>Loading...</h1>
+        </>
       ) : (
         <div>
           <h1>{article.title}</h1>
           <h2>
-            By <Link>{writer.user_name}</Link>
+            By <Link>{writer.user_name}</Link> On {convertToDateTime(article.created_at)}
           </h2>
           <div className="article">{page}</div>
         </div>
