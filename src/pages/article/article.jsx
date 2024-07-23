@@ -9,7 +9,7 @@ import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faMailReply } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 import { BASE_URL } from "../../data/api";
 import { AuthContext } from "../../utils/AuthContext";
@@ -92,7 +92,11 @@ export default function Article() {
           {/* TODO: adding a like button + comment section */}
           <div className="like">
             <button
-              className={!user ? "btn-inactive btn-gray btn btn-icon" : "btn btn-blue bnt-icon"}
+              className={
+                !user
+                  ? "btn-inactive btn-gray btn btn-icon"
+                  : "btn btn-blue bnt-icon"
+              }
               onClick={() => {
                 if (!user) {
                   alert("You must be logged in to like an article");
@@ -116,7 +120,7 @@ export default function Article() {
                 />
               </div>
               <button type="submit" className="btn-icon btn btn-blue btn-sm">
-                <FontAwesomeIcon icon={faMailReply} />
+                <FontAwesomeIcon icon={faEnvelope} />
                 <p>Post</p>
               </button>
             </form>
