@@ -8,7 +8,7 @@ export default function Articles() {
 
     useEffect(() => {
         const fetchArticles = async () => {
-            const url = `${BASE_URL}/articles/`;
+            const url = `${BASE_URL}/api/articles/best?time_period=week`;
             try {
                 const response = await axios.get(url);
                 console.log(response.data);
