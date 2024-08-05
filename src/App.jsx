@@ -36,11 +36,15 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/article/:id",
+        element: <Article />,
+      },
+      {
         path: "/articles/",
         element: <Articles />,
         children: [
           {
-            path: ":id",
+            path: ":id/",
             element: <Article />,
           },
         ]
