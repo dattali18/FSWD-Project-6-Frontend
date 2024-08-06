@@ -95,7 +95,7 @@ export default function Article() {
               className={
                 !user
                   ? "btn-inactive btn-gray btn btn-icon"
-                  : "btn btn-blue bnt-icon"
+                  : "btn btn-blue btn-icon"
               }
               onClick={() => {
                 if (!user) {
