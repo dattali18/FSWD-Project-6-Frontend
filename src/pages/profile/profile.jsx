@@ -1,104 +1,93 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../utils/AuthContext";
-
 import axios from "axios";
-
 import { BASE_URL } from "../../data/api";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { user } = useContext(AuthContext);
-  const [userInfo, setUserInfo] = useState({});
   const [showForm, setShowForm] = useState(false);
+  const [articles, setArticles] = useState([]);
+  const [likes, setLikes] = useState([]);
+  const [comments, setComments] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // use axios to get user info
-    const url = `${BASE_URL}/api/users/${user.id}`;
-    const getUser = async () => {
-      try {
-        const response = await axios.get(url);
-        const [user_] = response.data.data;
+    if (showForm) {
+      navigate("/profile/edit");
+    } else {
+      navigate("/profile");
+    }
+  }, [showForm, navigate]);
 
-        setUserInfo(user_);
+  useEffect(() => {
+    const getArticles = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/articles?user_id=${user.id}`);
+        setArticles(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-    getUser();
+    getArticles();
   }, [user.id]);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const url = `${BASE_URL}/api/users/${user.id}`;
-    const putUser = async () => {
+  useEffect(() => {
+    const getLikes = async () => {
       try {
-        const response = await axios.put(url, userInfo);
-        console.log(response);
+        const response = await axios.get(`${BASE_URL}/api/likes/${user.id}/count`);
+        setLikes(response.data[0]['COUNT(*)']);
       } catch (error) {
         console.error(error);
       }
     };
+    getLikes();
+  }, [user.id]);
 
-    putUser();
-  };
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/comments?user_id=${user.id}`);
+        setComments(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getComments();
+  }, [user.id]);
 
   return (
     <>
       <h1>Welcome {user.user_name}</h1>
       <h2>Profile</h2>
       <p>Email: {user.email}</p>
-      <button
-        className="btn btn-orange btn-sm"
-        onClick={() => setShowForm(!showForm)}
-      >
-        {showForm ? "Hide" : "Show"} Form
-      </button>
-      {showForm && (
-        <form onSubmit={onSubmit} className="form">
-          <div className="input-group">
-            <label htmlFor="user_name">Username</label>
-            <input
-              type="text"
-              id="user_name"
-              name="user_name"
-              placeholder="username"
-              className="form-input"
-              onChange={(e) =>
-                setUserInfo({ ...userInfo, user_name: e.target.value })
-              }
-              value={userInfo.user_name}
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="first_name">First name</label>
-            <input
-              type="text"
-              id="first_name"
-              name="first_name"
-              placeholder="John"
-              className="form-input"
-              onChange={(e) =>
-                setUserInfo({ ...userInfo, first_name: e.target.value })
-              }
-              value={userInfo.first_name}
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="last_name">Last name</label>
-            <input
-              type="text"
-              id="last_name"
-              name="last_name"
-              placeholder="Doe"
-              className="form-input"
-              onChange={(e) =>
-                setUserInfo({ ...userInfo, last_name: e.target.value })
-              }
-              value={userInfo.last_name}
-            />
-          </div>
-          <button className="btn btn-blue">Add Info</button>
-        </form>
-      )}
+
+      <>
+        <button
+          className="btn btn-orange btn-sm"
+          onClick={() => setShowForm(!showForm)}
+        >
+          {showForm ? "Hide" : "Show"} Edit Profile
+        </button>
+        <Outlet />
+      </>
+
+      <h3>Your Articles</h3>
+      <ul>
+        {articles.map((article) => (
+          <li key={article.id}>{article.title}</li>
+        ))}
+      </ul>
+
+      <h3>Your Likes</h3>
+      <p>Total Likes: {likes}</p>
+
+      <h3>Your Comments</h3>
+      <ul>
+        {comments.map((comment) => (
+          <li key={comment.id}>{comment.text}</li>
+        ))}
+      </ul>
     </>
   );
 }

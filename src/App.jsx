@@ -14,6 +14,7 @@ import Login from "./pages/login/login.jsx";
 import Logout from "./pages/logout/logout.jsx";
 import Profile from "./pages/profile/profile.jsx";
 import Register from "./pages/register/register.jsx";
+import EditProfile from "./pages/profile/editProfile.jsx";
 
 import Layout from "./components/general/layout.jsx";
 
@@ -70,12 +71,22 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile",
+        path: "/profile/",
         element: (
           <PrivateRoute>
             <Profile />
           </PrivateRoute>
         ),
+        children: [
+          {
+            path: "edit",
+            element: (
+              <PrivateRoute>
+                <EditProfile />
+              </PrivateRoute>
+            ),
+          },
+        ]
       },
     ],
   },
