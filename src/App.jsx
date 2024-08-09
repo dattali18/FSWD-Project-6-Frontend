@@ -12,9 +12,9 @@ import MyEditor from "./pages/editor/editor.jsx";
 import Home from "./pages/home/home.jsx";
 import Login from "./pages/login/login.jsx";
 import Logout from "./pages/logout/logout.jsx";
+import EditProfile from "./pages/profile/editProfile.jsx";
 import Profile from "./pages/profile/profile.jsx";
 import Register from "./pages/register/register.jsx";
-import EditProfile from "./pages/profile/editProfile.jsx";
 
 import Layout from "./components/general/layout.jsx";
 
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
             path: ":id/",
             element: <Article />,
           },
-        ]
+        ],
       },
       {
         path: "/editor",
@@ -77,16 +77,14 @@ const router = createBrowserRouter([
             <Profile />
           </PrivateRoute>
         ),
-        children: [
-          {
-            path: "edit",
-            element: (
-              <PrivateRoute>
-                <EditProfile />
-              </PrivateRoute>
-            ),
-          },
-        ]
+      },
+      {
+        path: "/profile/edit",
+        element: (
+          <PrivateRoute>
+            <EditProfile />
+          </PrivateRoute>
+        ),
       },
     ],
   },

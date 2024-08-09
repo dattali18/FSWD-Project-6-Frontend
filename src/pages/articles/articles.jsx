@@ -7,6 +7,7 @@ export default function Articles() {
     const [articles, setArticles] = useState([]);
 
     useEffect(() => {
+      // TODO: refactor this code to use the new updated url
         const fetchArticles = async () => {
             const url = `${BASE_URL}/api/articles/best?time_period=week`;
             try {

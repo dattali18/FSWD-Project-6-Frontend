@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
+import { pages as allPages } from "../../data/pages";
 import { AuthContext } from "../../utils/AuthContext";
-import {pages as allPages} from "../../data/pages";
 
 import "./style/index.css";
 
@@ -27,15 +27,15 @@ export default function Navbar() {
     <>
       <nav className="nav">
         <div className="nav-logo">
-          <Link to="/">Journey User</Link>
+          <Link to="/">User Journey</Link>
         </div>
         <ul className="nav-list">
           {pages.map((page, index) => {
             return (
               <li className="nav-item" key={index}>
                 <Link to={page.url}>
-                <FontAwesomeIcon icon={page.icon} />
-                {page.name}
+                  <FontAwesomeIcon icon={page.icon} />
+                  {page.name}
                 </Link>
               </li>
             );
