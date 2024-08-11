@@ -12,9 +12,9 @@
 
 #### Articles
 
-- [ ] Add the search for for the title
-- [ ] Add the recommendation for the articles (+ filters)
-- [ ] Add categories + subjects
+- [x] Add the search for the title
+- [x] Add the recommendation for the articles (+ filters)
+- [x] Add categories + subjects
 
 #### Message
 

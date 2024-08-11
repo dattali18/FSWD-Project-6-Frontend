@@ -1,33 +1,101 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 import { BASE_URL } from "../../data/api";
 
 export default function Articles() {
-    const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState([]);
+  const [filteredArticles, setFilteredArticles] = useState([]);
+  const [search, setSearch] = useState("");
+  const [recommendationFilter, setRecommendationFilter] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-    useEffect(() => {
-      // TODO: refactor this code to use the new updated url
-        const fetchArticles = async () => {
-            const url = `${BASE_URL}/api/articles/best?time_period=week`;
-            try {
-                const response = await axios.get(url);
-                console.log(response.data);
-                setArticles(response.data);
-            } catch (error) {
-                // console.error(error);
-            }
-        };
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const url = `${BASE_URL}/api/articles/best?time_period=week`;
+      try {
+        const response = await axios.get(url);
+        setArticles(response.data);
+        setFilteredArticles(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-        fetchArticles();
-    }, []);
+    fetchArticles();
+  }, []);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const url = `${BASE_URL}/api/articles/categories`;
+      try {
+        const response = await axios.get(url);
+        setCategories(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      if (recommendationFilter) {
+        const url = `${BASE_URL}/api/articles/recommendations?filter=${recommendationFilter}`;
+        try {
+          const response = await axios.get(url);
+          setFilteredArticles(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        // Reset to original articles if no filter is applied
+        setFilteredArticles(articles);
+      }
+    };
+
+    fetchRecommendations();
+  }, [recommendationFilter, articles]);
+
+  useEffect(() => {
+    setFilteredArticles(
+      articles.filter(article =>
+        (article.title.toLowerCase().includes(search.toLowerCase())) &&
+        (selectedCategory ? article.category === selectedCategory : true)
+      )
+    );
+  }, [search, articles, selectedCategory]);
 
   return (
     <>
       <h1>Articles</h1>
-      <h2>Read More</h2>
+      <input
+        type="text"
+        placeholder="Search by title"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <select
+        value={selectedCategory}
+        onChange={(e) => setSelectedCategory(e.target.value)}
+      >
+        <option value="">All Categories</option>
+        {categories.map(category => (
+          <option key={category} value={category}>{category}</option>
+        ))}
+      </select>
+      <button onClick={() => setRecommendationFilter("popular")}>
+        Popular
+      </button>
+      <button onClick={() => setRecommendationFilter("latest")}>
+        Latest
+      </button>
+      <button onClick={() => setRecommendationFilter("")}>
+        Reset Recommendations
+      </button>
       <div className="articles">
-        {articles.map((article) => (
+        {filteredArticles.map((article) => (
           <div key={article.id} className="article">
             <p>{article.title}</p>
           </div>
