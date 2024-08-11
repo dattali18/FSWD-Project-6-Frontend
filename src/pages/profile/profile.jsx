@@ -16,15 +16,71 @@ export default function Profile() {
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
 
-  // FIXME: add the needed call to the backend
-
   // 1. check if user is writer if not don't display articles
   // 2. get articles by user
   // 3. get the comments by user and articles
 
+  useEffect(() => {
+    // check if the user is a writer
+    if (user.is_writer) {
+      const getArticles = async () => {
+        try {
+          const response = await axios.get(
+            `${BASE_URL}/api/articles?user_id=${user.id}`
+          );
+          setArticles(response.data.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getArticles();
+    }
+
+    const getLikes = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/api/likes?user_id=${user.id}`
+        );
+        // setLikes(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getComments = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/api/comments?user_id=${user.id}`
+        );
+        // setComments(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getLikes();
+    getComments();
+  }, [user]);
+
+  // if the user is a writer add a + button to add articles
+  // will link to /editor
+
+  console.log(user);
   return (
     <>
-      <h1>Welcome {user.user_name}</h1>
+      <div className="container">
+        <h1>Welcome {user.user_name}</h1>
+        {user.is_writer == 1 && (
+          <>
+            <Link to="/editor">
+              <button className="btn btn-blue btn-sm btn-icon">
+                <FaPencilAlt />
+                Add Article
+              </button>
+            </Link>
+          </>
+        )}
+      </div>
       <h2>Profile</h2>
 
       <Link to="/profile/edit">
@@ -34,20 +90,31 @@ export default function Profile() {
         </button>
       </Link>
 
-      <div className="user-articles">
-        <h3>Your Articles</h3>
-        <ul>
-          {articles.map((article) => (
-            <li key={article.id}>{article.title}</li>
-          ))}
-        </ul>
-      </div>
+      {user.is_writer == 1 && (
+        <div className="user-articles">
+          <h3>Your Articles</h3>
+          <ul>
+            {articles.map((article) => (
+              <li key={article.id}>{article.title}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="user-comments">
         <h3>Your Comments</h3>
         <ul>
           {comments.map((comment) => (
             <li key={comment.id}>{comment.text}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="user-likes">
+        <h3>Your Likes</h3>
+        <ul>
+          {likes.map((like) => (
+            <li key={like.id}>{like.article.title}</li>
           ))}
         </ul>
       </div>

@@ -5,7 +5,7 @@
 ### Pages
 
 #### Profile
-- [ ] Remove the form put it into `profile/edit`
+- [x] Remove the form put it into `profile/edit`
 - [ ] Put the Articles the user has wrote
 - [ ] Put the Likes + Comments the user has
 
