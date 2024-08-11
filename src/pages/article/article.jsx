@@ -51,7 +51,7 @@ export default function Article() {
     const fetchData = async () => {
       try {
         // Fetch article content
-        const article_content = await axios.get(`${url}/article`);
+        const article_content = await axios.get(`${url}/content`);
         const modifiedContent = addClassToTags(article_content.data);
         setPage(modifiedContent);
 
