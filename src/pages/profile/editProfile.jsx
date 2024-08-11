@@ -13,6 +13,9 @@ export default function EditProfile() {
     const url = `${BASE_URL}/api/users/${user.id}`;
     const getUser = async () => {
       try {
+        // add the token auth from the localStorage
+        const token = localStorage.getItem("token");
+        axios.defaults.headers.common["x-auth-token"] = token;
         const response = await axios.get(url);
         const [user_] = response.data.data;
         setUserInfo(user_);
