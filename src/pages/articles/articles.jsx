@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../../data/api";
 
 export default function Articles() {
@@ -60,9 +60,10 @@ export default function Articles() {
 
   useEffect(() => {
     setFilteredArticles(
-      articles.filter(article =>
-        (article.title.toLowerCase().includes(search.toLowerCase())) &&
-        (selectedCategory ? article.category === selectedCategory : true)
+      articles.filter(
+        (article) =>
+          article.title.toLowerCase().includes(search.toLowerCase()) &&
+          (selectedCategory ? article.category === selectedCategory : true)
       )
     );
   }, [search, articles, selectedCategory]);
@@ -70,30 +71,45 @@ export default function Articles() {
   return (
     <>
       <h1>Articles</h1>
-      <input
-        type="text"
-        placeholder="Search by title"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <select
-        value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
-      >
-        <option value="">All Categories</option>
-        {categories.map(category => (
-          <option key={category} value={category}>{category}</option>
-        ))}
-      </select>
-      <button onClick={() => setRecommendationFilter("popular")}>
-        Popular
-      </button>
-      <button onClick={() => setRecommendationFilter("latest")}>
-        Latest
-      </button>
-      <button onClick={() => setRecommendationFilter("")}>
-        Reset Recommendations
-      </button>
+      <div className="filters">
+        <input
+          className="form-input"
+          type="text"
+          placeholder="Search by title"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="btn btn-blue"
+        >
+          <option value="">All Categories</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+        <button
+          className="btn btn-blue"
+          onClick={() => setRecommendationFilter("popular")}
+        >
+          Popular
+        </button>
+        <button
+          className="btn btn-blue"
+          onClick={() => setRecommendationFilter("latest")}
+        >
+          Latest
+        </button>
+        <button
+          className="btn btn-blue"
+          onClick={() => setRecommendationFilter("")}
+        >
+          Reset Recommendations
+        </button>
+      </div>
       <div className="articles">
         {filteredArticles.map((article) => (
           <div key={article.id} className="article">
