@@ -1,5 +1,6 @@
 import axios from "axios";
 import parse from "html-react-parser";
+import { marked } from "marked";
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -8,8 +9,8 @@ import "prismjs/components/prism-javascript"; // Import the JavaScript language
 import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { BASE_URL } from "../../data/api";
 import { AuthContext } from "../../utils/AuthContext";
@@ -51,8 +52,12 @@ export default function Article() {
     const fetchData = async () => {
       try {
         // Fetch article content
-        const article_content = await axios.get(`${url}/content`);
-        const modifiedContent = addClassToTags(article_content.data);
+        const article = await axios.get(`${url}/content`);
+        const [content] = article.data;
+        console.log(content);
+        // convert md to html using marked
+        const html = marked.parse(content.content);
+        const modifiedContent = addClassToTags(html);
         setPage(modifiedContent);
 
         // Fetch article data (title, writer_id)
