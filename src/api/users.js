@@ -8,6 +8,9 @@ import { BASE_URL } from "./index";
 
 const URL = `${BASE_URL}/users`;
 
+// add the header x-auth-token to the request
+axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
+
 /**
  * @desc This function is used to update the user
  * @param {string} email
