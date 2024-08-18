@@ -27,6 +27,7 @@ export default function Article() {
   const [page, setPage] = useState("");
   const [article, setArticle] = useState({});
   const [writer, setWriter] = useState({});
+  const [like, setLike] = useState(false);
 
   // Function to add CSS class to specific tags
   const addClassToTags = (htmlString) => {
@@ -54,14 +55,14 @@ export default function Article() {
         // Fetch article content
         const article = await axios.get(`${url}/content`);
         const [content] = article.data;
-        console.log(content);
+        // console.log(content);
         // convert md to html using marked
         const html = marked.parse(content.content);
         const modifiedContent = addClassToTags(html);
         setPage(modifiedContent);
 
         // Fetch article data (title, writer_id)
-        const article_data = await axios.get(url);
+        const article_data = await axios.get(`${url}/object`);
         setArticle(article_data.data);
 
         // Fetch writer data
@@ -69,6 +70,20 @@ export default function Article() {
           `${user_url}/${article_data.data.writer_id}`
         );
         setWriter(writer_data.data.data[0]);
+
+        // get if the user has liked the article
+        const body = {
+          article_id: id,
+          user_id: user.id,
+        };
+
+        const response = await axios.get(`${BASE_URL}/api/likes`, {
+          params: body,
+        });
+
+        if (response.data.length > 0) {
+          setLike(true);
+        }
       } catch (error) {
         console.error("Error fetching article", error);
       }
@@ -88,13 +103,15 @@ export default function Article() {
         </>
       ) : (
         <div>
-          <h1>{article.title}</h1>
+          <div className="page-header">
+            <h1>{article.title}</h1>
+            {like && <FontAwesomeIcon icon={faHeart} className="like-icon" />}
+          </div>
           <h2>
             By <Link>{writer.user_name}</Link> On{" "}
             {convertToDateTime(article.created_at)}
           </h2>
           <div className="article">{page}</div>
-          {/* TODO: adding a like button + comment section */}
           <div className="like">
             <button
               className={
@@ -106,10 +123,27 @@ export default function Article() {
                 if (!user) {
                   alert("You must be logged in to like an article");
                 }
+                setLike(!like);
+
+                // Send like request to the server
+                if (!like) {
+                  likeArticle(article.id, user.id);
+                } else {
+                  unlikeArticle(article.id, user.id);
+                }
               }}
             >
-              <FontAwesomeIcon icon={faHeart} />
-              <p>Like</p>
+              {like ? (
+                <>
+                  <FontAwesomeIcon icon={faHeart} />
+                  <p>Unlike</p>
+                </>
+              ) : (
+                <>
+                  <FontAwesomeIcon icon={faHeart} />
+                  <p>Like</p>
+                </>
+              )}
             </button>
           </div>
           <div className="comments-sec">
@@ -135,3 +169,27 @@ export default function Article() {
     </>
   );
 }
+
+const likeArticle = async (article_id, user_id) => {
+  try {
+    // pass the user id and article id to the server in the body
+    const response = await axios.post(`${BASE_URL}/api/likes`, {
+      body: { user_id, article_id },
+    });
+    console.log(response);
+  } catch (error) {
+    console.error("Error liking article", error);
+  }
+};
+
+const unlikeArticle = async (article_id, user_id) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/api/likes`, {
+      article_id,
+      user_id,
+    });
+    console.log(response);
+  } catch (error) {
+    console.error("Error unliking article", error);
+  }
+};
