@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -6,8 +5,11 @@ import { Link } from "react-router-dom";
 // pencil icon
 import { FaPencilAlt } from "react-icons/fa";
 
-import { BASE_URL } from "../../data/api";
 import { AuthContext } from "../../utils/AuthContext";
+
+import { getArticleByAuthor } from "../../api/articles";
+import { getUserComments } from "../../api/comments";
+import { getUserLikes } from "../../api/likes";
 
 export default function Profile() {
   const { user } = useContext(AuthContext);
@@ -25,10 +27,8 @@ export default function Profile() {
     if (user.is_writer) {
       const getArticles = async () => {
         try {
-          const response = await axios.get(
-            `${BASE_URL}/api/articles?user_id=${user.id}`
-          );
-          setArticles(response.data.data);
+          const response = await getArticleByAuthor(user.id);
+          setArticles(response.data.articles);
         } catch (error) {
           console.error(error);
         }
@@ -39,10 +39,8 @@ export default function Profile() {
 
     const getLikes = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/api/likes?user_id=${user.id}`
-        );
-        // setLikes(response.data.data);
+        const response = await getUserLikes(user.id);
+        setLikes(response.data.data);
       } catch (error) {
         console.error(error);
       }
@@ -50,10 +48,8 @@ export default function Profile() {
 
     const getComments = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/api/comments?user_id=${user.id}`
-        );
-        // setComments(response.data.data);
+        const response = await getUserComments(user.id);
+        setComments(response.data.data);
       } catch (error) {
         console.error(error);
       }
@@ -69,7 +65,7 @@ export default function Profile() {
   return (
     <>
       <div className="container">
-        <h1>Welcome {user.user_name}</h1>
+        <h1>Welcome {user.username}</h1>
         {user.is_writer == 1 && (
           <>
             <Link to="/editor">

@@ -72,4 +72,17 @@ async function updateArticle(article) {
   }
 }
 
-export { getArticleById, getArticles, postArticle, updateArticle };
+/**
+ * @desc This function is used to get all the articles by an author
+ * @param {number} author 
+ * @returns {Promise}
+ */
+async function getArticleByAuthor(author) {
+  try {
+    return await axios.get(`${URL}/writer?author=${author}`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { getArticleById, getArticles, postArticle, updateArticle, getArticleByAuthor };
