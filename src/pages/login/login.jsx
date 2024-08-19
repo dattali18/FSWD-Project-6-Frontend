@@ -27,7 +27,7 @@ export default function Login() {
       <h1>Login</h1>
       <form className="form" onSubmit={onSubmit}>
         <div className="input-group">
-          <label htmlFor="username">Email</label>
+          <label htmlFor="username">Username</label>
           <input
             className="form-input"
             type="text"

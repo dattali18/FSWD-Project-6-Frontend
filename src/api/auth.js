@@ -16,6 +16,7 @@ const URL = `${BASE_URL}/auth`;
 async function login(username, password) {
   try {
     const response = await axios.post(`${URL}/login`, { username, password });
+    console.log(response);
     // save the user and token in the local storage
     localStorage.setItem("user", JSON.stringify(response.data.user));
     localStorage.setItem("token", response.data.token);

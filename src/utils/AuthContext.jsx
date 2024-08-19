@@ -19,8 +19,10 @@ const AuthProvider = ({ children }) => {
   }, [user]);
 
   const login = async (email, password) => {
-    const res = await loginUser(email, password);
-    setUser(res.data.user);
+    await loginUser(email, password);
+    // get the user from the local storage
+    const user_ = JSON.parse(localStorage.getItem("user")) || null;
+    setUser(user_);
   };
 
   const logout = () => {
