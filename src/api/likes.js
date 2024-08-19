@@ -2,9 +2,9 @@
  * @desc This function is used to like an article
  */
 
-import { axios } from "axios";
+import axios from "axios";
 
-import { BASE_URL } from "./index";
+import { BASE_URL } from "./../data/api";
 
 const URL = `${BASE_URL}/likes`;
 

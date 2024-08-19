@@ -1,12 +1,9 @@
+import "../style/form.css";
 import "../style/index.css";
 
-import axios from "axios";
-
-import "../style/form.css";
-
-import { BASE_URL } from "../../data/api";
-
 import { useNavigate } from "react-router-dom";
+
+import { register } from "./../../api/auth";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -19,23 +16,23 @@ export default function Register() {
     const email = formData.get("email");
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
+    const username = formData.get("username");
 
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
     }
 
-    const url = `${BASE_URL}/api/auth/register`;
-
     const registerUser = async () => {
       try {
-        const response = await axios.post(url, { email, password });
+        const response = await register(email, username, password);
         console.log(response);
+        // redirect to the login page
         navigate("/login");
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     registerUser();
   };
@@ -44,6 +41,16 @@ export default function Register() {
     <>
       <h1>Register</h1>
       <form className="form" onSubmit={onSubmit}>
+        <div className="input-group">
+          <label htmlFor="username">Username</label>
+          <input
+            className="form-input"
+            type="text"
+            id="username"
+            name="username"
+            placeholder="username"
+          />
+        </div>
         <div className="input-group">
           <label htmlFor="email">Email</label>
           <input

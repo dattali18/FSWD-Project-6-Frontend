@@ -2,9 +2,9 @@
  * @desc This is the collection of all the routes related to the comments on the articles
  */
 
-import { axios } from "axios";
+import axios from "axios";
 
-import { BASE_URL } from "./index";
+import { BASE_URL } from "./../data/api";
 
 const URL = `${BASE_URL}/comments`;
 

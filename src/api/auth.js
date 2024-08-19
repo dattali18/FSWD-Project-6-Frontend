@@ -2,8 +2,8 @@
  * @desc This is the collection of all the routes related to the authentication of the user
  */
 
-import { axios } from "axios";
-import { BASE_URL } from "./index";
+import axios from "axios";
+import { BASE_URL } from "./../data/api";
 
 const URL = `${BASE_URL}/auth`;
 
