@@ -43,7 +43,7 @@ async function register(email, username, password) {
 /**
  * @desc This function is used to logout the user
  */
-async function logout() {
+function logout() {
   // remove the user and token from the local storage
   localStorage.removeItem("user");
   localStorage.removeItem("token");

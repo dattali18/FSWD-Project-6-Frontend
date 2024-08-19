@@ -1,8 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-
-import axios from "axios";
-
-import { BASE_URL } from "../data/api.js";
+import { login as loginUser, logout as logoutUser } from "../api/auth";
 
 const AuthContext = createContext();
 
@@ -14,7 +11,7 @@ const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       localStorage.setItem("user", JSON.stringify(user));
     } else {
       localStorage.removeItem("user");
@@ -22,21 +19,12 @@ const AuthProvider = ({ children }) => {
   }, [user]);
 
   const login = async (email, password) => {
-    const res = await axios.post(`${BASE_URL}/api/auth/login`, {
-      email,
-      password,
-    });
-
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-
+    const res = await loginUser(email, password);
     setUser(res.data.user);
   };
 
   const logout = () => {
-    console.log("logout");
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    logoutUser();
     setUser(null);
   };
 
