@@ -74,7 +74,7 @@ async function updateArticle(article) {
 
 /**
  * @desc This function is used to get all the articles by an author
- * @param {number} author 
+ * @param {number} author
  * @returns {Promise}
  */
 async function getArticleByAuthor(author) {
@@ -85,4 +85,10 @@ async function getArticleByAuthor(author) {
   }
 }
 
-export { getArticleById, getArticles, postArticle, updateArticle, getArticleByAuthor };
+export {
+  getArticleByAuthor,
+  getArticleById,
+  getArticles,
+  postArticle,
+  updateArticle,
+};
