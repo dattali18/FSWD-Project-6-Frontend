@@ -38,4 +38,12 @@ async function getUserByUsername(username) {
   }
 }
 
-export { getUserByUsername, updateUser };
+async function getUserById(id) {
+  try {
+    return await axios.get(`${URL}/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { getUserByUsername, updateUser, getUserById };
