@@ -18,7 +18,8 @@ axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
  */
 async function likeArticle(articleId) {
   try {
-    return await axios.post(URL, { articleId });
+    // the body is the articleId
+    return await axios.post(URL, { article_id: articleId });
   } catch (error) {
     console.error(error);
   }
@@ -31,7 +32,7 @@ async function likeArticle(articleId) {
  */
 async function unlikeArticle(articleId) {
   try {
-    return await axios.delete(URL, { articleId });
+    return await axios.delete(URL, { params: { article_id: articleId } });
   } catch (error) {
     console.error(error);
   }
@@ -63,4 +64,14 @@ async function getUserLikes(userId) {
   }
 }
 
-export { getArticleLikes, getUserLikes, likeArticle, unlikeArticle };
+async function isLiked(articleId) {
+  try {
+    return await axios.get(`${URL}/liked`, {
+      params: { article_id: articleId },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { getArticleLikes, getUserLikes, isLiked, likeArticle, unlikeArticle };

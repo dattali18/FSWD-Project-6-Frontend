@@ -1,4 +1,3 @@
-import axios from "axios";
 import parse from "html-react-parser";
 import { marked } from "marked";
 import { useContext, useEffect, useState } from "react";
@@ -12,12 +11,15 @@ import "prismjs/components/prism-shell-session"; // Import the JSX language
 import { faEnvelope, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { BASE_URL } from "../../data/api";
 import { AuthContext } from "../../utils/AuthContext";
 import { convertToDateTime } from "../../utils/DateUtils";
 
 import "../style/article.css";
 import "../style/prism-onedark.css"; // Import Atom Dark theme
+
+import { getArticleById } from "../../api/articles";
+import { isLiked, likeArticle, unlikeArticle } from "../../api/likes";
+import { getUserById } from "../../api/users";
 
 export default function Article() {
   const { id } = useParams();
@@ -48,40 +50,25 @@ export default function Article() {
   };
 
   useEffect(() => {
-    const url = `${BASE_URL}/api/articles/${id}`;
-    const user_url = `${BASE_URL}/api/users`;
     const fetchData = async () => {
       try {
         // Fetch article content
-        const article = await axios.get(`${url}/content`);
-        const [content] = article.data;
-        // console.log(content);
+        const article_response = await getArticleById(id);
+        const articleObject = article_response.data.article;
+        setArticle(articleObject);
+
         // convert md to html using marked
-        const html = marked.parse(content.content);
+        const html = marked.parse(articleObject.content);
         const modifiedContent = addClassToTags(html);
         setPage(modifiedContent);
 
-        // Fetch article data (title, writer_id)
-        const article_data = await axios.get(`${url}/object`);
-        setArticle(article_data.data);
-
         // Fetch writer data
-        const writer_data = await axios.get(
-          `${user_url}/${article_data.data.writer_id}`
-        );
-        setWriter(writer_data.data.data[0]);
+        const writer_data = await getUserById(articleObject.author);
+        setWriter(writer_data);
 
-        // get if the user has liked the article
-        const body = {
-          article_id: id,
-          user_id: user.id,
-        };
+        const response = await isLiked(id);
 
-        const response = await axios.get(`${BASE_URL}/api/likes`, {
-          params: body,
-        });
-
-        if (response.data.length > 0) {
+        if (response.data) {
           setLike(true);
         }
       } catch (error) {
@@ -89,7 +76,7 @@ export default function Article() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, user]);
 
   useEffect(() => {
     Prism.highlightAll();
@@ -108,8 +95,8 @@ export default function Article() {
             {like && <FontAwesomeIcon icon={faHeart} className="like-icon" />}
           </div>
           <h2>
-            By <Link>{writer.user_name}</Link> On{" "}
-            {convertToDateTime(article.created_at)}
+            By <Link>{writer.username}</Link> On{" "}
+            {convertToDateTime(article.createdDate)}
           </h2>
           <div className="article">{page}</div>
           <div className="like">
@@ -127,9 +114,9 @@ export default function Article() {
 
                 // Send like request to the server
                 if (!like) {
-                  likeArticle(article.id, user.id);
+                  onLikeArticle(id);
                 } else {
-                  unlikeArticle(article.id, user.id);
+                  onUnlikeArticle(id);
                 }
               }}
             >
@@ -170,26 +157,21 @@ export default function Article() {
   );
 }
 
-const likeArticle = async (article_id, user_id) => {
+const onLikeArticle = async (article_id) => {
   try {
     // pass the user id and article id to the server in the body
-    const response = await axios.post(`${BASE_URL}/api/likes`, {
-      body: { user_id, article_id },
-    });
+    const response = await likeArticle(article_id);
     console.log(response);
   } catch (error) {
-    console.error("Error liking article", error);
+    console.error("Error liking article", error.message);
   }
 };
 
-const unlikeArticle = async (article_id, user_id) => {
+const onUnlikeArticle = async (article_id) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/api/likes`, {
-      article_id,
-      user_id,
-    });
+    const response = await unlikeArticle(article_id);
     console.log(response);
   } catch (error) {
-    console.error("Error unliking article", error);
+    console.error("Error unliking article", error.message);
   }
 };
