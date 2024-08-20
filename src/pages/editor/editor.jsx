@@ -35,7 +35,7 @@ function MyEditor() {
     const file = new Blob([markdown], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
     element.download = "markdown.md";
-    document.body.appendChild(element);
+    document.body.appendChild(element); // Required for this to work in FireFox
     element.click();
   };
 
@@ -65,6 +65,7 @@ function MyEditor() {
     }
   };
 
+  // adding synchronized scrolling between the two divs
   const syncScroll = (e) => {
     const { target } = e;
     const { scrollTop, scrollLeft } = target;
@@ -74,6 +75,8 @@ function MyEditor() {
     otherElement.scrollLeft = scrollLeft;
   };
 
+  // sync the #editor-input and #editor-output scroll
+  // call this block of code at the end of the render
   useEffect(() => {
     const editorInput = document.getElementById("editor-input");
     const editorOutput = document.getElementById("editor-output");
