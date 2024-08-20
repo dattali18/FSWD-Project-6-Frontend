@@ -37,18 +37,17 @@ export default function Profile() {
 
     const fetchComments = async () => {
       const response = await getUserComments(user.id);
-      console.log(response);
-      setComments(response.data.comments);
+      setComments(response.data || []);
     };
 
     const fetchLikes = async () => {
       const response = await getUserLikes(user.id);
-      setLikes(response.data.likes);
+      setLikes(response.data || []);
     };
 
-    // fetchArticles();
+    fetchArticles();
     fetchComments();
-    // fetchLikes();
+    fetchLikes();
   }, [user]);
 
   return (
@@ -103,7 +102,9 @@ export default function Profile() {
         <h3>Your Likes</h3>
         <ul>
           {likes.map((like) => (
-            <li key={like.id}>{like.article.title}</li>
+            <li key={like.id}>
+              <Link to={"/article/" + like.article_id}>{like.title}</Link>
+            </li>
           ))}
         </ul>
       </div>
