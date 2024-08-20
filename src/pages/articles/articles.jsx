@@ -7,6 +7,8 @@ import { getArticles } from "../../api/articles";
 
 import "./articles.css";
 
+const ARTICLES_TO_DISPLAY = 10;
+
 export default function Articles() {
   // the articles page will have
   // 1. A top list of articles (title, categories, author, date)
@@ -21,7 +23,13 @@ export default function Articles() {
         const response = await getArticles();
         const articlesResponse = response.data.articles || [];
 
-        setArticles(articlesResponse);
+        // Sort articles by createdDate (assuming it's a valid date format)
+        const sortedArticles = articlesResponse.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+
+        // Keep only the latest 10 articles
+        const latestArticles = sortedArticles.slice(0, ARTICLES_TO_DISPLAY);
+
+        setArticles(latestArticles);
         setFilteredArticles(articlesResponse);
       } catch (error) {
         console.error(error);
@@ -55,7 +63,6 @@ export default function Articles() {
       <div className="latest">
         <h2>Latest</h2>
         <div className="articles-list">
-          {/* TODO: filter the article by date and show only the latest 10 */}
           {articles.map((article) => (
             <ArticleCard key={article.articleId} {...article} />
           ))}
