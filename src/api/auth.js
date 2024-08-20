@@ -52,7 +52,7 @@ function logout() {
  * @returns {Promise}
  */
 async function getCurrentUser() {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("token") || "";
   try {
     axios.defaults.headers.common["x-auth-token"] = token;
     return await axios.get(`${URL}/me`);
@@ -61,4 +61,4 @@ async function getCurrentUser() {
   }
 }
 
-export { login, logout, register, getCurrentUser };
+export { getCurrentUser, login, logout, register };

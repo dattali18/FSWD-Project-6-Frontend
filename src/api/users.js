@@ -19,7 +19,7 @@ axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
  */
 async function updateUser(email, username) {
   try {
-    return await axios.put(`${URL}/update`, { email, username });
+    return await axios.put(`${URL}/`, { email, username });
   } catch (error) {
     console.error(error);
   }
@@ -46,4 +46,4 @@ async function getUserById(id) {
   }
 }
 
-export { getUserByUsername, updateUser, getUserById };
+export { getUserById, getUserByUsername, updateUser };

@@ -10,6 +10,8 @@ import { getCurrentUser } from "../../api/auth";
 import { getUserComments } from "../../api/comments";
 import { getUserLikes } from "../../api/likes";
 
+import { useNavigate } from "react-router-dom";
+
 export default function Profile() {
   const [user, setUser] = useState({});
 
@@ -17,16 +19,25 @@ export default function Profile() {
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     let u = {};
     const fetchUser = async () => {
       const response = await getCurrentUser();
-      u = response.data.user;
+      
+      // if the response code is not 200ok there is a problem logout and redirect to login
+      if (response.status !== 200) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+
+      u = response.data.user || {};
       setUser(u);
     };
 
     fetchUser();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const fetchArticles = async () => {

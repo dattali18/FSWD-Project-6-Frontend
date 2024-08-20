@@ -1,33 +1,32 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { AuthContext } from "../../utils/AuthContext";
-import {getUserById, updateUser} from "../../api/users";
+import { getCurrentUser } from "../../api/auth";
+import { updateUser } from "../../api/users";
 
 export default function EditProfile() {
-  const { user } = useContext(AuthContext);
-
-  const [userInfo, setUserInfo] = useState({});
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await getUserById(user.id);
+        const response = await getCurrentUser();
         const u = response.data.user || null;
 
-        setUserInfo(u);
+        setUser(u);
       } catch (error) {
         console.error(error);
       }
     };
+
     getUser();
-  }, [user.id]);
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
     const putUser = async () => {
       try {
-        const response = updateUser(userInfo.email, userInfo.username);
-        // TODO: handle response
+        const response = await updateUser(user.email, user.username);
+        // TODO  handle response
         console.log(response);
       } catch (error) {
         console.error(error);
@@ -48,10 +47,8 @@ export default function EditProfile() {
             name="username"
             placeholder="username"
             className="form-input"
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, username: e.target.value })
-            }
-            value={userInfo.username}
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
+            value={user.username}
           />
         </div>
         <div className="input-group">
@@ -62,10 +59,8 @@ export default function EditProfile() {
             name="email"
             placeholder="jhondoe@example.com"
             className="form-input"
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, email: e.target.value })
-            }
-            value={userInfo.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+            value={user.email}
           />
         </div>
         <button className="btn btn-blue">Submit</button>
