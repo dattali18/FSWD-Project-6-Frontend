@@ -9,6 +9,7 @@ import { getArticleByAuthor } from "../../api/articles";
 import { getCurrentUser } from "../../api/auth";
 import { getUserComments } from "../../api/comments";
 import { getUserLikes } from "../../api/likes";
+import { RiInsertColumnRight } from "react-icons/ri";
 
 export default function Profile() {
   const [user, setUser] = useState({});
@@ -23,7 +24,6 @@ export default function Profile() {
       const response = await getCurrentUser();
 
       u = response.data.user || {};
-      console.log(u);
       setUser(u);
     };
 
@@ -33,7 +33,6 @@ export default function Profile() {
   useEffect(() => {
     const fetchArticles = async () => {
       const response = await getArticleByAuthor(user.id);
-
       setArticles(response.data.articles);
     };
 
@@ -47,9 +46,11 @@ export default function Profile() {
       setLikes(response.data || []);
     };
 
-    fetchArticles();
-    fetchComments();
-    fetchLikes();
+    if (user.id) {
+      fetchArticles();
+      fetchComments();
+      fetchLikes();
+    }
   }, [user]);
 
   return (
@@ -81,7 +82,7 @@ export default function Profile() {
           <h3>Your Articles</h3>
           <ul>
             {articles.map((article) => (
-              <li key={article.id}>
+              <li key={article.articleId}>
                 <Link to={"/article/" + article.articleId}>
                   {article.title}
                 </Link>

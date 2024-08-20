@@ -60,11 +60,30 @@ main {
     /* min-width: 50%; */
 }
 
+.box {
+    margin-bottom: 1rem;
+}
 
-/* style for the drop box make is bix and easy to use */
+/* Style for the input fields (title and tags) */
+.input-title,
+.input-tags {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-top: 0.5rem;
+    
+    border-radius: var(--rad);
+    border: 1px solid var(--bg-color-sc);
+    background-color: var(--bg-color-sc);
 
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+
+    font-family: 'Fira Code', monospace, consolas;
+}
+
+/* Style for the upload box */
 .box input {
-    /* make the input box big */
     width: 100%;
     height: 100%;
 }
@@ -79,8 +98,7 @@ input[type="file"] {
 
   display: inline-block;
 
-  padding: .5rem 1rem;
-  
-  cursor: pointer;
+  padding: 0.5rem 1rem;
 
+  cursor: pointer;
 }

@@ -21,7 +21,8 @@ import Layout from "./components/general/layout.jsx";
 // MARK: internal imports
 
 import { AuthProvider } from "./utils/AuthContext.jsx";
-import PrivateRoute from "./utils/PrivateRoute";
+import PrivateRoute from "./utils/PrivateRoute.jsx";
+import WriterRoute from "./utils/WriterRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/editor",
-        element: <MyEditor />,
+        element: (
+          <WriterRoute>
+            <MyEditor />
+          </WriterRoute>
+        ),
       },
       {
         path: "/login",
