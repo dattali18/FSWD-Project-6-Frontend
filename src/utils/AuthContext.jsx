@@ -31,6 +31,8 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     logoutUser();
     setToken("");
+
+    window.alert("Logout successful");
   };
 
   return (

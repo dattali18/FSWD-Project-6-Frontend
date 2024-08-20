@@ -8,7 +8,7 @@ import { AuthContext } from "../../utils/AuthContext";
 import "./style/index.css";
 
 export default function Navbar() {
-  const { user } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   // if user is in context display logout link
   // else display login link
@@ -16,12 +16,12 @@ export default function Navbar() {
   const [pages, setPages] = useState(allPages);
 
   useEffect(() => {
-    if (user) {
+    if (token) {
       setPages(allPages.filter((page) => page.name !== "Login"));
     } else {
       setPages(allPages.filter((page) => page.name !== "Logout"));
     }
-  }, [user]);
+  }, [token]);
 
   return (
     <>
