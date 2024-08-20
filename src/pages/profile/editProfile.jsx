@@ -25,7 +25,7 @@ export default function EditProfile() {
     e.preventDefault();
     const putUser = async () => {
       try {
-        const response = await updateUser(user.email, user.username);
+        const response = await updateUser(user.email);
         // TODO  handle response
         console.log(response);
       } catch (error) {
@@ -37,20 +37,8 @@ export default function EditProfile() {
 
   return (
     <>
-      <h1>Edit Profile</h1>
+      <h1>Change Email</h1>
       <form onSubmit={onSubmit} className="form">
-        <div className="input-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="username"
-            className="form-input"
-            onChange={(e) => setUser({ ...user, username: e.target.value })}
-            value={user.username}
-          />
-        </div>
         <div className="input-group">
           <label htmlFor="email">Email</label>
           <input

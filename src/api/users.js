@@ -14,12 +14,11 @@ axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
 /**
  * @desc This function is used to update the user
  * @param {string} email
- * @param {string} username
  * @returns   {Promise}
  */
-async function updateUser(email, username) {
+async function updateUser(email) {
   try {
-    return await axios.put(`${URL}/`, { email, username });
+    return await axios.put(`${URL}/`, { email });
   } catch (error) {
     console.error(error);
   }
