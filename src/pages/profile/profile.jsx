@@ -46,9 +46,11 @@ export default function Profile() {
       setLikes(response.data || []);
     };
 
-    fetchArticles();
-    fetchComments();
-    fetchLikes();
+    if (user.id) {
+      fetchArticles();
+      fetchComments();
+      fetchLikes();
+    }
   }, [user]);
 
   return (
@@ -80,7 +82,7 @@ export default function Profile() {
           <h3>Your Articles</h3>
           <ul>
             {articles.map((article) => (
-              <li key={article.id}>
+              <li key={article.articleId}>
                 <Link to={"/article/" + article.articleId}>
                   {article.title}
                 </Link>
