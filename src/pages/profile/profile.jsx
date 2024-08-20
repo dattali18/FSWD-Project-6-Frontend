@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -6,8 +5,11 @@ import { Link } from "react-router-dom";
 // pencil icon
 import { FaPencilAlt } from "react-icons/fa";
 
-import { BASE_URL } from "../../data/api";
 import { AuthContext } from "../../utils/AuthContext";
+
+import { getArticleByAuthor } from "../../api/articles";
+import { getUserComments } from "../../api/comments";
+import { getUserLikes } from "../../api/likes";
 
 export default function Profile() {
   const { user } = useContext(AuthContext);
@@ -20,56 +22,49 @@ export default function Profile() {
   // 2. get articles by user
   // 3. get the comments by user and articles
 
-  useEffect(() => {
-    // check if the user is a writer
-    if (user.is_writer) {
-      const getArticles = async () => {
-        try {
-          const response = await axios.get(
-            `${BASE_URL}/api/articles?user_id=${user.id}`
-          );
-          setArticles(response.data.data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
+  // useEffect(() => {
+  //   // check if the user is a writer
+  //   if (user.is_writer) {
+  //     const getArticles = async () => {
+  //       try {
+  //         const response = await getArticleByAuthor(user.id);
+  //         setArticles(response.data.articles);
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
 
-      getArticles();
-    }
+  //     getArticles();
+  //   }
 
-    const getLikes = async () => {
-      try {
-        const response = await axios.get(
-          `${BASE_URL}/api/likes?user_id=${user.id}`
-        );
-        // setLikes(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  //   const getLikes = async () => {
+  //     try {
+  //       const response = await getUserLikes(user.id);
+  //       setLikes(response.data.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    const getComments = async () => {
-      try {
-        const response = await axios.get(
-          `${BASE_URL}/api/comments?user_id=${user.id}`
-        );
-        // setComments(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getLikes();
-    getComments();
-  }, [user]);
+  //   const getComments = async () => {
+  //     try {
+  //       const response = await getUserComments(user.id);
+  //       setComments(response.data.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   getLikes();
+  //   getComments();
+  // }, [user]);
 
   // if the user is a writer add a + button to add articles
   // will link to /editor
 
-  console.log(user);
   return (
     <>
       <div className="container">
-        <h1>Welcome {user.user_name}</h1>
+        <h1>Welcome {user.username}</h1>
         {user.is_writer == 1 && (
           <>
             <Link to="/editor">

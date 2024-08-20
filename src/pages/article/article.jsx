@@ -1,4 +1,3 @@
-import axios from "axios";
 import parse from "html-react-parser";
 import { marked } from "marked";
 import { useContext, useEffect, useState } from "react";
@@ -12,12 +11,15 @@ import "prismjs/components/prism-shell-session"; // Import the JSX language
 import { faEnvelope, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { BASE_URL } from "../../data/api";
 import { AuthContext } from "../../utils/AuthContext";
 import { convertToDateTime } from "../../utils/DateUtils";
 
 import "../style/article.css";
 import "../style/prism-onedark.css"; // Import Atom Dark theme
+
+import { getArticleById } from "../../api/articles";
+import { isLiked, likeArticle, unlikeArticle } from "../../api/likes";
+import { getUserById } from "../../api/users";
 
 export default function Article() {
   const { id } = useParams();
@@ -27,6 +29,7 @@ export default function Article() {
   const [page, setPage] = useState("");
   const [article, setArticle] = useState({});
   const [writer, setWriter] = useState({});
+  const [like, setLike] = useState(false);
 
   // Function to add CSS class to specific tags
   const addClassToTags = (htmlString) => {
@@ -47,34 +50,33 @@ export default function Article() {
   };
 
   useEffect(() => {
-    const url = `${BASE_URL}/api/articles/${id}`;
-    const user_url = `${BASE_URL}/api/users`;
     const fetchData = async () => {
       try {
         // Fetch article content
-        const article = await axios.get(`${url}/content`);
-        const [content] = article.data;
-        console.log(content);
+        const article_response = await getArticleById(id);
+        const articleObject = article_response.data.article;
+        setArticle(articleObject);
+
         // convert md to html using marked
-        const html = marked.parse(content.content);
+        const html = marked.parse(articleObject.content);
         const modifiedContent = addClassToTags(html);
         setPage(modifiedContent);
 
-        // Fetch article data (title, writer_id)
-        const article_data = await axios.get(url);
-        setArticle(article_data.data);
-
         // Fetch writer data
-        const writer_data = await axios.get(
-          `${user_url}/${article_data.data.writer_id}`
-        );
-        setWriter(writer_data.data.data[0]);
+        const writer_data = await getUserById(articleObject.author);
+        setWriter(writer_data);
+
+        const response = await isLiked(id);
+
+        if (response.data) {
+          setLike(true);
+        }
       } catch (error) {
         console.error("Error fetching article", error);
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, user]);
 
   useEffect(() => {
     Prism.highlightAll();
@@ -88,13 +90,15 @@ export default function Article() {
         </>
       ) : (
         <div>
-          <h1>{article.title}</h1>
+          <div className="page-header">
+            <h1>{article.title}</h1>
+            {like && <FontAwesomeIcon icon={faHeart} className="like-icon" />}
+          </div>
           <h2>
-            By <Link>{writer.user_name}</Link> On{" "}
-            {convertToDateTime(article.created_at)}
+            By <Link>{writer.username}</Link> On{" "}
+            {convertToDateTime(article.createdDate)}
           </h2>
           <div className="article">{page}</div>
-          {/* TODO: adding a like button + comment section */}
           <div className="like">
             <button
               className={
@@ -106,10 +110,27 @@ export default function Article() {
                 if (!user) {
                   alert("You must be logged in to like an article");
                 }
+                setLike(!like);
+
+                // Send like request to the server
+                if (!like) {
+                  onLikeArticle(id);
+                } else {
+                  onUnlikeArticle(id);
+                }
               }}
             >
-              <FontAwesomeIcon icon={faHeart} />
-              <p>Like</p>
+              {like ? (
+                <>
+                  <FontAwesomeIcon icon={faHeart} />
+                  <p>Unlike</p>
+                </>
+              ) : (
+                <>
+                  <FontAwesomeIcon icon={faHeart} />
+                  <p>Like</p>
+                </>
+              )}
             </button>
           </div>
           <div className="comments-sec">
@@ -135,3 +156,22 @@ export default function Article() {
     </>
   );
 }
+
+const onLikeArticle = async (article_id) => {
+  try {
+    // pass the user id and article id to the server in the body
+    const response = await likeArticle(article_id);
+    console.log(response);
+  } catch (error) {
+    console.error("Error liking article", error.message);
+  }
+};
+
+const onUnlikeArticle = async (article_id) => {
+  try {
+    const response = await unlikeArticle(article_id);
+    console.log(response);
+  } catch (error) {
+    console.error("Error unliking article", error.message);
+  }
+};
