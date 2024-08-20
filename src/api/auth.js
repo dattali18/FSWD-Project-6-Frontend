@@ -18,7 +18,7 @@ async function login(username, password) {
     const response = await axios.post(`${URL}/login`, { username, password });
     // save the user and token in the local storage
     // localStorage.setItem("token", response.data.token);
-    return { response, token: response.data.token};
+    return { response, token: response.data.token };
   } catch (error) {
     console.error(error);
     return { response: error.response, token: null };
@@ -47,4 +47,18 @@ function logout() {
   localStorage.removeItem("token");
 }
 
-export { login, logout, register };
+/**
+ * @desc This function is used to get the current user
+ * @returns {Promise}
+ */
+async function getCurrentUser() {
+  let token = localStorage.getItem("token");
+  try {
+    axios.defaults.headers.common["x-auth-token"] = token;
+    return await axios.get(`${URL}/me`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export { login, logout, register, getCurrentUser };

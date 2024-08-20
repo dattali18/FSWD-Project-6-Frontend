@@ -1,71 +1,61 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // icons
 // pencil icon
 import { FaPencilAlt } from "react-icons/fa";
 
-import { AuthContext } from "../../utils/AuthContext";
-
 import { getArticleByAuthor } from "../../api/articles";
+import { getCurrentUser } from "../../api/auth";
 import { getUserComments } from "../../api/comments";
 import { getUserLikes } from "../../api/likes";
 
 export default function Profile() {
-  const { user } = useContext(AuthContext);
+  const [user, setUser] = useState({});
 
   const [articles, setArticles] = useState([]);
-  const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState([]);
 
-  // 1. check if user is writer if not don't display articles
-  // 2. get articles by user
-  // 3. get the comments by user and articles
+  useEffect(() => {
+    let u = {};
+    const fetchUser = async () => {
+      const response = await getCurrentUser();
+      u = response.data.user;
+      setUser(u);
+    };
 
-  // useEffect(() => {
-  //   // check if the user is a writer
-  //   if (user.is_writer) {
-  //     const getArticles = async () => {
-  //       try {
-  //         const response = await getArticleByAuthor(user.id);
-  //         setArticles(response.data.articles);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
+    fetchUser();
+  }, []);
 
-  //     getArticles();
-  //   }
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const response = await getArticleByAuthor(user.id);
 
-  //   const getLikes = async () => {
-  //     try {
-  //       const response = await getUserLikes(user.id);
-  //       setLikes(response.data.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+      setArticles(response.data.articles);
+    };
 
-  //   const getComments = async () => {
-  //     try {
-  //       const response = await getUserComments(user.id);
-  //       setComments(response.data.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   getLikes();
-  //   getComments();
-  // }, [user]);
+    const fetchComments = async () => {
+      const response = await getUserComments(user.id);
+      console.log(response);
+      setComments(response.data.comments);
+    };
 
-  // if the user is a writer add a + button to add articles
-  // will link to /editor
+    const fetchLikes = async () => {
+      const response = await getUserLikes(user.id);
+      setLikes(response.data.likes);
+    };
+
+    // fetchArticles();
+    fetchComments();
+    // fetchLikes();
+  }, [user]);
 
   return (
     <>
       <div className="container">
         <h1>Welcome {user.username}</h1>
-        {user.is_writer == 1 && (
+        {user.role == "writer" && (
           <>
             <Link to="/editor">
               <button className="btn btn-blue btn-sm btn-icon">
@@ -85,12 +75,16 @@ export default function Profile() {
         </button>
       </Link>
 
-      {user.is_writer == 1 && (
+      {user.role == "writer" && (
         <div className="user-articles">
           <h3>Your Articles</h3>
           <ul>
             {articles.map((article) => (
-              <li key={article.id}>{article.title}</li>
+              <li key={article.id}>
+                <Link to={"/article/" + article.articleId}>
+                  {article.title}
+                </Link>
+              </li>
             ))}
           </ul>
         </div>

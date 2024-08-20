@@ -79,7 +79,7 @@ async function updateArticle(article) {
  */
 async function getArticleByAuthor(author) {
   try {
-    return await axios.get(`${URL}/writer?author=${author}`);
+    return await axios.get(`${URL}/user/${author}`);
   } catch (error) {
     console.error(error);
   }
