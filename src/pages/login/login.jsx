@@ -19,7 +19,10 @@ export default function Login() {
 
     login(username, password);
 
-    navigate("/profile");
+    e.target.reset();
+
+    // go to the home page after login
+    navigate("/home");
   };
 
   return (

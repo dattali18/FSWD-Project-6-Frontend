@@ -5,9 +5,9 @@ import { AuthContext } from "./AuthContext.jsx";
 // eslint-disable-next-line react/prop-types
 const PrivateRoute = ({ children }) => {
   // if user is in context, render children, else redirect to login
-  const { user } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
-  if (!user) {
+  if (!token) {
     return <Navigate to="/login" />;
   }
 

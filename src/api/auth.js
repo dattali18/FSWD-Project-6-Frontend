@@ -17,11 +17,11 @@ async function login(username, password) {
   try {
     const response = await axios.post(`${URL}/login`, { username, password });
     // save the user and token in the local storage
-    localStorage.setItem("token", response.data.token);
-    localStorage.setItem("user", JSON.stringify(response.data.user));
-    return response;
+    // localStorage.setItem("token", response.data.token);
+    return { response, token: response.data.token};
   } catch (error) {
     console.error(error);
+    return { response: error.response, token: null };
   }
 }
 
@@ -44,8 +44,6 @@ async function register(email, username, password) {
  * @desc This function is used to logout the user
  */
 function logout() {
-  // remove the user and token from the local storage
-  localStorage.removeItem("user");
   localStorage.removeItem("token");
 }
 

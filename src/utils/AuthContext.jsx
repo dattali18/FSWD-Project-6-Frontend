@@ -5,33 +5,36 @@ const AuthContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const user = localStorage.getItem("user");
-    return user ? JSON.parse(user) : null;
-  });
+  const [token, setToken] = useState("");
 
   useEffect(() => {
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-    } else {
-      localStorage.removeItem("user");
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
     }
-  }, [user]);
+  }, []);
 
   const login = async (email, password) => {
-    await loginUser(email, password);
-    // get the user from the local storage
-    const user_ = JSON.parse(localStorage.getItem("user")) || null;
-    setUser(user_);
+    const { response, token } = await loginUser(email, password);
+    // check if the response is an error
+    if (!token) {
+      // display the error message
+      window.alert(response.data.message);
+    } else {
+      // save the token in the local storage
+      setToken(token);
+      localStorage.setItem("token", token);
+      window.alert("Login successful");
+    }
   };
 
   const logout = () => {
     logoutUser();
-    setUser(null);
+    setToken("");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
