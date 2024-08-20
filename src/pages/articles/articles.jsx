@@ -89,7 +89,7 @@ function ArticleCard(article) {
       <Link to={"/article/" + article.articleId}>
         <h1>{article.title}</h1>
       </Link>
-      {/* make the author be the first name of the author and like to the author profile */}
+      {/* TODO make the author be the first name of the author and like to the author profile */}
       <p>{article.author}</p>
       <p>{convertToDateTime(article.createdDate)}</p>
       {article.tags.map((category) => (

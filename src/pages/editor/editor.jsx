@@ -61,7 +61,7 @@ function MyEditor() {
     };
   });
 
-  // TODO: add a Post button to post the markdown to the server 
+  // TODO add a Post button to post the markdown to the server 
   // make this page protected to writer only
   return (
     <>
