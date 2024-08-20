@@ -64,7 +64,7 @@ export default function Article() {
 
         // Fetch writer data
         const writer_data = await getUserById(articleObject.author);
-        setWriter(writer_data);
+        setWriter(writer_data.data.user);
 
         const response = await isLiked(id);
 
@@ -145,6 +145,7 @@ export default function Article() {
                   placeholder="Your comment..."
                 />
               </div>
+              {/* TODO add the needed function for posting a comment + edit + delete */}
               <button type="submit" className="btn-icon btn btn-blue btn-sm">
                 <FontAwesomeIcon icon={faEnvelope} />
                 <p>Post</p>
