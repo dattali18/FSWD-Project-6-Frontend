@@ -5,6 +5,8 @@ import { convertToDateTime } from "../../utils/DateUtils";
 
 import { getArticles } from "../../api/articles";
 
+import "./articles.css";
+
 export default function Articles() {
   // the articles page will have
   // 1. A top list of articles (title, categories, author, date)
@@ -18,7 +20,6 @@ export default function Articles() {
       try {
         const response = await getArticles();
         const articlesResponse = response.data.articles || [];
-        console.log(articlesResponse);
 
         setArticles(articlesResponse);
         setFilteredArticles(articlesResponse);
@@ -53,15 +54,17 @@ export default function Articles() {
       <h1>Articles</h1>
       <div className="latest">
         <h2>Latest</h2>
-        <div className="articles">
+        <div className="articles-list">
           {/* TODO: filter the article by date and show only the latest 10 */}
-          {articles.map((article) => ArticleCard(article))}
+          {articles.map((article) => (
+            <ArticleCard key={article.articleId} {...article} />
+          ))}
           {articles.length === 0 && <p>No articles found</p>}
         </div>
       </div>
       <div className="search">
         <h2>Search</h2>
-        <form onSubmit={onSubmit}>
+        <form className="search-form" onSubmit={onSubmit}>
           <input
             className="form-input"
             type="text"
@@ -70,11 +73,12 @@ export default function Articles() {
           />
           <button className="btn btn-blue">Search</button>
         </form>
-        <div className="articles">
+        <div className="articles-list">
           {filteredArticles.map((article) => ArticleCard(article))}
           {articles.length === 0 && (
             <p>No articles found with that search query</p>
           )}
+          {/* TODO add pagination to this part */}
         </div>
       </div>
     </>
@@ -84,17 +88,21 @@ export default function Articles() {
 // TODO - Style the ArticleCard component
 function ArticleCard(article) {
   return (
-    <div>
+    <div className="article-card">
       {/* make the title a link to the article page */}
       <Link to={"/article/" + article.articleId}>
         <h1>{article.title}</h1>
       </Link>
       {/* TODO make the author be the first name of the author and like to the author profile */}
-      <p>{article.author}</p>
+      {/* <p>{article.author}</p> */}
       <p>{convertToDateTime(article.createdDate)}</p>
-      {article.tags.map((category) => (
-        <span key={category}>{category}</span>
-      ))}
+      <ul className="categories">
+        {article.tags.map((category) => (
+          <li className="category" key={category}>
+            {category}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

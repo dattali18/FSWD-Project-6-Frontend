@@ -1,0 +1,63 @@
+.article-card {
+  /* display: flex; */
+
+  /* flex-direction: column;
+  justify-content: space-between; */
+
+  padding: 0.2rem 1rem;
+  margin: 1rem 0;
+
+  border-radius: var(--rad);
+
+  background-color: var(--bg-color-sc);
+}
+
+.article-card h1 {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.article-card p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.article-card ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.articles-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+
+/* make a like a chip with bg blue */
+.category {
+    padding: .2rem .3rem;
+
+    border-radius: var(--rad);
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+/* search field + button */
+.search-form {
+    display: flex;
+    gap: .2rem;
+    /* make the form take the all width */
+    width: 100%;
+}
+
+.search-form input {
+    flex: 1;
+}

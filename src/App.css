@@ -14,13 +14,18 @@
 
   --white-dim: rgba(255, 255, 255, 0.7);
 
-  --bg-color: #22272E;
-  --bg-color-sc: #2D333B;
+  --bg-color: #22272e;
+  --bg-color-sc: #2d333b;
 
-  --grey-1: #2D333B;
+  --grey-1: #2d333b;
 
-  --rad : 5px;
+  --rad: 5px;
+}
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -29,10 +34,6 @@ body {
 
   background-color: var(--bg-color);
   color: var(--white);
-
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
 }
 
 a {
@@ -102,11 +103,11 @@ ul {
 }
 
 .btn-group {
-    display: flex;
+  display: flex;
 
-    gap: 0.2rem;
+  gap: 0.2rem;
 
-    margin: 0 .2rem;
+  margin: 0 0.2rem;
 }
 
 .btn-inactive {
@@ -123,7 +124,7 @@ ul {
   justify-content: center;
   align-items: center;
 
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .btn-icon p {
@@ -140,7 +141,7 @@ ul {
 
   margin-bottom: 4.4rem;
 
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .home-subheader {

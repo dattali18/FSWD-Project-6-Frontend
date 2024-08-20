@@ -24,7 +24,7 @@ import { getUserById } from "../../api/users";
 export default function Article() {
   const { id } = useParams();
 
-  const { user } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   const [page, setPage] = useState("");
   const [article, setArticle] = useState({});
@@ -76,7 +76,7 @@ export default function Article() {
       }
     };
     fetchData();
-  }, [id, user]);
+  }, [id]);
 
   useEffect(() => {
     Prism.highlightAll();
@@ -102,12 +102,12 @@ export default function Article() {
           <div className="like">
             <button
               className={
-                !user
+                !token
                   ? "btn-inactive btn-gray btn btn-icon"
                   : "btn btn-blue btn-icon"
               }
               onClick={() => {
-                if (!user) {
+                if (!token) {
                   alert("You must be logged in to like an article");
                 }
                 setLike(!like);
