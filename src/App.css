@@ -148,3 +148,7 @@ ul {
 
   font-weight: 300;
 }
+
+.inline {
+  display: inline;
+}
