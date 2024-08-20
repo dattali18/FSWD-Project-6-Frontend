@@ -26,7 +26,7 @@ export default function Articles() {
         // Sort articles by createdDate (assuming it's a valid date format)
         const sortedArticles = articlesResponse.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
 
-        // Keep only the latest 10 articles
+        // Keep only the latest <ARTICLES_TO_DISPLAY> articles
         const latestArticles = sortedArticles.slice(0, ARTICLES_TO_DISPLAY);
 
         setArticles(latestArticles);
