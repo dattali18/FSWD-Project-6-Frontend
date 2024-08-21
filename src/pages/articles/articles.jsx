@@ -8,6 +8,7 @@ import { getArticles } from "../../api/articles";
 import "./articles.css";
 
 const ARTICLES_TO_DISPLAY = 10;
+const ARTICLES_PER_PAGE = 5;
 
 export default function Articles() {
   // the articles page will have
@@ -15,6 +16,9 @@ export default function Articles() {
   // 2. A search bar to search for articles
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(filteredArticles.length / ARTICLES_PER_PAGE);
 
   // fetch the latest articles
   useEffect(() => {
@@ -32,7 +36,7 @@ export default function Articles() {
         const latestArticles = sortedArticles.slice(0, ARTICLES_TO_DISPLAY);
 
         setArticles(latestArticles);
-        setFilteredArticles(articlesResponse);
+        setFilteredArticles(articlesResponse); 
       } catch (error) {
         console.error(error);
       }
@@ -49,6 +53,7 @@ export default function Articles() {
     // if the search query is empty, show all the articles
     if (!searchQuery) {
       setFilteredArticles(articles);
+      setCurrentPage(1); // Reset page to 1 when showing all articles
       return;
     }
 
@@ -57,7 +62,24 @@ export default function Articles() {
       return article.title.toLocaleLowerCase().includes(searchQuery);
     });
     setFilteredArticles(filteredArticles);
+    setCurrentPage(1); // Reset page to 1 on new search
   };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
+  const endIndex = startIndex + ARTICLES_PER_PAGE;
+  const currentArticles = filteredArticles.slice(startIndex, endIndex);
 
   return (
     <>
@@ -83,13 +105,32 @@ export default function Articles() {
           <button className="btn btn-blue">Search</button>
         </form>
         <div className="articles-list">
-          {filteredArticles.map((article) => (
+          {currentArticles.map((article) => (
             <ArticleCard key={article.articleId} {...article} />
           ))}
           {articles.length === 0 && (
             <p>No articles found with that search query</p>
           )}
-          {/* TODO add pagination to this part */}
+          <br/>
+          <div className="pagination-controls">
+            <button
+              className="btn btn-blue"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="btn btn-blue"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </>
