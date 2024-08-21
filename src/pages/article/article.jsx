@@ -1,7 +1,7 @@
 import parse from "html-react-parser";
 import { marked } from "marked";
 import { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Prism from "prismjs";
 import "prismjs/components/prism-javascript"; // Import the JavaScript language
@@ -22,7 +22,7 @@ import { convertToDateTime } from "../../utils/DateUtils";
 import "../style/article.css";
 import "../style/prism-onedark.css"; // Import Atom Dark theme
 
-import { getArticleById } from "../../api/articles";
+import { deleteArticle, getArticleById } from "../../api/articles";
 import { getCurrentUser } from "../../api/auth";
 import { isLiked, likeArticle, unlikeArticle } from "../../api/likes";
 import { getUserById } from "../../api/users";
@@ -38,6 +38,8 @@ export default function Article() {
   const [like, setLike] = useState(false);
 
   const [user, setUser] = useState({});
+
+  const navigate = useNavigate();
 
   // Function to add CSS class to specific tags
   const addClassToTags = (htmlString) => {
@@ -99,6 +101,27 @@ export default function Article() {
     fetchData();
   }, []);
 
+  const deleteOnClick = async () => {
+    // check with the user if they are sure they want to delete the article
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this article?"
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      const response = await deleteArticle(id);
+      if (response.status === 200) {
+        navigate("/articles");
+      }
+    } catch (error) {
+      console.error("Error deleting article", error);
+      window.alert("Error deleting article");
+    }
+  };
+
   return (
     <>
       {!article || !writer || !page ? (
@@ -116,7 +139,10 @@ export default function Article() {
                 <FontAwesomeIcon icon={faEdit} />
                 <p>Edit</p>
               </Link>
-              <button className="btn btn-icon btn-red btn-sm">
+              <button
+                onClick={deleteOnClick}
+                className="btn btn-icon btn-red btn-sm"
+              >
                 <FontAwesomeIcon icon={faTrash} />
                 <p>Delete</p>
               </button>

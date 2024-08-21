@@ -85,10 +85,19 @@ async function getArticleByAuthor(author) {
   }
 }
 
+async function deleteArticle(id) {
+  try {
+    return await axios.delete(`${URL}/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export {
   getArticleByAuthor,
   getArticleById,
   getArticles,
   postArticle,
   updateArticle,
+  deleteArticle,
 };
