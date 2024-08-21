@@ -56,6 +56,9 @@
     gap: .2rem;
     /* make the form take the all width */
     width: 100%;
+
+    margin: 0;
+    padding: 0;
 }
 
 .search-form input {
