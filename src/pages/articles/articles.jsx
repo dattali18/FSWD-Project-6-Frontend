@@ -24,7 +24,9 @@ export default function Articles() {
         const articlesResponse = response.data.articles || [];
 
         // Sort articles by createdDate (assuming it's a valid date format)
-        const sortedArticles = articlesResponse.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+        const sortedArticles = articlesResponse.sort(
+          (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+        );
 
         // Keep only the latest <ARTICLES_TO_DISPLAY> articles
         const latestArticles = sortedArticles.slice(0, ARTICLES_TO_DISPLAY);
@@ -81,7 +83,9 @@ export default function Articles() {
           <button className="btn btn-blue">Search</button>
         </form>
         <div className="articles-list">
-          {filteredArticles.map((article) => ArticleCard(article))}
+          {filteredArticles.map((article) => (
+            <ArticleCard key={article.articleId} {...article} />
+          ))}
           {articles.length === 0 && (
             <p>No articles found with that search query</p>
           )}
@@ -92,7 +96,6 @@ export default function Articles() {
   );
 }
 
-// TODO - Style the ArticleCard component
 function ArticleCard(article) {
   return (
     <div className="article-card">
@@ -100,8 +103,6 @@ function ArticleCard(article) {
       <Link to={"/article/" + article.articleId}>
         <h1>{article.title}</h1>
       </Link>
-      {/* TODO make the author be the first name of the author and like to the author profile */}
-      {/* <p>{article.author}</p> */}
       <p>{convertToDateTime(article.createdDate)}</p>
       <ul className="categories">
         {article.tags.map((category) => (

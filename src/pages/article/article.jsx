@@ -109,6 +109,7 @@ export default function Article() {
               onClick={() => {
                 if (!token) {
                   alert("You must be logged in to like an article");
+                  return;
                 }
                 setLike(!like);
 
@@ -161,8 +162,8 @@ export default function Article() {
 const onLikeArticle = async (article_id) => {
   try {
     // pass the user id and article id to the server in the body
-    const response = await likeArticle(article_id);
-    console.log(response);
+    await likeArticle(article_id);
+    // console.log(response);
   } catch (error) {
     console.error("Error liking article", error.message);
   }
@@ -170,8 +171,8 @@ const onLikeArticle = async (article_id) => {
 
 const onUnlikeArticle = async (article_id) => {
   try {
-    const response = await unlikeArticle(article_id);
-    console.log(response);
+    await unlikeArticle(article_id);
+    // console.log(response);
   } catch (error) {
     console.error("Error unliking article", error.message);
   }
