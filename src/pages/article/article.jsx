@@ -27,6 +27,8 @@ import { getCurrentUser } from "../../api/auth";
 import { isLiked, likeArticle, unlikeArticle } from "../../api/likes";
 import { getUserById } from "../../api/users";
 
+import Comments from "../comments/comments";
+
 export default function Article() {
   const { id } = useParams();
 
@@ -133,7 +135,7 @@ export default function Article() {
           {writer.id === user.id && (
             <div className="options">
               <Link
-              // added the new path in the router + the page
+                // added the new path in the router + the page
                 to={`/editor/${id}`}
                 className="btn btn-blue btn-icon btn-sm"
               >
@@ -193,25 +195,9 @@ export default function Article() {
               )}
             </button>
           </div>
-          <div className="comments-sec">
-            <form className="form">
-              <div className="input-group">
-                <label htmlFor="comment">Comment</label>
-                <input
-                  type="text"
-                  name="comment"
-                  id="comment"
-                  className="form-input"
-                  placeholder="Your comment..."
-                />
-              </div>
-              {/* TODO add the needed function for posting a comment + edit + delete */}
-              <button type="submit" className="btn-icon btn btn-blue btn-sm">
-                <FontAwesomeIcon icon={faEnvelope} />
-                <p>Post</p>
-              </button>
-            </form>
-          </div>
+
+          <Comments articleId={id} user={user} />
+
         </div>
       )}
     </>
@@ -222,7 +208,6 @@ const onLikeArticle = async (article_id) => {
   try {
     // pass the user id and article id to the server in the body
     await likeArticle(article_id);
-    // console.log(response);
   } catch (error) {
     console.error("Error liking article", error.message);
   }
@@ -231,7 +216,6 @@ const onLikeArticle = async (article_id) => {
 const onUnlikeArticle = async (article_id) => {
   try {
     await unlikeArticle(article_id);
-    // console.log(response);
   } catch (error) {
     console.error("Error unliking article", error.message);
   }
