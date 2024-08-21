@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "../style/article.css";
 import "../style/editor.css";
@@ -21,6 +22,8 @@ function MyEditor() {
   const [tags, setTags] = useState("");
   const [isPosting, setIsPosting] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     Prism.highlightAll();
   }, [markdown]);
@@ -41,14 +44,35 @@ function MyEditor() {
 
   const handlePost = async () => {
     setIsPosting(true);
+
+    // check if the given properties are valid, tags is optional
+    if (!title.trim() || !markdown.trim()) {
+      alert("Please fill in all the fields.");
+      setIsPosting(false);
+      return;
+    }
+
+    // check for the tags string to be valid
+    if (tags) {
+      const tagsArray = tags.split(",").map((tag) => tag.trim());
+      if (tagsArray.length > 5) {
+        alert("Maximum of 5 tags allowed.");
+        setIsPosting(false);
+        return;
+      }
+    }
+
     try {
       const article = {
         title: title.trim(),
         content: markdown.trim(),
+        // TODO - check if there can be error with some tags
         tags: tags.split(",").map((tag) => tag.trim()), // Split tags by comma
       };
 
-      const response = await postArticle(article)
+      const response = await postArticle(article);
+
+      console.log("Response:", response);
 
       if (response.status === 201) {
         // Handle success response
@@ -57,6 +81,9 @@ function MyEditor() {
         // Handle server errors
         alert("Failed to post the article.");
       }
+
+      // redirect to the article page
+      navigate(`/article/${response.data.article.insertId}`);
     } catch (error) {
       console.error("Error posting article:", error);
       alert("Error posting the article.");
@@ -69,7 +96,8 @@ function MyEditor() {
   const syncScroll = (e) => {
     const { target } = e;
     const { scrollTop, scrollLeft } = target;
-    const other = target.id === "editor-input" ? "editor-output" : "editor-input";
+    const other =
+      target.id === "editor-input" ? "editor-output" : "editor-input";
     const otherElement = document.getElementById(other);
     otherElement.scrollTop = scrollTop;
     otherElement.scrollLeft = scrollLeft;
@@ -95,7 +123,7 @@ function MyEditor() {
       <h1 className="title">Markdown Editor</h1>
 
       <div className="box">
-        <label htmlFor="title">Title:</label>
+        <label htmlFor="title">Title</label>
         <input
           type="text"
           id="title"
@@ -107,7 +135,7 @@ function MyEditor() {
       </div>
 
       <div className="box">
-        <label htmlFor="tags">Tags (comma separated):</label>
+        <label htmlFor="tags">Tags (&quot;,&quot; comma separated)</label>
         <input
           type="text"
           id="tags"
@@ -130,12 +158,18 @@ function MyEditor() {
             <ReactMarkdown>{markdown}</ReactMarkdown>
           </div>
         </div>
-        <button className="btn btn-blue" onClick={handleDownload}>
-          Download
-        </button>
-        <button className="btn btn-green" onClick={handlePost} disabled={isPosting}>
-          {isPosting ? "Posting..." : "Post"}
-        </button>
+        <div className="btn-group">
+          <button className="btn btn-blue" onClick={handleDownload}>
+            Download
+          </button>
+          <button
+            className="btn btn-green"
+            onClick={handlePost}
+            disabled={isPosting}
+          >
+            {isPosting ? "Posting..." : "Post"}
+          </button>
+        </div>
       </div>
 
       <div className="box">
