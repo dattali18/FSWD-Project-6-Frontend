@@ -133,6 +133,7 @@ export default function Article() {
           {writer.id === user.id && (
             <div className="options">
               <Link
+              // added the new path in the router + the page
                 to={`/editor/${id}`}
                 className="btn btn-blue btn-icon btn-sm"
               >
