@@ -79,10 +79,14 @@ export default function Comments({ articleId, user }) {
                                 <p>{comment.content}</p>
                                 {comment.user_id === user.id && (
                                     <>
-                                        <button onClick={() => setEditingComment(comment.id)}>
+                                        <button
+                                            className="btn btn-blue btn-sm btn-icon"
+                                            onClick={() => setEditingComment(comment.id)}>
                                             <FontAwesomeIcon icon={faEdit} /> Edit
                                         </button>
-                                        <button onClick={() => handleDeleteComment(comment.id)}>
+                                        <button
+                                            className="btn btn-blue btn-sm btn-icon"
+                                            onClick={() => handleDeleteComment(comment.id)}>
                                             <FontAwesomeIcon icon={faTrash} /> Delete
                                         </button>
                                     </>
