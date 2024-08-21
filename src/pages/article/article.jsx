@@ -8,7 +8,12 @@ import "prismjs/components/prism-javascript"; // Import the JavaScript language
 import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
 
-import { faEnvelope, faHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faEnvelope,
+  faHeart,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from "../../utils/AuthContext";
@@ -18,6 +23,7 @@ import "../style/article.css";
 import "../style/prism-onedark.css"; // Import Atom Dark theme
 
 import { getArticleById } from "../../api/articles";
+import { getCurrentUser } from "../../api/auth";
 import { isLiked, likeArticle, unlikeArticle } from "../../api/likes";
 import { getUserById } from "../../api/users";
 
@@ -30,6 +36,8 @@ export default function Article() {
   const [article, setArticle] = useState({});
   const [writer, setWriter] = useState({});
   const [like, setLike] = useState(false);
+
+  const [user, setUser] = useState({});
 
   // Function to add CSS class to specific tags
   const addClassToTags = (htmlString) => {
@@ -82,6 +90,15 @@ export default function Article() {
     Prism.highlightAll();
   }, [page]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getCurrentUser();
+      setUser(response.data.user);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       {!article || !writer || !page ? (
@@ -90,6 +107,21 @@ export default function Article() {
         </>
       ) : (
         <div>
+          {writer.id === user.id && (
+            <div className="options">
+              <Link
+                to={`/editor/${id}`}
+                className="btn btn-blue btn-icon btn-sm"
+              >
+                <FontAwesomeIcon icon={faEdit} />
+                <p>Edit</p>
+              </Link>
+              <button className="btn btn-icon btn-red btn-sm">
+                <FontAwesomeIcon icon={faTrash} />
+                <p>Delete</p>
+              </button>
+            </div>
+          )}
           <div className="page-header">
             <h1>{article.title}</h1>
             {like && <FontAwesomeIcon icon={faHeart} className="like-icon" />}

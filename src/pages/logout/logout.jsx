@@ -16,9 +16,9 @@ export default function Logout() {
       <h1>Logout</h1>
       <div>
         <p className="inline">Click here to </p>
-        <btn onClick={onClick} className="btn btn-blue btn-sm">
+        <button onClick={onClick} className="btn btn-blue btn-sm">
           Logout
-        </btn>
+        </button>
       </div>
     </div>
   );
