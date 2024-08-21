@@ -29,12 +29,12 @@ async function createComment(comment) {
 /**
  * @desc This function is used to update a comment, only for the author of the comment
  * @param {Object} comment
- * @param {number} comment.id
+ * @param {number} commentId
  * @returns {Promise}
  */
-async function deleteComment(comment) {
+async function deleteComment(commentId) {
   try {
-    return await axios.delete(`${URL}/${comment.id}`);
+    return await axios.delete(`${URL}/${commentId}`);
   } catch (error) {
     console.error(error);
   }
@@ -43,7 +43,7 @@ async function deleteComment(comment) {
 /**
  * @desc This function is used to update a comment, only for the author of the comment
  * @param {Object} comment
- * @param {number} comment.articleId
+ * @param {number} comment.commentId
  * @param {string} comment.content
  * @returns {Promise}
  */

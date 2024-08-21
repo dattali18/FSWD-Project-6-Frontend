@@ -37,9 +37,8 @@ export default function Comments({ articleId, user }) {
     };
 
     const handleEditCommentSubmit = async (commentId) => {
-        console.log('hi')
         try {
-            const response = await updateComment(commentId, editedComment);
+            const response = await updateComment({ commentId: commentId, content: editedComment });
             const updatedComments = comments.map((comment) =>
                 comment.id === commentId ? response.data.comment : comment
             );
