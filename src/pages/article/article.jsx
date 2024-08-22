@@ -8,12 +8,7 @@ import "prismjs/components/prism-javascript"; // Import the JavaScript language
 import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
 
-import {
-  faEdit,
-  faEnvelope,
-  faHeart,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faHeart, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from "../../utils/AuthContext";
@@ -197,7 +192,6 @@ export default function Article() {
           </div>
 
           <Comments articleId={id} user={user} />
-
         </div>
       )}
     </>
