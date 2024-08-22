@@ -18,9 +18,14 @@ import Register from "./pages/register/register.jsx";
 
 import Layout from "./components/general/layout.jsx";
 
+// admin pages
+import Privileges from "./pages/admin/privileges/privileges.jsx";
+
 // MARK: internal imports
 
 import { AuthProvider } from "./utils/AuthContext.jsx";
+
+import AdminRoute from "./utils/AdminRoute.jsx";
 import PrivateRoute from "./utils/PrivateRoute.jsx";
 import WriterRoute from "./utils/WriterRoute.jsx";
 
@@ -90,6 +95,23 @@ const router = createBrowserRouter([
             <EditProfile />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/admin",
+        children: [
+          {
+            path: "privileges",
+            element: (
+              <AdminRoute>
+                <Privileges />
+              </AdminRoute>
+            ),
+          },
+          {
+            path: "articles",
+            element: <div>Articles for admin</div>,
+          },
+        ],
       },
     ],
   },
