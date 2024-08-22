@@ -19,7 +19,7 @@ export default function Comments({ articleId, user }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingComment, setEditingComment] = useState(null);
-  const [editedComment, setEditedComment] = useState("");
+  const [editedComment, setEditedComment] = useState({ content: "", id: -1 });
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -53,15 +53,19 @@ export default function Comments({ articleId, user }) {
 
   const handleEditCommentSubmit = async (commentId) => {
     try {
-      const response = await updateComment({
-        commentId: commentId,
-        content: editedComment,
-      });
+      const response = await updateComment(commentId, editedComment.content);
+
+      // if response in undefined, return
+      if(!response) {
+        return;
+      }
+
       const updatedComments = comments.map((comment) =>
         comment.id === commentId ? response.data.comment : comment
       );
+
       setComments(updatedComments);
-      setEditingComment(null); // Clear the editing state
+      setEditingComment(); // Clear the editing state
     } catch (error) {
       console.error("Error editing comment", error);
     }
@@ -84,18 +88,32 @@ export default function Comments({ articleId, user }) {
           comments.map((comment) => (
             <div key={comment.id} className="comment">
               {editingComment === comment.id ? (
-                <form className="form-input">
+                <form className="form comment-form">
                   <input
+                    className="form-input"
                     type="text"
-                    value={editedComment}
-                    onChange={(e) => setEditedComment(e.target.value)}
+                    value={editedComment.content}
+                    onChange={(e) =>
+                      setEditedComment({
+                        ...editedComment,
+                        content: e.target.value,
+                      })
+                    }
                   />
-                  <button onClick={() => handleEditCommentSubmit(comment.id)}>
-                    Save
-                  </button>
-                  <button onClick={() => setEditingComment(null)}>
-                    Cancel
-                  </button>
+                  <div className="btn-group">
+                    <button
+                      className="btn btn-blue btn-sm"
+                      onClick={() => handleEditCommentSubmit(comment.id)}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn btn-red btn-sm"
+                      onClick={() => setEditingComment(null)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </form>
               ) : (
                 <div className="comment-object">
@@ -107,10 +125,13 @@ export default function Comments({ articleId, user }) {
                   </div>
                   <p className="comment-content">{comment.content}</p>
                   {comment.user_id === user.id && (
-                    <div className="comment-options">
+                    <div className="comment-options btn-group">
                       <button
                         className="btn btn-blue btn-sm btn-icon"
-                        onClick={() => setEditingComment(comment.id)}
+                        onClick={() => {
+                          setEditingComment(comment.id);
+                          setEditedComment(comment);
+                        }}
                       >
                         <FontAwesomeIcon icon={faEdit} /> Edit
                       </button>

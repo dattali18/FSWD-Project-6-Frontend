@@ -45,3 +45,10 @@
 
     margin-bottom: 1rem;
 }
+
+.comment-form {
+    display: flex;
+    flex-direction: row !important;
+
+    align-items: center !important;
+}
