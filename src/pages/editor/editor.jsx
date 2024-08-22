@@ -15,6 +15,8 @@ import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
 
 import { postArticle } from "../../api/articles";
+// icons
+import { FaDownload, FaEnvelope } from "react-icons/fa";
 
 function MyEditor() {
   const [title, setTitle] = useState("");
@@ -159,14 +161,16 @@ function MyEditor() {
           </div>
         </div>
         <div className="btn-group">
-          <button className="btn btn-blue" onClick={handleDownload}>
+          <button className="btn btn-blue btn-icon" onClick={handleDownload}>
+            <FaDownload />
             Download
           </button>
           <button
-            className="btn btn-green"
+            className="btn btn-green btn-icon"
             onClick={handlePost}
             disabled={isPosting}
           >
+            <FaEnvelope />
             {isPosting ? "Posting..." : "Post"}
           </button>
         </div>
