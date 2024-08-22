@@ -16,6 +16,19 @@
     font-size: 1.2rem;
 }
 
+.comment {
+    width: 50%;
+}
+
+.comments-list {
+    display: flex;
+    
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+
 .comment-object {
     display: flex;
     flex-direction: column;
@@ -29,4 +42,6 @@
     justify-content: start;
 
     background-color: var(--bg-color-sc);
+
+    margin-bottom: 1rem;
 }

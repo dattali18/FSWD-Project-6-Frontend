@@ -79,23 +79,25 @@ export default function Comments({ articleId, user }) {
   return (
     <div className="comments-sec">
       <h3>Comments</h3>
-      {comments.length > 0 ? (
-        comments.map((comment) => (
-          <div key={comment.id} className="comment">
-            {editingComment === comment.id ? (
-              <>
-                <input
-                  type="text"
-                  value={editedComment}
-                  onChange={(e) => setEditedComment(e.target.value)}
-                />
-                <button onClick={() => handleEditCommentSubmit(comment.id)}>
-                  Save
-                </button>
-                <button onClick={() => setEditingComment(null)}>Cancel</button>
-              </>
-            ) : (
-              <>
+      <div className="comments-list">
+        {comments.length > 0 ? (
+          comments.map((comment) => (
+            <div key={comment.id} className="comment">
+              {editingComment === comment.id ? (
+                <form className="form-input">
+                  <input
+                    type="text"
+                    value={editedComment}
+                    onChange={(e) => setEditedComment(e.target.value)}
+                  />
+                  <button onClick={() => handleEditCommentSubmit(comment.id)}>
+                    Save
+                  </button>
+                  <button onClick={() => setEditingComment(null)}>
+                    Cancel
+                  </button>
+                </form>
+              ) : (
                 <div className="comment-object">
                   <div className="comment-header">
                     <p className="comment-author">By {comment.username}</p>
@@ -121,13 +123,13 @@ export default function Comments({ articleId, user }) {
                     </div>
                   )}
                 </div>
-              </>
-            )}
-          </div>
-        ))
-      ) : (
-        <p>No comments yet. Be the first to comment!</p>
-      )}
+              )}
+            </div>
+          ))
+        ) : (
+          <p>No comments yet. Be the first to comment!</p>
+        )}
+      </div>
 
       <form className="form" onSubmit={handleCommentSubmit}>
         <div className="input-group">
