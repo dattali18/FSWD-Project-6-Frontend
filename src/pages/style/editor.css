@@ -83,22 +83,7 @@ main {
 }
 
 /* Style for the upload box */
-.box input {
-    width: 100%;
-    height: 100%;
-}
 
 input[type="file"] {
-  display: none;
-}
-
-.file-upload {
-  border: 1px solid var(--bg-color-sc);
-  border-radius: var(--rad);
-
-  display: inline-block;
-
-  padding: 0.5rem 1rem;
-
-  cursor: pointer;
+    display: none;
 }

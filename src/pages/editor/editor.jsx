@@ -16,7 +16,7 @@ import "prismjs/components/prism-shell-session"; // Import the JSX language
 
 import { postArticle } from "../../api/articles";
 // icons
-import { FaDownload, FaEnvelope } from "react-icons/fa";
+import { FaDownload, FaEnvelope, FaFolderOpen } from "react-icons/fa";
 
 function MyEditor() {
   const [title, setTitle] = useState("");
@@ -177,7 +177,8 @@ function MyEditor() {
       </div>
 
       <div className="box">
-        <label htmlFor="inputFile" className="file-upload">
+        <label htmlFor="inputFile" className="btn-gray btn btn-icon file-upload">
+          <FaFolderOpen />
           Custom Upload
         </label>
         <input
