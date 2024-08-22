@@ -11,6 +11,10 @@ import {
   updateComment,
 } from "../../api/comments";
 
+import { convertToTime } from "../../utils/DateUtils";
+
+import "./comments.css";
+
 export default function Comments({ articleId, user }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -92,7 +96,11 @@ export default function Comments({ articleId, user }) {
               </>
             ) : (
               <>
-                <p>{comment.content}</p>
+                <p className="comment-content">{comment.content}</p>
+                <p className="comment-author">by {comment.username}</p>
+                <p className="comment-date">
+                  {convertToTime(comment.created_at)} ago
+                </p>
                 {comment.user_id === user.id && (
                   <>
                     <button
@@ -140,6 +148,6 @@ export default function Comments({ articleId, user }) {
 }
 
 Comments.propTypes = {
-  articleId: PropTypes.number.isRequired,
+  articleId: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
 };
