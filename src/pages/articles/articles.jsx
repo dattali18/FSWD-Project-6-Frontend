@@ -7,8 +7,12 @@ import { getArticles } from "../../api/articles";
 
 import "./articles.css";
 
+// arrow left and right icons
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const ARTICLES_TO_DISPLAY = 10;
-const ARTICLES_PER_PAGE = 5;
+const ARTICLES_PER_PAGE = 2;
 
 export default function Articles() {
   // the articles page will have
@@ -36,7 +40,7 @@ export default function Articles() {
         const latestArticles = sortedArticles.slice(0, ARTICLES_TO_DISPLAY);
 
         setArticles(latestArticles);
-        setFilteredArticles(articlesResponse); 
+        setFilteredArticles(articlesResponse);
       } catch (error) {
         console.error(error);
       }
@@ -111,26 +115,33 @@ export default function Articles() {
           {articles.length === 0 && (
             <p>No articles found with that search query</p>
           )}
-          <br/>
-          <div className="pagination-controls">
-            <button
-              className="btn btn-blue"
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              className="btn btn-blue"
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
+        </div>
+        <div className="pagination-controls">
+          <button
+            className={
+              currentPage === 1
+                ? "btn btn-gray btn-inactive"
+                : "btn btn-blue"
+            }
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className={
+              currentPage === totalPages
+                ? "btn btn-gray btn-inactive"
+                : "btn btn-blue"
+            }
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <FontAwesomeIcon icon={faArrowRight} />
+          </button>
         </div>
       </div>
     </>

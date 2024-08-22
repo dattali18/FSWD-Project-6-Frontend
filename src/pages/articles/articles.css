@@ -64,3 +64,12 @@
 .search-form input {
     flex: 1;
 }
+
+
+/* center pagination */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+}
