@@ -88,7 +88,7 @@ export default function Comments({ articleId, user }) {
           comments.map((comment) => (
             <div key={comment.id} className="comment">
               {editingComment === comment.id ? (
-                <form className="form comment-form">
+                <div className="form comment-form">
                   <input
                     className="form-input"
                     type="text"
@@ -114,7 +114,7 @@ export default function Comments({ articleId, user }) {
                       Cancel
                     </button>
                   </div>
-                </form>
+                </div>
               ) : (
                 <div className="comment-object">
                   <div className="comment-header">

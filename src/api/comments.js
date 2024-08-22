@@ -42,14 +42,13 @@ async function deleteComment(commentId) {
 
 /**
  * @desc This function is used to update a comment, only for the author of the comment
+ * @param {number} comment_id
+ * @param {string} content
  * @returns {Promise}
  */
 async function updateComment(comment_id, content) {
   try {
-    // FIXME there is an issue with this function call
-    // it does not send the content to the server
     const response = await axios.put(`${URL}/`, { comment_id, content });
-    console.log("Response: ", response);
     return response;
   } catch (error) {
     console.log(error);
