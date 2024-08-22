@@ -1,0 +1,32 @@
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.comment-date {
+    color: var(--white-dim);
+}
+
+.comment-object p {
+    margin: 0 !important;
+}
+
+.comment-content {
+    font-size: 1.2rem;
+}
+
+.comment-object {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
+    border-radius: var(--rad);
+
+    gap: 1rem;
+
+    align-items: start;
+    justify-content: start;
+
+    background-color: var(--bg-color-sc);
+}

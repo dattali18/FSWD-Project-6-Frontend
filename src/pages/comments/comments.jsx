@@ -96,27 +96,31 @@ export default function Comments({ articleId, user }) {
               </>
             ) : (
               <>
-                <p className="comment-content">{comment.content}</p>
-                <p className="comment-author">by {comment.username}</p>
-                <p className="comment-date">
-                  {convertToTime(comment.created_at)} ago
-                </p>
-                {comment.user_id === user.id && (
-                  <>
-                    <button
-                      className="btn btn-blue btn-sm btn-icon"
-                      onClick={() => setEditingComment(comment.id)}
-                    >
-                      <FontAwesomeIcon icon={faEdit} /> Edit
-                    </button>
-                    <button
-                      className="btn btn-red btn-sm btn-icon"
-                      onClick={() => handleDeleteComment(comment.id)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} /> Delete
-                    </button>
-                  </>
-                )}
+                <div className="comment-object">
+                  <div className="comment-header">
+                    <p className="comment-author">By {comment.username}</p>
+                    <p className="comment-date">
+                      {convertToTime(comment.created_at)} ago
+                    </p>
+                  </div>
+                  <p className="comment-content">{comment.content}</p>
+                  {comment.user_id === user.id && (
+                    <div className="comment-options">
+                      <button
+                        className="btn btn-blue btn-sm btn-icon"
+                        onClick={() => setEditingComment(comment.id)}
+                      >
+                        <FontAwesomeIcon icon={faEdit} /> Edit
+                      </button>
+                      <button
+                        className="btn btn-red btn-sm btn-icon"
+                        onClick={() => handleDeleteComment(comment.id)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} /> Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               </>
             )}
           </div>
