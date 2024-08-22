@@ -7,8 +7,8 @@
 #### Profile
 
 - [x] Remove the form put it into `profile/edit`
-- [ ] Put the Articles the user has wrote
-- [ ] Put the Likes + Comments the user has
+- [x] Put the Articles the user has wrote
+- [x] Put the Likes + Comments the user has
 
 #### Articles
 
@@ -18,8 +18,8 @@
 
 #### Message
 
-- [ ] Add a banner for displaying messages
-- [ ] Add the messages for the register + login Error
+- [x] Add a banner for displaying messages
+- [x] Add the messages for the register + login Error
 
 #### Editor
 
@@ -29,5 +29,5 @@
 
 ## Context
 
-- [ ] Add the `WriterContext` to protect the routes for writer only
-- [ ] Add the `AdminContext` to protect the routes for admin only
+- [x] Add the `WriterContext` to protect the routes for writer only
+- [x] Add the `AdminContext` to protect the routes for admin only
