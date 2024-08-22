@@ -9,7 +9,6 @@ import { getArticleByAuthor } from "../../api/articles";
 import { getCurrentUser } from "../../api/auth";
 import { getUserComments } from "../../api/comments";
 import { getUserLikes } from "../../api/likes";
-import { RiInsertColumnRight } from "react-icons/ri";
 
 export default function Profile() {
   const [user, setUser] = useState({});
@@ -38,6 +37,7 @@ export default function Profile() {
 
     const fetchComments = async () => {
       const response = await getUserComments(user.id);
+      // console.log(response.data);
       setComments(response.data || []);
     };
 
@@ -96,7 +96,11 @@ export default function Profile() {
         <h3>Your Comments</h3>
         <ul>
           {comments.map((comment) => (
-            <li key={comment.id}>{comment.text}</li>
+            <li key={comment.id}>
+              <Link to={"/article/" + comment.article_id}>
+                {comment.content}
+              </Link>
+            </li>
           ))}
         </ul>
       </div>
