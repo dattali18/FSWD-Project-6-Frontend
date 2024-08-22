@@ -66,7 +66,7 @@ async function postArticle(article) {
  */
 async function updateArticle(article) {
   try {
-    return await axios.put(URL, article);
+    return await axios.put(`${URL}/${article.id}`, article);
   } catch (error) {
     console.error(error);
   }

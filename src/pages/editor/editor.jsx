@@ -14,14 +14,41 @@ import "prismjs/components/prism-javascript"; // Import the JavaScript language
 import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
 
-import { postArticle } from "../../api/articles";
+import { postArticle, updateArticle } from "../../api/articles";
 // icons
 import { FaDownload, FaEnvelope, FaFolderOpen } from "react-icons/fa";
 
-function MyEditor() {
-  const [title, setTitle] = useState("");
-  const [markdown, setMarkdown] = useState("# Hello World");
-  const [tags, setTags] = useState("");
+/**
+ * instruction for the AI
+ * I will make some changes to the code
+ * 1. make the Editor not only to be able to create new Article
+ * but also to be able to edit an existing article
+ * we will do that by adding an optional prop to the Editor component
+ * called article which will be an object that contains the article data
+ *
+ */
+
+import { PropTypes } from "prop-types";
+
+function MyEditor({ article }) {
+  let title_, markdown_, tags_;
+  let isUpdate = false;
+  // if article is not null, then we are editing an existing article
+  if (article) {
+    title_ = article.title;
+    markdown_ = article.content;
+    tags_ = article.tags.join(", ");
+
+    isUpdate = true;
+  } else {
+    title_ = "";
+    markdown_ = "# Hello World";
+    tags_ = "";
+  }
+
+  const [title, setTitle] = useState(title_);
+  const [markdown, setMarkdown] = useState(markdown_);
+  const [tags, setTags] = useState(tags_);
   const [isPosting, setIsPosting] = useState(false);
 
   const navigate = useNavigate();
@@ -89,6 +116,35 @@ function MyEditor() {
     } catch (error) {
       console.error("Error posting article:", error);
       alert("Error posting the article.");
+    } finally {
+      setIsPosting(false);
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const articleObject = {
+        id: article.articleId,
+        title: title.trim(),
+        content: markdown.trim(),
+        tags: tags.split(",").map((tag) => tag.trim()),
+      };
+
+      const response = await updateArticle(articleObject);
+
+      if (response.status === 200) {
+        // Handle success response
+        alert("Article updated successfully!");
+      } else {
+        // Handle server errors
+        alert("Failed to update the article.");
+      }
+
+      // redirect to the article page
+      navigate(`/article/${article.articleId}`);
+    } catch (error) {
+      console.error("Error updating article:", error);
+      alert("Error updating the article.");
     } finally {
       setIsPosting(false);
     }
@@ -167,17 +223,20 @@ function MyEditor() {
           </button>
           <button
             className="btn btn-green btn-icon"
-            onClick={handlePost}
+            onClick={isUpdate ? handleUpdate : handlePost}
             disabled={isPosting}
           >
             <FaEnvelope />
-            {isPosting ? "Posting..." : "Post"}
+            {isUpdate ? "Update" : "Post"}
           </button>
         </div>
       </div>
 
       <div className="box">
-        <label htmlFor="inputFile" className="btn-gray btn btn-icon file-upload">
+        <label
+          htmlFor="inputFile"
+          className="btn-gray btn btn-icon file-upload"
+        >
           <FaFolderOpen />
           Custom Upload
         </label>
@@ -199,5 +258,10 @@ function MyEditor() {
     </>
   );
 }
+
+// adding prop types for the article prop
+MyEditor.propTypes = {
+  article: PropTypes.object,
+};
 
 export default MyEditor;

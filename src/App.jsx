@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Article from "./pages/article/article.jsx";
 import Articles from "./pages/articles/articles.jsx";
 import MyEditor from "./pages/editor/editor.jsx";
+import UpdateEditor from "./pages/editor/updateEditor.jsx";
 import Home from "./pages/home/home.jsx";
 import Login from "./pages/login/login.jsx";
 import Logout from "./pages/logout/logout.jsx";
@@ -61,6 +62,15 @@ const router = createBrowserRouter([
         element: (
           <WriterRoute>
             <MyEditor />
+          </WriterRoute>
+        ),
+      },
+      {
+        // this is the update editor
+        path: "/editor/:id",
+        element: (
+          <WriterRoute>
+            <UpdateEditor />
           </WriterRoute>
         ),
       },
