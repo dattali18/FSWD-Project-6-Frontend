@@ -151,7 +151,7 @@ export default function Article() {
             {like && <FontAwesomeIcon icon={faHeart} className="like-icon" />}
           </div>
           <h2>
-            By <Link>{writer.username}</Link> On{" "}
+            By <Link to={"/writer/" + writer.id}>{writer.username}</Link> On{" "}
             {convertToDateTime(article.createdDate)}
           </h2>
           <div className="article">{page}</div>

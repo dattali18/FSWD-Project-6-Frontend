@@ -16,6 +16,7 @@ import Logout from "./pages/logout/logout.jsx";
 import EditProfile from "./pages/profile/editProfile.jsx";
 import Profile from "./pages/profile/profile.jsx";
 import Register from "./pages/register/register.jsx";
+import Writer from "./pages/writer/writer.jsx";
 
 import Layout from "./components/general/layout.jsx";
 
@@ -122,6 +123,10 @@ const router = createBrowserRouter([
             element: <div>Articles for admin</div>,
           },
         ],
+      },
+      {
+        path: "/writer/:id",
+        element: <Writer />,
       },
     ],
   },

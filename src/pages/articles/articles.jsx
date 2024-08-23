@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
-import { convertToDateTime } from "../../utils/DateUtils";
 
 import { getArticles } from "../../api/articles";
+import ArticleCard from "../article/articleCard";
 
 import "./articles.css";
 
@@ -164,24 +162,5 @@ export default function Articles() {
         </div>
       </div>
     </>
-  );
-}
-
-function ArticleCard(article) {
-  return (
-    <div className="article-card">
-      {/* make the title a link to the article page */}
-      <Link to={"/article/" + article.articleId}>
-        <h1>{article.title}</h1>
-      </Link>
-      <p>{convertToDateTime(article.createdDate)}</p>
-      <ul className="categories">
-        {article.tags.map((category) => (
-          <li className="category" key={category}>
-            {category}
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
