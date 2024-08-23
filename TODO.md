@@ -26,7 +26,7 @@
 - [x] Add a `+` button for writer user in the `/profile`
 - [x] Add an option for a drag and drop for the markdown file
 - [x] Add a `Post` or `Save` button for the article and post it to the server
-- [ ] Add a update choice for the article
+- [x] Add a update choice for the article
 
 ## Context
 
