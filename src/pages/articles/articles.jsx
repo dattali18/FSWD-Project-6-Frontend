@@ -21,6 +21,7 @@ export default function Articles() {
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filterType, setFilterType] = useState("title");
 
   const totalPages = Math.ceil(filteredArticles.length / ARTICLES_PER_PAGE);
 
@@ -61,10 +62,20 @@ export default function Articles() {
       return;
     }
 
-    // make a filtered version of the articles
+    // filter the articles based on the filter type
     const filteredArticles = articles.filter((article) => {
-      return article.title.toLocaleLowerCase().includes(searchQuery);
+      if (filterType === "title") {
+        return article.title.toLowerCase().includes(searchQuery.toLowerCase());
+      } else if (filterType === "category") {
+        return article.tags.some((tag) =>
+          tag.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+      // else if (filterType === "author") {
+      //   return article.author.toLowerCase().includes(searchQuery.toLowerCase());
+      // }
     });
+
     setFilteredArticles(filteredArticles);
     setCurrentPage(1); // Reset page to 1 on new search
   };
@@ -106,6 +117,16 @@ export default function Articles() {
             placeholder="Search articles"
             name="search"
           />
+          <select
+            name="filter-type"
+            id="filter-type"
+            className="form-input"
+            onChange={(e) => setFilterType(e.target.value)}
+          >
+            <option value="title">Title</option>
+            <option value="category">Category</option>
+            {/* <option value="author">Author</option> */}
+          </select>
           <button className="btn btn-blue">Search</button>
         </form>
         <div className="articles-list">
@@ -119,9 +140,7 @@ export default function Articles() {
         <div className="pagination-controls">
           <button
             className={
-              currentPage === 1
-                ? "btn btn-gray btn-inactive"
-                : "btn btn-blue"
+              currentPage === 1 ? "btn btn-gray btn-inactive" : "btn btn-blue"
             }
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
