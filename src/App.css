@@ -12,6 +12,11 @@
   --pink: #ff2f54;
   --indigo: #505dd3;
 
+  --red-mut: rgba(255, 59, 48, 0.1);
+  --blue-mut: rgba(0, 138, 252, 0.1);
+  --green-mut: rgba(76, 217, 100, 0.1);
+  --orange-mut: rgba(255, 149, 0, 0.1);
+
   --white-dim: rgba(255, 255, 255, 0.7);
 
   --bg-color: #22272e;

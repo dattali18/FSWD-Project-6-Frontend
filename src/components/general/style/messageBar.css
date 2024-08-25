@@ -1,0 +1,52 @@
+.messages {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+    padding: 10px;
+}
+
+.message {
+    width: 80%;
+
+    padding: 1rem 2rem;
+    background-color: var(--bg-color-sc);
+
+    border: 1px solid var(--white);
+    border-radius: var(--rad);
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-alert {
+    background-color: var(--red-mut);
+    border: 1px solid var(--red);
+}
+
+.message-success {
+    background-color: var(--green-mut);
+    border: 1px solid var(--green);
+}
+
+.message-info {
+    background-color: var(--blue-mut);
+    border: 1px solid var(--blue);
+}
+
+.message-warning {
+    background-color: var(--orange-mut);
+    border: 1px solid var(--orange);
+}
+
+.message button {
+    color: var(--white);
+
+    border: none;
+    cursor: pointer;
+
+    background-color: transparent;
+}
