@@ -2,7 +2,7 @@
  * @desc The collection of all the routes related to the user
  */
 
-import { getToken } from "./../utils/tokenUtil";
+import { authenticatedRequest } from "./../utils/tokenUtil";
 
 import axios from "axios";
 
@@ -10,20 +10,14 @@ import { BASE_URL } from "./../data/api";
 
 const URL = `${BASE_URL}/users`;
 
-// add the header x-auth-token to the request
-axios.defaults.headers.common["x-auth-token"] = getToken();
-
 /**
  * @desc This function is used to update the user
  * @param {string} email
+ * @access private
  * @returns   {Promise}
  */
 async function updateUser(email) {
-  try {
-    return await axios.put(`${URL}/`, { email });
-  } catch (error) {
-    console.error(error);
-  }
+  return await authenticatedRequest(URL, "put", { email });
 }
 
 /**
@@ -39,6 +33,11 @@ async function getUserByUsername(username) {
   }
 }
 
+/**
+ * @desc This function is used to get the user by id
+ * @param {number} id
+ * @returns {Promise}
+ */
 async function getUserById(id) {
   try {
     return await axios.get(`${URL}/${id}`);
