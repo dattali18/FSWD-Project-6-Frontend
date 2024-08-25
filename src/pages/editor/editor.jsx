@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "../style/article.css";
 import "../style/editor.css";
+import "../style/index.css";
 
 import ReactMarkdown from "react-markdown";
 import "react-markdown-editor-lite/lib/index.css";
@@ -16,7 +17,7 @@ import "prismjs/components/prism-shell-session"; // Import the JSX language
 
 import { postArticle, updateArticle } from "../../api/articles";
 // icons
-import { FaDownload, FaEnvelope, FaFolderOpen } from "react-icons/fa";
+import { FaDownload, FaEnvelope, FaMarkdown } from "react-icons/fa";
 
 /**
  * instruction for the AI
@@ -179,29 +180,30 @@ function MyEditor({ article }) {
   return (
     <>
       <h1 className="title">Markdown Editor</h1>
+      <div className="from">
+        <div className="input-group">
+          <label htmlFor="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            className="form-input"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter article title"
+          />
+        </div>
 
-      <div className="box">
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          className="input-title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter article title"
-        />
-      </div>
-
-      <div className="box">
-        <label htmlFor="tags">Tags (&quot;,&quot; comma separated)</label>
-        <input
-          type="text"
-          id="tags"
-          className="input-tags"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          placeholder="e.g. programming, javascript, web development"
-        />
+        <div className="input-group">
+          <label htmlFor="tags">Tags (&quot;,&quot; comma separated)</label>
+          <input
+            type="text"
+            id="tags"
+            className="form-input"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            placeholder="e.g. programming, javascript, web development"
+          />
+        </div>
       </div>
 
       <div className="editor">
@@ -237,8 +239,10 @@ function MyEditor({ article }) {
           htmlFor="inputFile"
           className="btn-gray btn btn-icon file-upload"
         >
-          <FaFolderOpen />
           Custom Upload
+          <div className="file-icon">
+            <FaMarkdown />
+          </div>
         </label>
         <input
           type="file"
