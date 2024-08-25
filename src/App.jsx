@@ -33,6 +33,8 @@ import AdminRoute from "./utils/AdminRoute.jsx";
 import PrivateRoute from "./utils/PrivateRoute.jsx";
 import WriterRoute from "./utils/WriterRoute.jsx";
 
+import "/src/index.css";
+
 const router = createBrowserRouter([
   {
     element: <Layout />,

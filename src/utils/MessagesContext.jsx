@@ -3,7 +3,9 @@ import { createContext, useContext, useState } from "react";
 
 const MessageContext = createContext();
 
-export const useMessages = () => useContext(MessageContext);
+export function useMessages() {
+  return useContext(MessageContext);
+}
 
 export const MessagesProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
@@ -20,8 +22,10 @@ export const MessagesProvider = ({ children }) => {
   };
 
   const removeMessage = (message) => {
-    setMessages((prevMessages) => prevMessages.filter((msg) => msg !== message));
-  }
+    setMessages((prevMessages) =>
+      prevMessages.filter((msg) => msg !== message)
+    );
+  };
 
   return (
     <MessageContext.Provider value={{ messages, addMessage, removeMessage }}>
