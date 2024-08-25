@@ -1,7 +1,10 @@
 import { createContext, useEffect, useState } from "react";
-import { login as loginUser, logout as logoutUser } from "../api/auth";
-import { getCurrentUser } from "../api/auth";
-import { getToken, setToken as StoreToken } from "./tokenUtil";
+import {
+  getCurrentUser,
+  login as loginUser,
+  logout as logoutUser,
+} from "../api/auth";
+import { getToken, setToken as storeToken } from "./tokenUtil";
 
 const AuthContext = createContext();
 
@@ -45,18 +48,21 @@ const AuthProvider = ({ children }) => {
       // display the error message
       addMessage({
         text: response.data.message,
-        type: "error",
+        type: "alert",
         timeout: 3000,
       });
+      return false;
     } else {
       // save the token in the local storage
       setToken(token);
-      StoreToken(token, 3600 * 24); // 1 hour token expiration
+      storeToken(token, 3600 * 24); // store the token for 24 hours
       addMessage({
         text: "Login successful",
         type: "success",
         timeout: 3000,
       });
+
+      return true;
     }
   };
 

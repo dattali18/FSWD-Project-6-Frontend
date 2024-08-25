@@ -11,18 +11,20 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const username = formData.get("username");
     const password = formData.get("password");
 
-    login(username, password);
+    const success = await login(username, password);
 
     e.target.reset();
 
     // go to the home page after login
-    navigate("/home");
+    if (success) {
+      navigate("/home");
+    }
   };
 
   return (
