@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 // icons
 // pencil icon
-import { FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt, FaUserTie } from "react-icons/fa";
 
 import { getArticleByAuthor } from "../../api/articles";
 import { getCurrentUser } from "../../api/auth";
@@ -63,6 +63,16 @@ export default function Profile() {
               <button className="btn btn-blue btn-sm btn-icon">
                 <FaPencilAlt />
                 Add Article
+              </button>
+            </Link>
+          </>
+        )}
+        {user.role == "admin" && (
+          <>
+            <Link to="/admin/privileges">
+              <button className="btn btn-blue btn-sm btn-icon">
+                <FaUserTie />
+                Admin Panel
               </button>
             </Link>
           </>
