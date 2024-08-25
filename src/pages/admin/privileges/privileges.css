@@ -1,0 +1,23 @@
+.users {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.user {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 50%;
+
+    padding: 0 1rem;
+    border: 1px solid var(--bg-color-sc);
+    border-radius: var(--rad);
+    margin-bottom: 10px;
+}
