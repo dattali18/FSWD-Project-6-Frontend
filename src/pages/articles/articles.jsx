@@ -9,8 +9,8 @@ import "./articles.css";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ARTICLES_TO_DISPLAY = 10;
-const ARTICLES_PER_PAGE = 2;
+const ARTICLES_TO_DISPLAY = 3;
+const ARTICLES_PER_PAGE = 3;
 
 export default function Articles() {
   // the articles page will have
@@ -97,15 +97,6 @@ export default function Articles() {
   return (
     <>
       <h1>Articles</h1>
-      <div className="latest">
-        <h2>Latest</h2>
-        <div className="articles-list">
-          {articles.map((article) => (
-            <ArticleCard key={article.articleId} {...article} />
-          ))}
-          {articles.length === 0 && <p>No articles found</p>}
-        </div>
-      </div>
       <div className="search">
         <h2>Search</h2>
         <form className="search-form" onSubmit={onSubmit}>
@@ -159,6 +150,15 @@ export default function Articles() {
           >
             <FontAwesomeIcon icon={faArrowRight} />
           </button>
+        </div>
+      </div>
+      <div className="latest">
+        <h2>Latest</h2>
+        <div className="articles-list">
+          {articles.map((article) => (
+            <ArticleCard key={article.articleId} {...article} />
+          ))}
+          {articles.length === 0 && <p>No articles found</p>}
         </div>
       </div>
     </>
