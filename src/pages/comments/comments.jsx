@@ -41,7 +41,6 @@ export default function Comments({ articleId, user }) {
     fetchComments();
   }, [articleId]);
 
-
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
 
@@ -102,6 +101,30 @@ export default function Comments({ articleId, user }) {
   return (
     <div className="comments-sec">
       <h3>Comments</h3>
+      <form className="form" onSubmit={handleCommentSubmit}>
+        <div className="input-group">
+          <label htmlFor="comment">New Comment</label>
+          <input
+            type="text"
+            name="comment"
+            id="comment"
+            className="form-input"
+            placeholder="Your comment..."
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+          />
+        </div>
+        <button
+          type="submit"
+          className={
+            "btn-icon btn btn-sm " +
+            (token ? "btn-blue" : "btn-inactive btn-gray")
+          }
+        >
+          <FontAwesomeIcon icon={faEnvelope} />
+          <p>Post</p>
+        </button>
+      </form>
       <div className="comments-list">
         {comments.length > 0 ? (
           comments.map((comment) => (
@@ -170,31 +193,6 @@ export default function Comments({ articleId, user }) {
           <p>No comments yet. Be the first to comment!</p>
         )}
       </div>
-
-      <form className="form" onSubmit={handleCommentSubmit}>
-        <div className="input-group">
-          <label htmlFor="comment">New Comment</label>
-          <input
-            type="text"
-            name="comment"
-            id="comment"
-            className="form-input"
-            placeholder="Your comment..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-        </div>
-        <button
-          type="submit"
-          className={
-            "btn-icon btn btn-sm " +
-            (token ? "btn-blue" : "btn-inactive btn-gray")
-          }
-        >
-          <FontAwesomeIcon icon={faEnvelope} />
-          <p>Post</p>
-        </button>
-      </form>
     </div>
   );
 }
