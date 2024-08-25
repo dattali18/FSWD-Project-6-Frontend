@@ -3,6 +3,9 @@ import "../style/index.css";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/AuthContext";
 
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export default function Logout() {
   // perform logout
   const { logout } = useContext(AuthContext);
@@ -14,9 +17,10 @@ export default function Logout() {
   return (
     <div>
       <h1>Logout</h1>
-      <div>
-        <p className="inline">Click here to </p>
-        <button onClick={onClick} className="btn btn-blue btn-sm">
+      <div className="inline">
+        <p>Click here to </p>
+        <button onClick={onClick} className="btn btn-blue btn-icon">
+          <FontAwesomeIcon icon={faSignOutAlt} />
           Logout
         </button>
       </div>
