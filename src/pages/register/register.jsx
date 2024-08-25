@@ -5,8 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 import { register } from "./../../api/auth";
 
+import { useMessage } from "../../utils/MessageContext";
+
 export default function Register() {
   const navigate = useNavigate();
+
+  const { addMessage } = useMessage();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +23,11 @@ export default function Register() {
     const username = formData.get("username");
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      addMessage({
+        text: "Passwords do not match",
+        type: "warning",
+        timeout: 3000,
+      });
       return;
     }
 
@@ -31,6 +39,11 @@ export default function Register() {
         navigate("/login");
       } catch (error) {
         console.error(error);
+        addMessage({
+          text: "Error registering the user.",
+          type: "error",
+          timeout: 3000,
+        });
       }
     };
 

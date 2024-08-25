@@ -3,11 +3,11 @@ import { createContext, useContext, useState } from "react";
 
 const MessageContext = createContext();
 
-export function useMessages() {
+export function useMessage() {
   return useContext(MessageContext);
 }
 
-export const MessagesProvider = ({ children }) => {
+export const MessageProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
 
   const addMessage = (message) => {
@@ -34,6 +34,6 @@ export const MessagesProvider = ({ children }) => {
   );
 };
 
-MessagesProvider.propTypes = {
+MessageProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

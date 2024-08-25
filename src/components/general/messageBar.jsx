@@ -28,14 +28,14 @@ const categoryIcon = {
   info: faCircleInfo,
 };
 
-import { useMessages } from "../../utils/MessagesContext.jsx";
+import { useMessage } from "../../utils/MessageContext.jsx";
 
 export default function MessageBar() {
   // const [messages, setMessages] = useState([
   //   { text: "Please take note of something", category: "success" },
   // ]);
 
-  const { messages, removeMessage } = useMessages();
+  const { messages, removeMessage } = useMessage();
 
   const onClick = (message) => {
     removeMessage(message);
@@ -52,10 +52,10 @@ export default function MessageBar() {
 
 function Message({ message, onClose }) {
   return (
-    <div className={"message message-" + message.category}>
+    <div className={"message message-" + message.type}>
       <div className="btn-icon">
         <FontAwesomeIcon
-          icon={categoryIcon[`${message.category}`] || faCircleInfo}
+          icon={categoryIcon[`${message.type}`] || faCircleInfo}
         />
         {message.text}
       </div>

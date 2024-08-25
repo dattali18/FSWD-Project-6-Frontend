@@ -13,6 +13,8 @@ import { faEdit, faHeart, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from "../../utils/AuthContext";
+import { useMessage } from "../../utils/MessageContext";
+
 import { convertToDateTime } from "../../utils/DateUtils";
 
 import "../style/article.css";
@@ -34,6 +36,7 @@ export default function Article() {
   const { id } = useParams();
 
   const { token } = useContext(AuthContext);
+  const { addMessage } = useMessage();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -130,7 +133,11 @@ export default function Article() {
       }
     } catch (error) {
       console.error("Error deleting article", error);
-      window.alert("Error deleting article");
+      addMessage({
+        text: "Error deleting article",
+        type: "error",
+        timeout: 5000,
+      });
     }
   };
 
@@ -181,7 +188,7 @@ export default function Article() {
               }
               onClick={() => {
                 if (!token) {
-                  alert("You must be logged in to like an article");
+                  addMessage({ text: "You must be logged in to like an article", type: "error", timeout: 3000 });
                   return;
                 }
                 setLike(!like);

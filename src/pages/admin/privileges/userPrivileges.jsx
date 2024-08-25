@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { useMessage } from "../../../utils/MessageContext";
+
 import { getUserById, updateUserPrivileges } from "../../../api/admin";
 
 export default function UserPrivileges() {
   const { id } = useParams();
+
+  const { addMessage } = useMessage();
 
   const [user, setUser] = useState(null);
   const [role, setRole] = useState("user");
@@ -31,7 +35,11 @@ export default function UserPrivileges() {
       const response = await updateUserPrivileges(id, role);
 
       if (response.status === 200) {
-        alert("User role updated");
+        addMessage({
+          text: "User role updated",
+          type: "success",
+          timeout: 3000,
+        });
       }
     } catch (error) {
       console.error(error);

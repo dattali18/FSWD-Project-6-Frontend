@@ -5,10 +5,14 @@ import { getToken, setToken as StoreToken } from "./tokenUtil";
 
 const AuthContext = createContext();
 
+import { useMessage } from "./MessageContext";
+
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+
+  const { addMessage } = useMessage();
 
   useEffect(() => {
     const token = getToken();
@@ -39,12 +43,20 @@ const AuthProvider = ({ children }) => {
     // check if the response is an error
     if (!token) {
       // display the error message
-      window.alert(response.data.message);
+      addMessage({
+        text: response.data.message,
+        type: "error",
+        timeout: 3000,
+      });
     } else {
       // save the token in the local storage
       setToken(token);
       StoreToken(token, 3600 * 24); // 1 hour token expiration
-      window.alert("Login successful");
+      addMessage({
+        text: "Login successful",
+        type: "success",
+        timeout: 3000,
+      });
     }
   };
 
@@ -52,7 +64,11 @@ const AuthProvider = ({ children }) => {
     logoutUser();
     setToken("");
 
-    window.alert("Logout successful");
+    addMessage({
+      text: "Logout successful",
+      type: "success",
+      timeout: 3000,
+    });
   };
 
   return (

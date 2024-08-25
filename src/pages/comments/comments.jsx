@@ -11,7 +11,9 @@ import {
   getArticleComments,
   updateComment,
 } from "../../api/comments";
+
 import { AuthContext } from "../../utils/AuthContext";
+import { useMessage } from "../../utils/MessageContext";
 
 import { convertToTime } from "../../utils/DateUtils";
 
@@ -24,6 +26,7 @@ export default function Comments({ articleId, user }) {
   const [editedComment, setEditedComment] = useState({ content: "", id: -1 });
 
   const { token } = useContext(AuthContext);
+  const { addMessage } = useMessage();
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -48,7 +51,11 @@ export default function Comments({ articleId, user }) {
 
     // if user is not logged in
     if (!token) {
-      alert("You must be logged in to comment");
+      addMessage({
+        text: "You must be logged in to comment",
+        type: "error",
+        timeout: 3000,
+      });
       return;
     }
 
@@ -59,7 +66,11 @@ export default function Comments({ articleId, user }) {
       });
       // check if response is undefined
       if (!response) {
-        alert("Error posting comment");
+        addMessage({
+          text: "Error posting comment",
+          type: "error",
+          timeout: 3000,
+        });
         return;
       }
       setComments([...comments, response.data.comment]);

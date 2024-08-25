@@ -1,14 +1,13 @@
+import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import "../style/article.css";
-import "../style/editor.css";
-import "../style/index.css";
 
 import ReactMarkdown from "react-markdown";
 import "react-markdown-editor-lite/lib/index.css";
 
 import Prism from "prismjs";
+
+import { FaDownload, FaEnvelope, FaMarkdown } from "react-icons/fa";
 
 import "prismjs/components/prism-java"; // Import the java
 import "prismjs/components/prism-javascript"; // Import the JavaScript language
@@ -16,20 +15,12 @@ import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
 
 import { postArticle, updateArticle } from "../../api/articles";
-// icons
-import { FaDownload, FaEnvelope, FaMarkdown } from "react-icons/fa";
 
-/**
- * instruction for the AI
- * I will make some changes to the code
- * 1. make the Editor not only to be able to create new Article
- * but also to be able to edit an existing article
- * we will do that by adding an optional prop to the Editor component
- * called article which will be an object that contains the article data
- *
- */
+import { useMessage } from "../../utils/MessageContext";
 
-import { PropTypes } from "prop-types";
+import "../style/article.css";
+import "../style/editor.css";
+import "../style/index.css";
 
 function MyEditor({ article }) {
   let title_, markdown_, tags_;
@@ -51,6 +42,8 @@ function MyEditor({ article }) {
   const [markdown, setMarkdown] = useState(markdown_);
   const [tags, setTags] = useState(tags_);
   const [isPosting, setIsPosting] = useState(false);
+
+  const { addMessage } = useMessage();
 
   const navigate = useNavigate();
 
@@ -77,7 +70,11 @@ function MyEditor({ article }) {
 
     // check if the given properties are valid, tags is optional
     if (!title.trim() || !markdown.trim()) {
-      alert("Please fill in all the fields.");
+      addMessage({
+        text: "Please fill in all the fields.",
+        type: "warning",
+        timeout: 3000,
+      });
       setIsPosting(false);
       return;
     }
@@ -86,7 +83,11 @@ function MyEditor({ article }) {
     if (tags) {
       const tagsArray = tags.split(",").map((tag) => tag.trim());
       if (tagsArray.length > 5) {
-        alert("Maximum of 5 tags allowed.");
+        addMessage({
+          text: "Maximum of 5 tags allowed.",
+          type: "warning",
+          timeout: 3000,
+        });
         setIsPosting(false);
         return;
       }
@@ -106,17 +107,29 @@ function MyEditor({ article }) {
 
       if (response.status === 201) {
         // Handle success response
-        alert("Article posted successfully!");
+        addMessage({
+          text: "Article posted successfully!",
+          type: "success",
+          timeout: 3000,
+        });
       } else {
         // Handle server errors
-        alert("Failed to post the article.");
+        addMessage({
+          text: "Failed to post the article.",
+          type: "error",
+          timeout: 3000,
+        });
       }
 
       // redirect to the article page
       navigate(`/article/${response.data.article.insertId}`);
     } catch (error) {
       console.error("Error posting article:", error);
-      alert("Error posting the article.");
+      addMessage({
+        text: "Error posting the article.",
+        type: "error",
+        timeout: 3000,
+      });
     } finally {
       setIsPosting(false);
     }
@@ -135,17 +148,29 @@ function MyEditor({ article }) {
 
       if (response.status === 200) {
         // Handle success response
-        alert("Article updated successfully!");
+        addMessage({
+          text: "Article updated successfully!",
+          type: "success",
+          timeout: 3000,
+        });
       } else {
         // Handle server errors
-        alert("Failed to update the article.");
+        addMessage({
+          text: "Failed to update the article.",
+          type: "error",
+          timeout: 3000,
+        });
       }
 
       // redirect to the article page
       navigate(`/article/${article.articleId}`);
     } catch (error) {
       console.error("Error updating article:", error);
-      alert("Error updating the article.");
+      addMessage({
+        text: "Error updating the article.",
+        type: "error",
+        timeout: 3000,
+      });
     } finally {
       setIsPosting(false);
     }

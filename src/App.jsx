@@ -27,7 +27,7 @@ import UserPrivileges from "./pages/admin/privileges/userPrivileges.jsx";
 // MARK: internal imports
 
 import { AuthProvider } from "./utils/AuthContext.jsx";
-import { MessagesProvider } from "./utils/MessagesContext.jsx";
+import { MessageProvider } from "./utils/MessageContext.jsx";
 
 import AdminRoute from "./utils/AdminRoute.jsx";
 import PrivateRoute from "./utils/PrivateRoute.jsx";
@@ -143,11 +143,11 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <MessagesProvider>
+      <MessageProvider>
         <AuthProvider>
           <RouterProvider router={router} />
         </AuthProvider>
-      </MessagesProvider>
+      </MessageProvider>
     </>
   );
 }

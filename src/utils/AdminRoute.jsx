@@ -5,9 +5,13 @@ import { PropTypes } from "prop-types";
 
 import { isAdmin } from "../api/admin.js";
 
+import { useMessage } from "./MessageContext.jsx";
+
 const AdminRoute = ({ children }) => {
   const [admin, setAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { addMessage } = useMessage();
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -26,7 +30,11 @@ const AdminRoute = ({ children }) => {
   }
 
   if (!admin) {
-    window.alert("You are not authorized to view this page");
+    addMessage({
+      text: "You are not authorized to view this page",
+      type: "info",
+      timeout: 3000,
+    });
     return <Navigate to="/" />;
   }
 
