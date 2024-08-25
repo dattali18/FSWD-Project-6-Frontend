@@ -9,7 +9,7 @@ import { BASE_URL } from "./../data/api";
 const URL = `${BASE_URL}/comments`;
 
 // add the header x-auth-token to the request
-axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
+axios.defaults.headers.common["x-auth-token"] = getToken();
 
 /**
  * @desc This function is used to get all the comments on an article

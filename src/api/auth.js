@@ -2,6 +2,8 @@
  * @desc This is the collection of all the routes related to the authentication of the user
  */
 
+import { getToken, removeToken } from "../utils/tokenUtil";
+
 import axios from "axios";
 import { BASE_URL } from "./../data/api";
 
@@ -44,7 +46,7 @@ async function register(email, username, password) {
  * @desc This function is used to logout the user
  */
 function logout() {
-  localStorage.removeItem("token");
+  removeToken();
 }
 
 /**
@@ -52,7 +54,7 @@ function logout() {
  * @returns {Promise}
  */
 async function getCurrentUser() {
-  let token = localStorage.getItem("token") || "";
+  let token = getToken();
   try {
     axios.defaults.headers.common["x-auth-token"] = token;
     return await axios.get(`${URL}/me`);

@@ -2,6 +2,8 @@
  * @desc This function is used to like an article
  */
 
+import { getToken } from "./../utils/tokenUtil";
+
 import axios from "axios";
 
 import { BASE_URL } from "./../data/api";
@@ -9,7 +11,7 @@ import { BASE_URL } from "./../data/api";
 const URL = `${BASE_URL}/likes`;
 
 // add the header x-auth-token to the request
-axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
+axios.defaults.headers.common["x-auth-token"] = getToken();
 
 /**
  * @desc This function is used to like an article

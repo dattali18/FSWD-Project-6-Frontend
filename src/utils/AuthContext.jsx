@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { login as loginUser, logout as logoutUser } from "../api/auth";
 import { getCurrentUser } from "../api/auth";
+import { getToken, setToken as StoreToken } from "./tokenUtil";
 
 const AuthContext = createContext();
 
@@ -10,7 +11,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (token) {
       setToken(token);
     }
@@ -42,7 +43,7 @@ const AuthProvider = ({ children }) => {
     } else {
       // save the token in the local storage
       setToken(token);
-      localStorage.setItem("token", token);
+      StoreToken(token, 3600 * 24); // 1 hour token expiration
       window.alert("Login successful");
     }
   };
