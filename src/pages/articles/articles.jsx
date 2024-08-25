@@ -17,6 +17,7 @@ export default function Articles() {
   // 1. A top list of articles (title, categories, author, date)
   // 2. A search bar to search for articles
   const [articles, setArticles] = useState([]);
+  const [latestArticles, setLatestArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterType, setFilterType] = useState("title");
@@ -38,7 +39,8 @@ export default function Articles() {
         // Keep only the latest <ARTICLES_TO_DISPLAY> articles
         const latestArticles = sortedArticles.slice(0, ARTICLES_TO_DISPLAY);
 
-        setArticles(latestArticles);
+        setLatestArticles(latestArticles);
+        setArticles(articlesResponse);
         setFilteredArticles(articlesResponse);
       } catch (error) {
         console.error(error);
@@ -69,9 +71,6 @@ export default function Articles() {
           tag.toLowerCase().includes(searchQuery.toLowerCase())
         );
       }
-      // else if (filterType === "author") {
-      //   return article.author.toLowerCase().includes(searchQuery.toLowerCase());
-      // }
     });
 
     setFilteredArticles(filteredArticles);
@@ -155,10 +154,10 @@ export default function Articles() {
       <div className="latest">
         <h2>Latest</h2>
         <div className="articles-list">
-          {articles.map((article) => (
+          {latestArticles.map((article) => (
             <ArticleCard key={article.articleId} {...article} />
           ))}
-          {articles.length === 0 && <p>No articles found</p>}
+          {latestArticles.length === 0 && <p>No articles found</p>}
         </div>
       </div>
     </>
