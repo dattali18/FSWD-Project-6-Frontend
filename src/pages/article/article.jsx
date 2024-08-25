@@ -61,6 +61,12 @@ export default function Article() {
       try {
         // Fetch article content
         const article_response = await getArticleById(id);
+        // if the article does not exist, redirect to the articles page
+        if (!article_response) {
+          window.alert("Article not found");
+          navigate("/articles");
+        }
+
         const articleObject = article_response.data.article;
         setArticle(articleObject);
 
@@ -83,7 +89,7 @@ export default function Article() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, navigate]);
 
   useEffect(() => {
     Prism.highlightAll();

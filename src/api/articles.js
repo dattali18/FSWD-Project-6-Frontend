@@ -2,7 +2,7 @@
  * @desc The collection of all the routes related to the articles
  */
 
-import { getToken } from "./../utils/tokenUtil";
+import { authenticatedRequest } from "./../utils/tokenUtil";
 
 import axios from "axios";
 
@@ -10,11 +10,10 @@ import { BASE_URL } from "./../data/api";
 
 const URL = `${BASE_URL}/articles`;
 
-// add the header x-auth-token to the request
-axios.defaults.headers.common["x-auth-token"] = getToken();
 
 /**
  * @desc This function is used to get all the articles
+ * @access public
  * @param {number} id
  * @returns {Promise}
  */
@@ -28,6 +27,7 @@ async function getArticleById(id) {
 
 /**
  * @desc This function is used to get all the articles
+ * @access public
  * @param {number} limit
  * @param {number} page
  * @returns {Promise}
@@ -48,14 +48,16 @@ async function getArticles(limit, page) {
  * @param {string} article.title
  * @param {string} article.content
  * @param {[string]} article.tags
+ * @access private
  * @returns {Promise}
  */
 async function postArticle(article) {
-  try {
-    return await axios.post(URL, article);
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  //   return await axios.post(URL, article);
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  return await authenticatedRequest(URL, "post", article);
 }
 
 /**
@@ -64,19 +66,22 @@ async function postArticle(article) {
  * @param {string} article.title
  * @param {string} article.content
  * @param {[string]} article.tags
+ * @access private
  * @returns
  */
 async function updateArticle(article) {
-  try {
-    return await axios.put(`${URL}/${article.id}`, article);
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  //   return await axios.put(`${URL}/${article.id}`, article);
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  return await authenticatedRequest(`${URL}/${article.id}`, "put", article);
 }
 
 /**
  * @desc This function is used to get all the articles by an author
  * @param {number} author
+ * @access public
  * @returns {Promise}
  */
 async function getArticleByAuthor(author) {
@@ -87,19 +92,25 @@ async function getArticleByAuthor(author) {
   }
 }
 
+/**
+ * @access private
+ * @param {number} id
+ * @returns {Promise}
+ */
 async function deleteArticle(id) {
-  try {
-    return await axios.delete(`${URL}/${id}`);
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  //   return await axios.delete(`${URL}/${id}`);
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  return await authenticatedRequest(`${URL}/${id}`, "delete");
 }
 
 export {
+  deleteArticle,
   getArticleByAuthor,
   getArticleById,
   getArticles,
   postArticle,
   updateArticle,
-  deleteArticle,
 };
