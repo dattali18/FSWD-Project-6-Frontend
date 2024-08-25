@@ -63,7 +63,7 @@ export default function Privileges() {
           {currentUsers.map((user) => (
             <li className="user" key={user.id}>
               <p className="user-username"> {user.username}</p>
-              <Link>{user.role}</Link>
+              <Link to={"/admin/users/" + user.id}>{user.role}</Link>
             </li>
           ))}
         </ul>

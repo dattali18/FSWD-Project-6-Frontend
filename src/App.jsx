@@ -22,6 +22,7 @@ import Layout from "./components/general/layout.jsx";
 
 // admin pages
 import Privileges from "./pages/admin/privileges/privileges.jsx";
+import UserPrivileges from "./pages/admin/privileges/userPrivileges.jsx";
 
 // MARK: internal imports
 
@@ -119,9 +120,13 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "articles",
-            element: <div>Articles for admin</div>,
-          },
+            path: "users/:id",
+            element: (
+              <AdminRoute>
+                <UserPrivileges />
+              </AdminRoute>
+            ),
+          }
         ],
       },
       {
