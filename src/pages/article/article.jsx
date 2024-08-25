@@ -1,5 +1,4 @@
 import parse from "html-react-parser";
-import { marked } from "marked";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -7,6 +6,8 @@ import Prism from "prismjs";
 import "prismjs/components/prism-javascript"; // Import the JavaScript language
 import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
+
+import { marked } from "marked";
 
 import { faEdit, faHeart, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,7 +20,12 @@ import "../style/prism-onedark.css"; // Import Atom Dark theme
 
 import { deleteArticle, getArticleById } from "../../api/articles";
 import { getCurrentUser } from "../../api/auth";
-import { isLiked, likeArticle, unlikeArticle } from "../../api/likes";
+import {
+  getArticleLikes,
+  isLiked,
+  likeArticle,
+  unlikeArticle,
+} from "../../api/likes";
 import { getUserById } from "../../api/users";
 
 import Comments from "../comments/comments";
@@ -29,14 +35,58 @@ export default function Article() {
 
   const { token } = useContext(AuthContext);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [page, setPage] = useState("");
   const [article, setArticle] = useState({});
   const [writer, setWriter] = useState({});
   const [like, setLike] = useState(false);
+  const [likes, setLikes] = useState([]);
 
   const [user, setUser] = useState({});
 
   const navigate = useNavigate();
+
+  // fetch all the necessary data
+  useEffect(() => {
+    const fetchData = async () => {
+      const article_response = await fetchArticle(id);
+      // check if the response is successful
+      if (!article_response.article) {
+        return;
+      }
+      const article_data = article_response.article;
+      // console.log(article_data);
+      setArticle(article_data);
+      setPage(addClassToTags(marked.parse(article_data.content)));
+
+      const writer_response = await fetchWriter(article_data.author);
+      if (!writer_response.user) {
+        return;
+      }
+      const writer_data = writer_response.user;
+      setWriter(writer_data);
+
+      const user_response = await fetchUser();
+      if (!user_response.user) {
+        return;
+      }
+      const user_data = user_response.user;
+      setUser(user_data);
+
+      const liked_response = await fetchLiked(user_data.id);
+      // console.log(liked_response);
+      setLike(liked_response);
+
+      const likes_response = await fetchArticleLikes(id);
+      // console.log(likes_response);
+      setLikes(likes_response);
+
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [id]);
 
   // Function to add CSS class to specific tags
   const addClassToTags = (htmlString) => {
@@ -57,52 +107,8 @@ export default function Article() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch article content
-        const article_response = await getArticleById(id);
-        // if the article does not exist, redirect to the articles page
-        if (!article_response) {
-          window.alert("Article not found");
-          navigate("/articles");
-        }
-
-        const articleObject = article_response.data.article;
-        setArticle(articleObject);
-
-        // convert md to html using marked
-        const html = marked.parse(articleObject.content);
-        const modifiedContent = addClassToTags(html);
-        setPage(modifiedContent);
-
-        // Fetch writer data
-        const writer_data = await getUserById(articleObject.author);
-        setWriter(writer_data.data.user);
-
-        const response = await isLiked(id);
-
-        if (response.data) {
-          setLike(true);
-        }
-      } catch (error) {
-        console.error("Error fetching article", error);
-      }
-    };
-    fetchData();
-  }, [id, navigate]);
-
-  useEffect(() => {
     Prism.highlightAll();
   }, [page]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getCurrentUser();
-      setUser(response.data.user);
-    };
-
-    fetchData();
-  }, []);
 
   const deleteOnClick = async () => {
     // check with the user if they are sure they want to delete the article
@@ -127,9 +133,9 @@ export default function Article() {
 
   return (
     <>
-      {!article || !writer || !page ? (
+      {isLoading ? (
         <>
-          <h1>Loading...</h1>
+          <h1>Loading..</h1>
         </>
       ) : (
         <div>
@@ -161,6 +167,9 @@ export default function Article() {
             {convertToDateTime(article.createdDate)}
           </h2>
           <div className="article">{page}</div>
+          <div className="likes">
+            <p>This article has been liked by {likes.length} readers.</p>
+          </div>
           <div className="like">
             <button
               className={
@@ -183,7 +192,7 @@ export default function Article() {
                 }
               }}
             >
-              {like ? (
+              { like ? (
                 <>
                   <FontAwesomeIcon icon={faHeart} />
                   <p>Unlike</p>
@@ -218,5 +227,61 @@ const onUnlikeArticle = async (article_id) => {
     await unlikeArticle(article_id);
   } catch (error) {
     console.error("Error unliking article", error.message);
+  }
+};
+
+const fetchArticleLikes = async (article_id) => {
+  try {
+    const response = await getArticleLikes(article_id);
+    // check if the response is successful
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching article likes", error.message);
+  }
+};
+
+const fetchLiked = async (article_id) => {
+  try {
+    const response = await isLiked(article_id);
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching user likes", error.message);
+  }
+};
+
+const fetchArticle = async (article_id) => {
+  try {
+    const response = await getArticleById(article_id);
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching article", error.message);
+  }
+};
+
+const fetchWriter = async (writer_id) => {
+  try {
+    const response = await getUserById(writer_id);
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching writer", error.message);
+  }
+};
+
+const fetchUser = async () => {
+  try {
+    const response = await getCurrentUser();
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching user", error.message);
   }
 };

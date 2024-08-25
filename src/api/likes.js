@@ -57,18 +57,22 @@ async function getUserLikes(userId) {
 }
 
 /**
- *
  * @param {number} articleId
+ * @access private
  * @returns {Promise}
  */
 async function isLiked(articleId) {
-  try {
-    return await axios.get(`${URL}/liked`, {
-      params: { article_id: articleId },
-    });
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  //   return await axios.get(`${URL}/liked`, {
+  //     params: { article_id: articleId },
+  //   });
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  return await authenticatedRequest(
+    `${URL}/liked?article_id=${articleId}`,
+    "get"
+  );
 }
 
 export { getArticleLikes, getUserLikes, isLiked, likeArticle, unlikeArticle };
