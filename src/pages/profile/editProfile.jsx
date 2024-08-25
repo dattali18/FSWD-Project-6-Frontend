@@ -5,14 +5,14 @@ import { updateUser } from "../../api/users";
 
 export default function EditProfile() {
   const [user, setUser] = useState({});
+  const [role, setRole] = useState("user");
 
   useEffect(() => {
     const getUser = async () => {
       try {
         const response = await getCurrentUser();
-        const u = response.data.user || null;
-
-        setUser(u);
+        setUser(response.data.user);
+        setRole(response.data.user.role);
       } catch (error) {
         console.error(error);
       }
@@ -50,6 +50,25 @@ export default function EditProfile() {
             onChange={(e) => setUser({ ...user, email: e.target.value })}
             value={user.email}
           />
+        </div>
+        <button className="btn btn-blue">Submit</button>
+      </form>
+
+      <h1>Request privileges</h1>
+      <form className="form">
+        <div className="input-group">
+          <label htmlFor="role">Select Role</label>
+          <select
+            name="role"
+            id="role"
+            className="form-input"
+            onChange={(e) => setRole(e.target.value)}
+            value={role}
+          >
+            <option value="user">User</option>
+            <option value="writer">Writer</option>
+            <option value="admin">Admin</option>
+          </select>
         </div>
         <button className="btn btn-blue">Submit</button>
       </form>
