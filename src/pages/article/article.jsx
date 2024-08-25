@@ -82,7 +82,7 @@ export default function Article() {
       const user_data = user_response.user;
       setUser(user_data);
 
-      const liked_response = await fetchLiked(user_data.id);
+      const liked_response = await fetchLiked(id);
       // console.log(liked_response);
       setLike(liked_response);
     };
