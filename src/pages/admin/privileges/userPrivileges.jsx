@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { getUserById } from "../../../api/admin";
+import { getUserById, updateUserPrivileges } from "../../../api/admin";
 
 export default function UserPrivileges() {
   const { id } = useParams();
@@ -28,11 +28,15 @@ export default function UserPrivileges() {
 
     try {
       // call api to update user role
-      console.log("role", role);
+      const response = await updateUserPrivileges(id, role);
+
+      if (response.status === 200) {
+        alert("User role updated");
+      }
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   if (!user) {
     return (

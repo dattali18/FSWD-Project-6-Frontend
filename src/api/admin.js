@@ -32,3 +32,7 @@ export async function getUsers() {
 export async function getUserById(id) {
   return await authenticatedRequest(`${URL}/users/${id}`);
 }
+
+export async function updateUserPrivileges(id, role) {
+  return await authenticatedRequest(`${URL}/users/${id}`, "post", { role });
+}
