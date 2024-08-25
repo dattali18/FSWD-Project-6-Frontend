@@ -67,6 +67,14 @@ export default function Article() {
       const writer_data = writer_response.user;
       setWriter(writer_data);
 
+      const likes_response = await fetchArticleLikes(id);
+      // console.log(likes_response);
+      setLikes(likes_response);
+
+      setIsLoading(false);
+    };
+
+    const fetchUserData = async () => {
       const user_response = await fetchUser();
       if (!user_response.user) {
         return;
@@ -77,15 +85,10 @@ export default function Article() {
       const liked_response = await fetchLiked(user_data.id);
       // console.log(liked_response);
       setLike(liked_response);
-
-      const likes_response = await fetchArticleLikes(id);
-      // console.log(likes_response);
-      setLikes(likes_response);
-
-      setIsLoading(false);
     };
 
     fetchData();
+    fetchUserData();
   }, [id]);
 
   // Function to add CSS class to specific tags
@@ -192,7 +195,7 @@ export default function Article() {
                 }
               }}
             >
-              { like ? (
+              {like ? (
                 <>
                   <FontAwesomeIcon icon={faHeart} />
                   <p>Unlike</p>

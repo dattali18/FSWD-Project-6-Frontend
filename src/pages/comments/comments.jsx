@@ -39,11 +39,23 @@ export default function Comments({ articleId, user }) {
 
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
+
+    // if user is not logged in
+    if (user == {} || !user) {
+      alert("You must be logged in to comment");
+      return;
+    }
+
     try {
       const response = await createComment({
         articleId: articleId,
         content: newComment,
       });
+      // check if response is undefined
+      if (!response) {
+        alert("Error posting comment");
+        return;
+      }
       setComments([...comments, response.data.comment]);
       setNewComment(""); // Clear the input
     } catch (error) {
@@ -56,7 +68,7 @@ export default function Comments({ articleId, user }) {
       const response = await updateComment(commentId, editedComment.content);
 
       // if response in undefined, return
-      if(!response) {
+      if (!response) {
         return;
       }
 
@@ -165,7 +177,13 @@ export default function Comments({ articleId, user }) {
             onChange={(e) => setNewComment(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn-icon btn btn-blue btn-sm">
+        <button
+          type="submit"
+          className={
+            "btn-icon btn btn-sm " +
+            (!user ? "btn-blue" : "btn-inactive btn-gray")
+          }
+        >
           <FontAwesomeIcon icon={faEnvelope} />
           <p>Post</p>
         </button>
