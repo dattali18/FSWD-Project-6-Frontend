@@ -2,7 +2,7 @@
  * @desc This function is used to like an article
  */
 
-import { getToken } from "./../utils/tokenUtil";
+import { authenticatedRequest } from "./../utils/tokenUtil";
 
 import axios from "axios";
 
@@ -10,34 +10,24 @@ import { BASE_URL } from "./../data/api";
 
 const URL = `${BASE_URL}/likes`;
 
-// add the header x-auth-token to the request
-axios.defaults.headers.common["x-auth-token"] = getToken();
-
 /**
  * @desc This function is used to like an article
  * @param {number} articleId
+ * @access private
  * @returns {Promise}
  */
 async function likeArticle(articleId) {
-  try {
-    // the body is the articleId
-    return await axios.post(URL, { article_id: articleId });
-  } catch (error) {
-    console.error(error);
-  }
+  return await authenticatedRequest(URL, "post", { article_id: articleId });
 }
 
 /**
  * @desc This function is used to unlike an article
  * @param {number} articleId
+ * @access private
  * @returns {Promise}
  */
 async function unlikeArticle(articleId) {
-  try {
-    return await axios.delete(URL, { params: { article_id: articleId } });
-  } catch (error) {
-    console.error(error);
-  }
+  return await authenticatedRequest(`${URL}?article_id=${articleId}`, "delete");
 }
 
 /**
@@ -66,6 +56,11 @@ async function getUserLikes(userId) {
   }
 }
 
+/**
+ *
+ * @param {number} articleId
+ * @returns {Promise}
+ */
 async function isLiked(articleId) {
   try {
     return await axios.get(`${URL}/liked`, {
