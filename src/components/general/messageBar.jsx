@@ -21,8 +21,6 @@ import {
 
 import PropTypes from "prop-types";
 
-import { useState } from "react";
-
 const categoryIcon = {
   success: faCircleCheck,
   alert: faCircleExclamation,
@@ -30,13 +28,17 @@ const categoryIcon = {
   info: faCircleInfo,
 };
 
-export default function MessageBar() {
-  const [messages, setMessages] = useState([
-    { text: "Please take note of something", category: "success" },
-  ]);
+import { useMessages } from "../../utils/MessagesContext.jsx";
 
-  const onClick = () => {
-    console.log("clicked");
+export default function MessageBar() {
+  // const [messages, setMessages] = useState([
+  //   { text: "Please take note of something", category: "success" },
+  // ]);
+
+  const { messages, removeMessage } = useMessages();
+
+  const onClick = (message) => {
+    removeMessage(message);
   };
 
   return (
@@ -57,14 +59,14 @@ function Message({ message, onClose }) {
         />
         {message.text}
       </div>
-      <button className="" onClick={onClose}>
+      <button className="" onClick={() => onClose(message)}>
         <FontAwesomeIcon icon={faTimes} />
       </button>
     </div>
   );
 }
 
-Message.prototype = {
+Message.propTypes = {
   message: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 };
