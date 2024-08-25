@@ -176,9 +176,8 @@ export default function Article() {
           <div className="like">
             <button
               className={
-                !token
-                  ? "btn-inactive btn-gray btn btn-icon"
-                  : "btn btn-blue btn-icon"
+                "btn btn-icon " +
+                (!token ? "btn-inactive btn-gray" : "btn-blue")
               }
               onClick={() => {
                 if (!token) {

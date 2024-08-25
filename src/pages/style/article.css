@@ -55,6 +55,31 @@
   color: var(--blue-muted);
 }
 
+.article {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gray-2);
+}
+
+/* css for ul in markdown */
+.article ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+}
+
+.article li p {
+  padding: 0;
+  margin: 0;
+}
+
+.article li {
+  margin: 0.2rem 0;
+}
+
+/* make the bold text a bit bigger */
+.article strong {
+  font-size: 1.05rem;
+}
+
 /* article.css */
 .tagged {
   color: var(--white);

@@ -1,6 +1,7 @@
 import { faEdit, faEnvelope, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+
+import { useContext, useEffect, useState } from "react";
 
 import { PropTypes } from "prop-types";
 
@@ -10,6 +11,7 @@ import {
   getArticleComments,
   updateComment,
 } from "../../api/comments";
+import { AuthContext } from "../../utils/AuthContext";
 
 import { convertToTime } from "../../utils/DateUtils";
 
@@ -20,6 +22,8 @@ export default function Comments({ articleId, user }) {
   const [newComment, setNewComment] = useState("");
   const [editingComment, setEditingComment] = useState(null);
   const [editedComment, setEditedComment] = useState({ content: "", id: -1 });
+
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -37,11 +41,14 @@ export default function Comments({ articleId, user }) {
     fetchComments();
   }, [articleId]);
 
+
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
 
+    console.log("User", user);
+
     // if user is not logged in
-    if (user == {} || !user) {
+    if (!token) {
       alert("You must be logged in to comment");
       return;
     }
@@ -181,7 +188,7 @@ export default function Comments({ articleId, user }) {
           type="submit"
           className={
             "btn-icon btn btn-sm " +
-            (!user ? "btn-blue" : "btn-inactive btn-gray")
+            (token ? "btn-blue" : "btn-inactive btn-gray")
           }
         >
           <FontAwesomeIcon icon={faEnvelope} />
