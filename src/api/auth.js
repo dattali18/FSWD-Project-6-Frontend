@@ -2,7 +2,7 @@
  * @desc This is the collection of all the routes related to the authentication of the user
  */
 
-import { getToken, removeToken } from "../utils/tokenUtil";
+import { authenticatedRequest, removeToken } from "../utils/tokenUtil";
 
 import axios from "axios";
 import { BASE_URL } from "./../data/api";
@@ -51,16 +51,11 @@ function logout() {
 
 /**
  * @desc This function is used to get the current user
+ * @access private
  * @returns {Promise}
  */
 async function getCurrentUser() {
-  let token = getToken();
-  try {
-    axios.defaults.headers.common["x-auth-token"] = token;
-    return await axios.get(`${URL}/me`);
-  } catch (error) {
-    console.error(error);
-  }
+  return await authenticatedRequest(`${URL}/me`, "get");
 }
 
 export { getCurrentUser, login, logout, register };
