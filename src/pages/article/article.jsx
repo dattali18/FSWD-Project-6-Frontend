@@ -169,7 +169,7 @@ export default function Article() {
             By <Link to={"/writer/" + writer.id}>{writer.username}</Link> On{" "}
             {convertToDateTime(article.createdDate)}
           </h2>
-          <div className="article">{page}</div>
+          <div className="article article-content">{page}</div>
           <div className="likes">
             <p>This article has been liked by {likes.length} readers.</p>
           </div>

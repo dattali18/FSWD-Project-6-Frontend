@@ -57,7 +57,6 @@
 
 .article {
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--gray-2);
 }
 
 /* css for ul in markdown */
@@ -86,6 +85,10 @@
 
 
   border-radius: var(--rad);
+}
+
+.article-content {
+  border-bottom: 1px solid var(--gray-2);
 }
 
 /* article.css */
