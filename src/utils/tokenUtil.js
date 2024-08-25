@@ -20,6 +20,8 @@ export function getToken() {
     localStorage.removeItem("expirationTime");
     return null;
   }
+
+  return token;
 }
 
 /**

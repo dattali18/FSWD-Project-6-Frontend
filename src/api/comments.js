@@ -2,6 +2,8 @@
  * @desc This is the collection of all the routes related to the comments on the articles
  */
 
+import { getToken } from "./../utils/tokenUtil";
+
 import axios from "axios";
 
 import { BASE_URL } from "./../data/api";

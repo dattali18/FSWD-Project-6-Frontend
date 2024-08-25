@@ -2,6 +2,8 @@
  * @desc api call for admin users
  */
 
+import { getToken } from "./../utils/tokenUtil";
+
 import axios from "axios";
 
 import { BASE_URL } from "./../data/api";
