@@ -74,7 +74,6 @@ export default function Article() {
       setWriter(writer_data);
 
       const likes_response = await fetchArticleLikes(id);
-      // console.log(likes_response);
       setLikes(likes_response);
 
       setIsLoading(false);
@@ -142,6 +141,26 @@ export default function Article() {
         type: "error",
         timeout: 5000,
       });
+    }
+  };
+
+  const onLikeArticle = async (article_id) => {
+    try {
+      await likeArticle(article_id);
+      // Increment the likes count after liking the article
+      setLikes((prevLikes) => [...prevLikes, {}]); // Add a placeholder object to simulate a new like
+    } catch (error) {
+      console.error("Error liking article", error.message);
+    }
+  };
+
+  const onUnlikeArticle = async (article_id) => {
+    try {
+      await unlikeArticle(article_id);
+      // Decrement the likes count after unliking the article
+      setLikes((prevLikes) => prevLikes.slice(0, prevLikes.length - 1)); // Remove one like
+    } catch (error) {
+      console.error("Error unliking article", error.message);
     }
   };
 
@@ -229,23 +248,6 @@ export default function Article() {
     </>
   );
 }
-
-const onLikeArticle = async (article_id) => {
-  try {
-    // pass the user id and article id to the server in the body
-    await likeArticle(article_id);
-  } catch (error) {
-    console.error("Error liking article", error.message);
-  }
-};
-
-const onUnlikeArticle = async (article_id) => {
-  try {
-    await unlikeArticle(article_id);
-  } catch (error) {
-    console.error("Error unliking article", error.message);
-  }
-};
 
 const fetchArticleLikes = async (article_id) => {
   try {
