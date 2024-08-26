@@ -20,7 +20,6 @@ export default function UpdateEditor() {
     // set the article
     getArticleById(id).then((data) => {
       setArticle(data.data.article);
-    //   console.log(data.data.article);
     });
   }, [id]);
 

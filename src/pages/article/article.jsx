@@ -62,7 +62,6 @@ export default function Article() {
         return;
       }
       const article_data = article_response.article;
-      // console.log(article_data);
       setArticle(article_data);
       setPage(addClassToTags(marked.parse(article_data.content)));
 
@@ -88,7 +87,6 @@ export default function Article() {
       setUser(user_data);
 
       const liked_response = await fetchLiked(id);
-      // console.log(liked_response);
       setLike(liked_response);
     };
 

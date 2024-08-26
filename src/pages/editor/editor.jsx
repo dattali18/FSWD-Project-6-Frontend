@@ -102,8 +102,6 @@ function MyEditor({ article }) {
 
       const response = await postArticle(article);
 
-      // console.log("Response:", response);
-
       if (response.status === 201) {
         // Handle success response
         addMessage({
