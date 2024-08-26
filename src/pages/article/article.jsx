@@ -3,9 +3,15 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Prism from "prismjs";
+
+import "prismjs/components/prism-bash"; // Import the JSX language
 import "prismjs/components/prism-javascript"; // Import the JavaScript language
+import "prismjs/components/prism-jsx"; // Import the JSX language
 import "prismjs/components/prism-python"; // Import the JSX language
 import "prismjs/components/prism-shell-session"; // Import the JSX language
+import "prismjs/components/prism-sql"; // Import the JSX language
+import "../style/article.css";
+import "../style/prism-onedark.css"; // Import Atom Dark theme
 
 import { marked } from "marked";
 
@@ -16,9 +22,6 @@ import { AuthContext } from "../../utils/AuthContext";
 import { useMessage } from "../../utils/MessageContext";
 
 import { convertToDateTime } from "../../utils/DateUtils";
-
-import "../style/article.css";
-import "../style/prism-onedark.css"; // Import Atom Dark theme
 
 import { deleteArticle, getArticleById } from "../../api/articles";
 import { getCurrentUser } from "../../api/auth";
@@ -112,9 +115,10 @@ export default function Article() {
     });
   };
 
+  // call Prism.highlightAll() after the element is rendered
   useEffect(() => {
     Prism.highlightAll();
-  }, [page]);
+  });
 
   const deleteOnClick = async () => {
     // check with the user if they are sure they want to delete the article
@@ -188,7 +192,11 @@ export default function Article() {
               }
               onClick={() => {
                 if (!token) {
-                  addMessage({ text: "You must be logged in to like an article", type: "error", timeout: 3000 });
+                  addMessage({
+                    text: "You must be logged in to like an article",
+                    type: "error",
+                    timeout: 3000,
+                  });
                   return;
                 }
                 setLike(!like);
