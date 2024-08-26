@@ -2,7 +2,7 @@
  * @desc This function is used to like an article
  */
 
-import { authenticatedRequest } from "./../utils/tokenUtil";
+import { authenticatedRequest } from "../utils/general/tokenUtil";
 
 import axios from "axios";
 

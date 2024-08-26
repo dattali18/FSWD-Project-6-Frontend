@@ -25,9 +25,8 @@ export default function EditProfile() {
     e.preventDefault();
     const putUser = async () => {
       try {
-        const response = await updateUser(user.email);
-        // TODO  handle response
-        console.log(response);
+        await updateUser(user.email);
+        // console.log(response);
       } catch (error) {
         console.error(error);
       }

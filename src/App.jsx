@@ -4,16 +4,24 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // MARK: pages import
 
+// Articles page
 import Article from "./pages/article/article.jsx";
 import Articles from "./pages/articles/articles.jsx";
+
+// Editor Pages
 import MyEditor from "./pages/editor/editor.jsx";
 import UpdateEditor from "./pages/editor/updateEditor.jsx";
+
 import Home from "./pages/home/home.jsx";
+
+// Auth pages
 import Login from "./pages/login/login.jsx";
 import Logout from "./pages/logout/logout.jsx";
 import EditProfile from "./pages/profile/editProfile.jsx";
 import Profile from "./pages/profile/profile.jsx";
 import Register from "./pages/register/register.jsx";
+
+// Writer pages
 import Writer from "./pages/writer/writer.jsx";
 
 import Layout from "./components/general/layout.jsx";
@@ -24,12 +32,12 @@ import UserPrivileges from "./pages/admin/privileges/userPrivileges.jsx";
 
 // MARK: internal imports
 
-import { AuthProvider } from "./utils/AuthContext.jsx";
-import { MessageProvider } from "./utils/MessageContext.jsx";
+import { AuthProvider } from "./utils/context/AuthContext.jsx";
+import { MessageProvider } from "./utils/context/MessageContext.jsx";
 
-import AdminRoute from "./utils/AdminRoute.jsx";
-import PrivateRoute from "./utils/PrivateRoute.jsx";
-import WriterRoute from "./utils/WriterRoute.jsx";
+import AdminRoute from "./utils/routes/AdminRoute.jsx";
+import PrivateRoute from "./utils/routes/PrivateRoute.jsx";
+import WriterRoute from "./utils/routes/WriterRoute.jsx";
 
 import "/src/index.css";
 

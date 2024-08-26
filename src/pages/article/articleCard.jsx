@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { convertToDateTime } from "../../utils/DateUtils";
+import { convertToDateTime } from "../../utils/general/DateUtils";
 
 export default function ArticleCard(article) {
   return (

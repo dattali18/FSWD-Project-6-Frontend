@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { register } from "./../../api/auth";
 
-import { useMessage } from "../../utils/MessageContext";
+import { useMessage } from "../../utils/hooks/useMessage";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -34,14 +34,29 @@ export default function Register() {
     const registerUser = async () => {
       try {
         const response = await register(email, username, password);
-        console.log(response);
+        // console.log(response);
         // redirect to the login page
+        // if the user is registered successfully
+        if (!response) {
+          addMessage({
+            text: "Error registering the user.",
+            type: "alert",
+            timeout: 3000,
+          });
+          return;
+        }
+
+        addMessage({
+          text: "User registered successfully",
+          type: "success",
+          timeout: 3000,
+        });
         navigate("/login");
       } catch (error) {
         console.error(error);
         addMessage({
           text: "Error registering the user.",
-          type: "error",
+          type: "alert",
           timeout: 3000,
         });
       }

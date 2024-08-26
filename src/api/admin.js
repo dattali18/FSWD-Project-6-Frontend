@@ -2,7 +2,7 @@
  * @desc api call for admin users
  */
 
-import { authenticatedRequest } from "./../utils/tokenUtil";
+import { authenticatedRequest } from "../utils/general/tokenUtil";
 
 import { BASE_URL } from "./../data/api";
 

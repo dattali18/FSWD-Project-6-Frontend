@@ -16,7 +16,7 @@ import "prismjs/components/prism-shell-session"; // Import the JSX language
 
 import { postArticle, updateArticle } from "../../api/articles";
 
-import { useMessage } from "../../utils/MessageContext";
+import { useMessage } from "../../utils/hooks/useMessage";
 
 import "../style/article.css";
 import "../style/editor.css";
@@ -97,7 +97,6 @@ function MyEditor({ article }) {
       const article = {
         title: title.trim(),
         content: markdown.trim(),
-        // TODO - check if there can be error with some tags
         tags: tags.split(",").map((tag) => tag.trim()), // Split tags by comma
       };
 
@@ -114,7 +113,7 @@ function MyEditor({ article }) {
         // Handle server errors
         addMessage({
           text: "Failed to post the article.",
-          type: "error",
+          type: "alert",
           timeout: 3000,
         });
       }
@@ -125,7 +124,7 @@ function MyEditor({ article }) {
       console.error("Error posting article:", error);
       addMessage({
         text: "Error posting the article.",
-        type: "error",
+        type: "alert",
         timeout: 3000,
       });
     } finally {
@@ -155,7 +154,7 @@ function MyEditor({ article }) {
         // Handle server errors
         addMessage({
           text: "Failed to update the article.",
-          type: "error",
+          type: "alert",
           timeout: 3000,
         });
       }
@@ -166,7 +165,7 @@ function MyEditor({ article }) {
       console.error("Error updating article:", error);
       addMessage({
         text: "Error updating the article.",
-        type: "error",
+        type: "alert",
         timeout: 3000,
       });
     } finally {

@@ -3,9 +3,9 @@ import { Navigate, Outlet } from "react-router-dom";
 
 import { PropTypes } from "prop-types";
 
-import { isAdmin } from "../api/admin.js";
+import { isAdmin } from "../../api/admin.js";
 
-import { useMessage } from "./MessageContext.jsx";
+import { useMessage } from "../hooks/useMessage.jsx";
 
 const AdminRoute = ({ children }) => {
   const [admin, setAdmin] = useState(false);

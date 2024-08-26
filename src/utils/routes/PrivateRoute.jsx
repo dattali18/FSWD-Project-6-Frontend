@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { AuthContext } from "./AuthContext.jsx";
+import { useAuth } from "../hooks/useAuth";
 
 // eslint-disable-next-line react/prop-types
 const PrivateRoute = ({ children }) => {
   // if user is in context, render children, else redirect to login
-  const { token } = useContext(AuthContext);
+  const { token } = useAuth();
 
   if (!token) {
     return <Navigate to="/login" />;

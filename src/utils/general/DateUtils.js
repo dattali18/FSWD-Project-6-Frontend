@@ -8,14 +8,14 @@ function convertToDateTime(dateString) {
 function convertToTime(dateString) {
   // get a string like 4h or 2d or 3m
   if (!dateString) {
-    console.log("dateString is null");
+    // console.log("dateString is null");
     return "";
   }
 
   const date = new Date(dateString);
 
   if (isNaN(date.getTime())) {
-    console.log("Invalid date");
+    // console.log("Invalid date");
     return "";
   }
 

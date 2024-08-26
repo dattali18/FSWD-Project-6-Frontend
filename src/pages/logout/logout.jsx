@@ -1,14 +1,13 @@
 import "../style/index.css";
 
-import { useContext } from "react";
-import { AuthContext } from "../../utils/AuthContext";
+import { useAuth } from "../../utils/hooks/useAuth";
 
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Logout() {
   // perform logout
-  const { logout } = useContext(AuthContext);
+  const { logout } = useAuth();
 
   const onClick = () => {
     logout();

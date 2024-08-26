@@ -2,7 +2,7 @@
  * @desc The collection of all the routes related to the user
  */
 
-import { authenticatedRequest } from "./../utils/tokenUtil";
+import { authenticatedRequest } from "../utils/general/tokenUtil";
 
 import axios from "axios";
 

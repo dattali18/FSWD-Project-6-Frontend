@@ -1,14 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { pages as allPages } from "../../data/pages";
-import { AuthContext } from "../../utils/AuthContext";
+
+import { useAuth } from "../../utils/hooks/useAuth";
 
 import "./style/index.css";
 
 export default function Navbar() {
-  const { token } = useContext(AuthContext);
+  const { token } = useAuth();
 
   // if user is in context display logout link
   // else display login link
