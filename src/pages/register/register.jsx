@@ -34,8 +34,23 @@ export default function Register() {
     const registerUser = async () => {
       try {
         const response = await register(email, username, password);
-        console.log(response);
+        // console.log(response);
         // redirect to the login page
+        // if the user is registered successfully
+        if (!response) {
+          addMessage({
+            text: "Error registering the user.",
+            type: "error",
+            timeout: 3000,
+          });
+          return;
+        }
+
+        addMessage({
+          text: "User registered successfully",
+          type: "success",
+          timeout: 3000,
+        });
         navigate("/login");
       } catch (error) {
         console.error(error);
