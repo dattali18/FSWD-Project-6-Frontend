@@ -71,7 +71,18 @@ export default function Comments({ articleId, user }) {
         });
         return;
       }
-      setComments([...comments, response.data.comment]);
+      // call the api for fetching the comments
+      const newComments = await getArticleComments(articleId);
+      // check if newComments is undefined
+      if (!newComments) {
+        addMessage({
+          text: "Error fetching comments",
+          type: "alert",
+          timeout: 3000,
+        });
+        return;
+      }
+      setComments(newComments.data.comments);
       setNewComment(""); // Clear the input
     } catch (error) {
       console.error("Error posting comment", error);
@@ -87,11 +98,18 @@ export default function Comments({ articleId, user }) {
         return;
       }
 
-      const updatedComments = comments.map((comment) =>
-        comment.id === commentId ? response.data.comment : comment
-      );
-
-      setComments(updatedComments);
+      // call the api for fetching the comments
+      const newComments = await getArticleComments(articleId);
+      // check if newComments is undefined
+      if (!newComments) {
+        addMessage({
+          text: "Error fetching comments",
+          type: "alert",
+          timeout: 3000,
+        });
+        return;
+      }
+      setComments(newComments.data.comments);
       setEditingComment(); // Clear the editing state
     } catch (error) {
       console.error("Error editing comment", error);
