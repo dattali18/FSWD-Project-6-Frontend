@@ -21,3 +21,8 @@
     border-radius: var(--rad);
     margin-bottom: 10px;
 }
+
+.form select {
+    color: var(--white);
+    background-color: var(--bg-color);
+}

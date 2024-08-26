@@ -47,8 +47,6 @@ export default function Comments({ articleId, user }) {
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
 
-    console.log("User", user);
-
     // if user is not logged in
     if (!token) {
       addMessage({
