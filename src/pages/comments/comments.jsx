@@ -84,6 +84,12 @@ export default function Comments({ articleId, user }) {
       }
       setComments(newComments.data.comments);
       setNewComment(""); // Clear the input
+
+      addMessage({
+        text: "Comment posted successfully",
+        type: "success",
+        timeout: 3000,
+      });
     } catch (error) {
       console.error("Error posting comment", error);
     }
@@ -111,6 +117,12 @@ export default function Comments({ articleId, user }) {
       }
       setComments(newComments.data.comments);
       setEditingComment(); // Clear the editing state
+
+      addMessage({
+        text: "Comment edited successfully",
+        type: "success",
+        timeout: 3000,
+      });
     } catch (error) {
       console.error("Error editing comment", error);
     }
@@ -120,6 +132,12 @@ export default function Comments({ articleId, user }) {
     try {
       await deleteComment(commentId);
       setComments(comments.filter((comment) => comment.id !== commentId));
+
+      addMessage({
+        text: "Comment deleted successfully",
+        type: "success",
+        timeout: 3000,
+      });
     } catch (error) {
       console.error("Error deleting comment", error);
     }
