@@ -4,16 +4,24 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // MARK: pages import
 
+// Articles page
 import Article from "./pages/article/article.jsx";
 import Articles from "./pages/articles/articles.jsx";
+
+// Editor Pages
 import MyEditor from "./pages/editor/editor.jsx";
 import UpdateEditor from "./pages/editor/updateEditor.jsx";
+
 import Home from "./pages/home/home.jsx";
+
+// Auth pages
 import Login from "./pages/login/login.jsx";
 import Logout from "./pages/logout/logout.jsx";
 import EditProfile from "./pages/profile/editProfile.jsx";
 import Profile from "./pages/profile/profile.jsx";
 import Register from "./pages/register/register.jsx";
+
+// Writer pages
 import Writer from "./pages/writer/writer.jsx";
 
 import Layout from "./components/general/layout.jsx";
