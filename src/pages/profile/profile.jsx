@@ -37,7 +37,6 @@ export default function Profile() {
 
     const fetchComments = async () => {
       const response = await getUserComments(user.id);
-      // console.log(response.data);
       setComments(response.data || []);
     };
 
