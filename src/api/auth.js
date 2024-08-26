@@ -2,7 +2,7 @@
  * @desc This is the collection of all the routes related to the authentication of the user
  */
 
-import { authenticatedRequest, removeToken } from "../utils/tokenUtil";
+import { authenticatedRequest, removeToken } from "../utils/general/tokenUtil";
 
 import axios from "axios";
 import { BASE_URL } from "./../data/api";

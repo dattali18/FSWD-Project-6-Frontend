@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { AuthContext } from "./AuthContext.jsx";
+import { useAuth } from "../hooks/useAuth";
 
 import { PropTypes } from "prop-types";
 
 const WriterRoute = ({ children }) => {
-  const { token, user } = useContext(AuthContext);
+  const { token, user } = useAuth();
 
   // Check if the user is authenticated
   if (!token) {

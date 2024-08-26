@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { useMessage } from "../../../utils/MessageContext";
+import { useMessage } from "../../../utils/hooks/useMessage";
 
 import { getUserById, updateUserPrivileges } from "../../../api/admin";
 

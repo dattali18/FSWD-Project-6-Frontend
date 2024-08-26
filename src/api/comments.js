@@ -2,7 +2,7 @@
  * @desc This is the collection of all the routes related to the comments on the articles
  */
 
-import { authenticatedRequest } from "./../utils/tokenUtil";
+import { authenticatedRequest } from "../utils/general/tokenUtil";
 
 import axios from "axios";
 

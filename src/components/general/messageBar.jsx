@@ -28,7 +28,7 @@ const categoryIcon = {
   info: faCircleInfo,
 };
 
-import { useMessage } from "../../utils/MessageContext.jsx";
+import { useMessage } from "../../utils/hooks/useMessage";
 
 export default function MessageBar() {
   // const [messages, setMessages] = useState([

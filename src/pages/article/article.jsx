@@ -18,10 +18,10 @@ import { marked } from "marked";
 import { faEdit, faHeart, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { AuthContext } from "../../utils/AuthContext";
-import { useMessage } from "../../utils/MessageContext";
+import { AuthContext } from "../../utils/context/AuthContext";
+import { useMessage } from "../../utils/hooks/useMessage";
 
-import { convertToDateTime } from "../../utils/DateUtils";
+import { convertToDateTime } from "../../utils/general/DateUtils";
 
 import { deleteArticle, getArticleById } from "../../api/articles";
 import { getCurrentUser } from "../../api/auth";

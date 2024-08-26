@@ -24,12 +24,12 @@ import UserPrivileges from "./pages/admin/privileges/userPrivileges.jsx";
 
 // MARK: internal imports
 
-import { AuthProvider } from "./utils/AuthContext.jsx";
-import { MessageProvider } from "./utils/MessageContext.jsx";
+import { AuthProvider } from "./utils/context/AuthContext.jsx";
+import { MessageProvider } from "./utils/context/MessageContext.jsx";
 
-import AdminRoute from "./utils/AdminRoute.jsx";
-import PrivateRoute from "./utils/PrivateRoute.jsx";
-import WriterRoute from "./utils/WriterRoute.jsx";
+import AdminRoute from "./utils/routes/AdminRoute.jsx";
+import PrivateRoute from "./utils/routes/PrivateRoute.jsx";
+import WriterRoute from "./utils/routes/WriterRoute.jsx";
 
 import "/src/index.css";
 

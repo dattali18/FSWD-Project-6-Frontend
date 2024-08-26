@@ -2,14 +2,13 @@
  * @desc The collection of all the routes related to the articles
  */
 
-import { authenticatedRequest } from "./../utils/tokenUtil";
+import { authenticatedRequest } from "../utils/general/tokenUtil";
 
 import axios from "axios";
 
 import { BASE_URL } from "./../data/api";
 
 const URL = `${BASE_URL}/articles`;
-
 
 /**
  * @desc This function is used to get all the articles

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { register } from "./../../api/auth";
 
-import { useMessage } from "../../utils/MessageContext";
+import { useMessage } from "../../utils/hooks/useMessage";
 
 export default function Register() {
   const navigate = useNavigate();

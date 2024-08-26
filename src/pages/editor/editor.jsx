@@ -16,7 +16,7 @@ import "prismjs/components/prism-shell-session"; // Import the JSX language
 
 import { postArticle, updateArticle } from "../../api/articles";
 
-import { useMessage } from "../../utils/MessageContext";
+import { useMessage } from "../../utils/hooks/useMessage";
 
 import "../style/article.css";
 import "../style/editor.css";

@@ -3,7 +3,7 @@ import "../style/index.css";
 
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../utils/AuthContext";
+import { AuthContext } from "../../utils/context/AuthContext";
 
 export default function Login() {
   // get login from AuthContext

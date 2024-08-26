@@ -1,11 +1,7 @@
 import PropTypes from "prop-types";
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 
-const MessageContext = createContext();
-
-export function useMessage() {
-  return useContext(MessageContext);
-}
+export const MessageContext = createContext();
 
 export const MessageProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);

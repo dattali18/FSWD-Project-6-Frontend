@@ -1,7 +1,7 @@
 import { faEdit, faEnvelope, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { PropTypes } from "prop-types";
 
@@ -12,10 +12,10 @@ import {
   updateComment,
 } from "../../api/comments";
 
-import { AuthContext } from "../../utils/AuthContext";
-import { useMessage } from "../../utils/MessageContext";
+import { useAuth } from "../../utils/hooks/useAuth";
+import { useMessage } from "../../utils/hooks/useMessage";
 
-import { convertToTime } from "../../utils/DateUtils";
+import { convertToTime } from "../../utils/general/DateUtils";
 
 import "./comments.css";
 
@@ -25,7 +25,7 @@ export default function Comments({ articleId, user }) {
   const [editingComment, setEditingComment] = useState(null);
   const [editedComment, setEditedComment] = useState({ content: "", id: -1 });
 
-  const { token } = useContext(AuthContext);
+  const { token } = useAuth();
   const { addMessage } = useMessage();
 
   useEffect(() => {

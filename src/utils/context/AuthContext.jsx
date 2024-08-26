@@ -3,12 +3,12 @@ import {
   getCurrentUser,
   login as loginUser,
   logout as logoutUser,
-} from "../api/auth";
-import { getToken, setToken as storeToken } from "./tokenUtil";
+} from "../../api/auth";
+import { getToken, setToken as storeToken } from "../general/tokenUtil";
 
 const AuthContext = createContext();
 
-import { useMessage } from "./MessageContext";
+import { useMessage } from "../hooks/useMessage";
 
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
