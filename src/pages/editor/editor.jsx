@@ -97,7 +97,6 @@ function MyEditor({ article }) {
       const article = {
         title: title.trim(),
         content: markdown.trim(),
-        // TODO - check if there can be error with some tags
         tags: tags.split(",").map((tag) => tag.trim()), // Split tags by comma
       };
 
