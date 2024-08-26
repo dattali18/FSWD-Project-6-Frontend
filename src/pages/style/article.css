@@ -80,11 +80,19 @@
 }
 
 .article img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
 
-
   border-radius: var(--rad);
+}
+
+.article blockquote {
+  background-color: var(--gray-1);
+  color: var(--white-muted);
+
+  padding: 1rem;
+
+  border-left: 0.3rem solid var(--blue-muted);
 }
 
 .article-content {
