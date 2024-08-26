@@ -40,7 +40,7 @@ export default function Register() {
         if (!response) {
           addMessage({
             text: "Error registering the user.",
-            type: "error",
+            type: "alert",
             timeout: 3000,
           });
           return;
@@ -56,7 +56,7 @@ export default function Register() {
         console.error(error);
         addMessage({
           text: "Error registering the user.",
-          type: "error",
+          type: "alert",
           timeout: 3000,
         });
       }

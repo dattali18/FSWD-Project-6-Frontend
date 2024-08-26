@@ -31,9 +31,6 @@ const categoryIcon = {
 import { useMessage } from "../../utils/hooks/useMessage";
 
 export default function MessageBar() {
-  // const [messages, setMessages] = useState([
-  //   { text: "Please take note of something", category: "success" },
-  // ]);
 
   const { messages, removeMessage } = useMessage();
 

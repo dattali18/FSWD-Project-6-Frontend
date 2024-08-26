@@ -115,7 +115,7 @@ function MyEditor({ article }) {
         // Handle server errors
         addMessage({
           text: "Failed to post the article.",
-          type: "error",
+          type: "alert",
           timeout: 3000,
         });
       }
@@ -126,7 +126,7 @@ function MyEditor({ article }) {
       console.error("Error posting article:", error);
       addMessage({
         text: "Error posting the article.",
-        type: "error",
+        type: "alert",
         timeout: 3000,
       });
     } finally {
@@ -156,7 +156,7 @@ function MyEditor({ article }) {
         // Handle server errors
         addMessage({
           text: "Failed to update the article.",
-          type: "error",
+          type: "alert",
           timeout: 3000,
         });
       }
@@ -167,7 +167,7 @@ function MyEditor({ article }) {
       console.error("Error updating article:", error);
       addMessage({
         text: "Error updating the article.",
-        type: "error",
+        type: "alert",
         timeout: 3000,
       });
     } finally {

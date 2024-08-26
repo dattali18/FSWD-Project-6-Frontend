@@ -51,7 +51,7 @@ export default function Comments({ articleId, user }) {
     if (!token) {
       addMessage({
         text: "You must be logged in to comment",
-        type: "error",
+        type: "alert",
         timeout: 3000,
       });
       return;
@@ -66,7 +66,7 @@ export default function Comments({ articleId, user }) {
       if (!response) {
         addMessage({
           text: "Error posting comment",
-          type: "error",
+          type: "alert",
           timeout: 3000,
         });
         return;

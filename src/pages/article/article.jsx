@@ -138,7 +138,7 @@ export default function Article() {
       console.error("Error deleting article", error);
       addMessage({
         text: "Error deleting article",
-        type: "error",
+        type: "alert",
         timeout: 5000,
       });
     }
@@ -213,7 +213,7 @@ export default function Article() {
                 if (!token) {
                   addMessage({
                     text: "You must be logged in to like an article",
-                    type: "error",
+                    type: "alert",
                     timeout: 3000,
                   });
                   return;
