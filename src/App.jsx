@@ -1,7 +1,5 @@
 import "./App.css";
 
-// MARK: react import
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // MARK: pages import
@@ -34,6 +32,8 @@ import PrivateRoute from "./utils/PrivateRoute.jsx";
 import WriterRoute from "./utils/WriterRoute.jsx";
 
 import "/src/index.css";
+
+// MARK: router definition
 
 const router = createBrowserRouter([
   {
@@ -140,6 +140,7 @@ const router = createBrowserRouter([
   },
 ]);
 
+// MARK: App + Providers
 function App() {
   return (
     <>
